@@ -18,26 +18,12 @@
 package org.sablecc.sablecc.launcher;
 
 import static org.sablecc.sablecc.launcher.Version.*;
-import static org.sablecc.sablecc.util.Utils.*;
 
 import java.io.*;
-import java.util.*;
-import java.util.Map.*;
 
 import org.sablecc.exception.*;
-import org.sablecc.sablecc.alphabet.*;
-import org.sablecc.sablecc.automaton.*;
-import org.sablecc.sablecc.automaton.State;
-import org.sablecc.sablecc.codegeneration.java.macro.*;
 import org.sablecc.sablecc.errormessage.*;
 import org.sablecc.sablecc.exception.*;
-import org.sablecc.sablecc.lrautomaton.*;
-import org.sablecc.sablecc.lrautomaton.Alternative;
-import org.sablecc.sablecc.lrautomaton.Element;
-import org.sablecc.sablecc.lrautomaton.Production;
-import org.sablecc.sablecc.lrautomaton.Token;
-import org.sablecc.sablecc.oldstructure.*;
-import org.sablecc.sablecc.oldwalker.*;
 import org.sablecc.sablecc.syntax3.lexer.*;
 import org.sablecc.sablecc.syntax3.node.*;
 import org.sablecc.sablecc.syntax3.parser.*;
@@ -305,6 +291,7 @@ public class SableCC {
             break;
         }
 
+/*
         GlobalIndex globalIndex = verifySemantics(ast, strictness);
 
         switch (verbosity) {
@@ -345,8 +332,10 @@ public class SableCC {
             System.out.println("Done compiling \"" + grammarFile + "\"");
             break;
         }
+*/
     }
 
+/*
     private static GlobalIndex verifySemantics(
             Start ast,
             Strictness strictness) {
@@ -1304,4 +1293,5 @@ public class SableCC {
             throw CompilerException.outputError("Parser.java", e);
         }
     }
+*/
 }
