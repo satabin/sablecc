@@ -24,6 +24,7 @@ import java.io.*;
 import org.sablecc.exception.*;
 import org.sablecc.sablecc.errormessage.*;
 import org.sablecc.sablecc.exception.*;
+import org.sablecc.sablecc.structure.*;
 import org.sablecc.sablecc.syntax3.lexer.*;
 import org.sablecc.sablecc.syntax3.node.*;
 import org.sablecc.sablecc.syntax3.parser.*;
@@ -291,6 +292,7 @@ public class SableCC {
             break;
         }
 
+        new Data(ast);
 /*
         GlobalIndex globalIndex = verifySemantics(ast, strictness);
 
