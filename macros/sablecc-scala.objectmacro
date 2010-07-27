@@ -548,7 +548,7 @@ $macro: end(pkg) $
 $insert: header $
 $expand: default_package, specified_package, before_first="\n" $
 
-case class End(line: Int, pos: Int)
+case class End(override val line: Int, override val pos: Int)
     extends Token("", line, pos) {
 
   import Node._
