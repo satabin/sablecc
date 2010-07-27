@@ -15,418 +15,84 @@
  * limitations under the License.
  */
 
-package org.sablecc.sablecc.launcher;
+package org.sablecc.sablecc.codegeneration.scala;
 
-import static org.sablecc.sablecc.launcher.Version.*;
+import static org.sablecc.sablecc.util.Utils.to_CamelCase;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.Map.Entry;
 
-import org.sablecc.exception.*;
-import org.sablecc.sablecc.errormessage.*;
-import org.sablecc.sablecc.exception.*;
-import org.sablecc.sablecc.structure.*;
-import org.sablecc.sablecc.syntax3.lexer.*;
-import org.sablecc.sablecc.syntax3.node.*;
-import org.sablecc.sablecc.syntax3.parser.*;
-import org.sablecc.util.*;
+import org.sablecc.sablecc.alphabet.Bound;
+import org.sablecc.sablecc.alphabet.Interval;
+import org.sablecc.sablecc.alphabet.RichSymbol;
+import org.sablecc.sablecc.alphabet.Symbol;
+import org.sablecc.sablecc.automaton.Acceptation;
+import org.sablecc.sablecc.automaton.Automaton;
+import org.sablecc.sablecc.automaton.Marker;
+import org.sablecc.sablecc.automaton.State;
+import org.sablecc.sablecc.codegeneration.scala.macro.MAction;
+import org.sablecc.sablecc.codegeneration.scala.macro.MAlternative;
+import org.sablecc.sablecc.codegeneration.scala.macro.MAnonymousToken;
+import org.sablecc.sablecc.codegeneration.scala.macro.MCustomToken;
+import org.sablecc.sablecc.codegeneration.scala.macro.MDistance;
+import org.sablecc.sablecc.codegeneration.scala.macro.MEnd;
+import org.sablecc.sablecc.codegeneration.scala.macro.MFinalState;
+import org.sablecc.sablecc.codegeneration.scala.macro.MFinalStateSingleton;
+import org.sablecc.sablecc.codegeneration.scala.macro.MLexer;
+import org.sablecc.sablecc.codegeneration.scala.macro.MLexerException;
+import org.sablecc.sablecc.codegeneration.scala.macro.MLrStateSingleton;
+import org.sablecc.sablecc.codegeneration.scala.macro.MNode;
+import org.sablecc.sablecc.codegeneration.scala.macro.MNormalGroup;
+import org.sablecc.sablecc.codegeneration.scala.macro.MNormalTransformerCase;
+import org.sablecc.sablecc.codegeneration.scala.macro.MNormalTraverserCase;
+import org.sablecc.sablecc.codegeneration.scala.macro.MParser;
+import org.sablecc.sablecc.codegeneration.scala.macro.MParserException;
+import org.sablecc.sablecc.codegeneration.scala.macro.MProduction;
+import org.sablecc.sablecc.codegeneration.scala.macro.MPublicElementAccessor;
+import org.sablecc.sablecc.codegeneration.scala.macro.MReduce;
+import org.sablecc.sablecc.codegeneration.scala.macro.MReduceDecision;
+import org.sablecc.sablecc.codegeneration.scala.macro.MState;
+import org.sablecc.sablecc.codegeneration.scala.macro.MSymbol;
+import org.sablecc.sablecc.codegeneration.scala.macro.MTest;
+import org.sablecc.sablecc.codegeneration.scala.macro.MToken;
+import org.sablecc.sablecc.codegeneration.scala.macro.MTransformer;
+import org.sablecc.sablecc.codegeneration.scala.macro.MTransitionState;
+import org.sablecc.sablecc.codegeneration.scala.macro.MTransitionStateSingleton;
+import org.sablecc.sablecc.codegeneration.scala.macro.MTraverser;
+import org.sablecc.sablecc.exception.CompilerException;
+import org.sablecc.sablecc.lrautomaton.Action;
+import org.sablecc.sablecc.lrautomaton.ActionType;
+import org.sablecc.sablecc.lrautomaton.Alternative;
+import org.sablecc.sablecc.lrautomaton.Element;
+import org.sablecc.sablecc.lrautomaton.Item;
+import org.sablecc.sablecc.lrautomaton.LRAutomaton;
+import org.sablecc.sablecc.lrautomaton.LRState;
+import org.sablecc.sablecc.lrautomaton.Production;
+import org.sablecc.sablecc.lrautomaton.ProductionElement;
+import org.sablecc.sablecc.lrautomaton.ReduceAction;
+import org.sablecc.sablecc.lrautomaton.Token;
+import org.sablecc.sablecc.lrautomaton.TokenElement;
+import org.sablecc.sablecc.oldstructure.AnonymousToken;
+import org.sablecc.sablecc.oldstructure.Context;
+import org.sablecc.sablecc.oldstructure.GlobalIndex;
+import org.sablecc.sablecc.oldstructure.MatchedToken;
+import org.sablecc.sablecc.oldstructure.NameToken;
 
 /**
  * The main class of SableCC.
  */
-public class SableCC {
+public class ScalaGenerator {
 
-    /** Prevents instantiation of this class. */
-    private SableCC() {
-
-        throw new InternalException("this class may not have instances");
-    }
-
-    /** Launches SableCC. */
-    public static void main(
-            String[] args) {
-
-        try {
-            compile(args);
-        }
-        catch (CompilerException e) {
-            System.err.print(e.getMessage());
-            System.err.flush();
-            System.exit(1);
-        }
-        catch (ParserException e) {
-            int start = e.getMessage().indexOf(' ');
-            System.err.print(new MSyntaxError(e.getToken().getLine() + "", e
-                    .getToken().getPos()
-                    + "", e.getToken().getClass().getSimpleName().substring(1),
-                    e.getToken().getText(), e.getMessage().substring(start)));
-            System.err.flush();
-            System.exit(1);
-        }
-        catch (LexerException e) {
-            int start = e.getMessage().indexOf('[') + 1;
-            int end = e.getMessage().indexOf(',');
-            String line = e.getMessage().substring(start, end);
-
-            start = e.getMessage().indexOf(',') + 1;
-            end = e.getMessage().indexOf(']');
-            String pos = e.getMessage().substring(start, end);
-
-            start = e.getMessage().indexOf(' ') + 1;
-
-            System.err.print(new MLexicalError(line, pos, e.getMessage()
-                    .substring(start)));
-            System.err.flush();
-            System.exit(1);
-        }
-        catch (InternalException e) {
-            StringWriter sw = new StringWriter();
-            PrintWriter pw = new PrintWriter(sw);
-            e.printStackTrace(pw);
-            pw.flush();
-            System.err.print(new MInternalError(sw.toString(), e.getMessage()));
-            System.err.flush();
-            System.exit(1);
-        }
-        catch (Throwable e) {
-            StringWriter sw = new StringWriter();
-            PrintWriter pw = new PrintWriter(sw);
-            e.printStackTrace(pw);
-            pw.flush();
-            String message = e.getMessage() == null ? "" : e.getMessage();
-            System.err.print(new MInternalError(sw.toString(), message));
-            System.err.flush();
-            System.exit(1);
-        }
-
-        // finish gracefully
-        System.exit(0);
-    }
-
-    /**
-     * Parses the provided arguments and launches grammar compilation.
-     */
-    public static void compile(
-            String[] arguments)
-            throws ParserException, LexerException {
-
-        // default target is java
-        String targetLanguage = "java";
-
-        // default destination directory is current working directory
-        File destinationDirectory = new File(System.getProperty("user.dir"));
-
-        // default destination package is anonymous
-        String destinationPackage = "";
-
-        // default option values
-        boolean generateCode = true;
-        Verbosity verbosity = Verbosity.INFORMATIVE;
-        Strictness strictness = Strictness.STRICT;
-
-        // parse command line arguments
-        ArgumentCollection argumentCollection = new ArgumentCollection(
-                arguments);
-
-        // handle option arguments
-        for (OptionArgument optionArgument : argumentCollection
-                .getOptionArguments()) {
-
-            switch (optionArgument.getOption()) {
-
-            case LIST_TARGETS:
-                System.out.println("Available targets:");
-                System.out.println(" java (default)");
-                System.out.println(" scala");
-                return;
-
-            case TARGET:
-                targetLanguage = optionArgument.getOperand();
-                break;
-
-            case DESTINATION:
-                destinationDirectory = new File(optionArgument.getOperand());
-                break;
-
-            case PACKAGE:
-                destinationPackage = optionArgument.getOperand();
-                break;
-
-            case GENERATE:
-                generateCode = true;
-                break;
-
-            case NO_CODE:
-                generateCode = false;
-                break;
-
-            case LENIENT:
-                strictness = Strictness.LENIENT;
-                break;
-
-            case STRICT:
-                strictness = Strictness.STRICT;
-                break;
-
-            case QUIET:
-                verbosity = Verbosity.QUIET;
-                break;
-
-            case INFORMATIVE:
-                verbosity = Verbosity.INFORMATIVE;
-                break;
-
-            case VERBOSE:
-                verbosity = Verbosity.VERBOSE;
-                break;
-
-            case VERSION:
-                System.out.println("SableCC version " + VERSION);
-                return;
-
-            case HELP:
-                System.out.println("Usage: sablecc "
-                        + Option.getShortHelpMessage() + " grammar.sablecc");
-                System.out.println("Options:");
-                System.out.println(Option.getLongHelpMessage());
-                return;
-
-            default:
-                throw new InternalException("unhandled option "
-                        + optionArgument.getOption());
-            }
-        }
-
-        switch (verbosity) {
-        case INFORMATIVE:
-        case VERBOSE:
-            System.out.println();
-            System.out.println("SableCC version " + VERSION);
-            System.out
-                    .println("by Etienne M. Gagnon <egagnon@j-meg.com> and other contributors.");
-            System.out.println();
-            break;
-        }
-
-        // handle text arguments
-        if (argumentCollection.getTextArguments().size() == 0) {
-            System.out.println("Usage: sablecc " + Option.getShortHelpMessage()
-                    + " grammar.sablecc");
-            return;
-        }
-        else if (argumentCollection.getTextArguments().size() > 1) {
-            throw CompilerException.invalidArgumentCount();
-        }
-
-        // check target
-        if (!(targetLanguage.equals("java") || targetLanguage.equals("scala"))) {
-            throw CompilerException.unknownTarget(targetLanguage);
-        }
-
-        // check argument
-        TextArgument textArgument = argumentCollection.getTextArguments()
-                .get(0);
-
-        if (!textArgument.getText().endsWith(".sablecc")) {
-            throw CompilerException.invalidSuffix(textArgument.getText());
-        }
-
-        File grammarFile = new File(textArgument.getText());
-
-        if (!grammarFile.exists()) {
-            throw CompilerException.missingGrammarFile(textArgument.getText());
-        }
-
-        if (!grammarFile.isFile()) {
-            throw CompilerException.grammarNotFile(textArgument.getText());
-        }
-
-        compile(grammarFile, targetLanguage, destinationDirectory,
-                destinationPackage, generateCode, strictness, verbosity);
-    }
-
-    /**
-     * Compiles the provided grammar file.
-     */
-    private static void compile(
-            File grammarFile,
-            String targetLanguage,
-            File destinationDirectory,
-            String destinationPackage,
-            boolean generateCode,
-            Strictness strictness,
-            Verbosity verbosity)
-            throws ParserException, LexerException {
-
-        switch (verbosity) {
-        case INFORMATIVE:
-        case VERBOSE:
-            System.out.println("Compiling \"" + grammarFile + "\"");
-            break;
-        }
-
-        Start ast;
-
-        try {
-            FileReader fr = new FileReader(grammarFile);
-            BufferedReader br = new BufferedReader(fr);
-            PushbackReader pbr = new PushbackReader(br, 1024);
-
-            switch (verbosity) {
-            case VERBOSE:
-                System.out.println(" Parsing");
-                break;
-            }
-
-            ast = new Parser(new Lexer(pbr)).parse();
-
-            pbr.close();
-            br.close();
-            fr.close();
-        }
-        catch (IOException e) {
-            throw CompilerException.inputError(grammarFile.toString(), e);
-        }
-
-        switch (verbosity) {
-        case VERBOSE:
-            System.out.println(" Verifying semantics");
-            break;
-        }
-
-        new Data(ast);
-/*
-        GlobalIndex globalIndex = verifySemantics(ast, strictness);
-
-        switch (verbosity) {
-        case VERBOSE:
-            System.out.println(" Computing lexer");
-            break;
-        }
-
-        Automaton lexer = computeLexer(globalIndex, verbosity);
-
-        switch (verbosity) {
-        case VERBOSE:
-            System.out.println(" Computing parser");
-            break;
-        }
-
-        LRAutomaton parser = computeParser(globalIndex, verbosity);
-
-        if (generateCode) {
-            switch (verbosity) {
-            case VERBOSE:
-                System.out.println(" Generating code");
-                break;
-            }
-
-            if (targetLanguage.equals("java")) {
-                generateJavaCode(destinationDirectory, destinationPackage,
-                        globalIndex, lexer, parser);
-            }
-            else if(targetLanguage.equals("scala")) {
-                ScalaGenerator.generateCode(destinationDirectory, destinationPackage,
-                        globalIndex, lexer, parser);
-            }
-            else {
-                throw new InternalException("unimplemented");
-            }
-        }
-
-        switch (verbosity) {
-        case INFORMATIVE:
-        case VERBOSE:
-            System.out.println("Done compiling \"" + grammarFile + "\"");
-            break;
-        }
-*/
-    }
-
-/*
-    private static GlobalIndex verifySemantics(
-            Start ast,
-            Strictness strictness) {
-
-        GlobalIndex globalIndex = new GlobalIndex();
-
-        new SimpleLexerAndParserRestricter().visit(ast);
-
-        new GlobalDeclarationCollector(globalIndex).visit(ast);
-        new LexerDeclarationCollector(globalIndex).visit(ast);
-        new LexerPriorityCollector(globalIndex).visit(ast);
-        new ParserDeclarationCollector(globalIndex).visit(ast);
-        new ParserPriorityCollector(globalIndex).visit(ast);
-
-        new ExpressionVerifier(globalIndex).visit(ast);
-        new CyclicExpressionDetector(globalIndex).visit(ast);
-
-        return globalIndex;
-    }
-
-    private static Automaton computeLexer(
-            GlobalIndex globalIndex,
-            Verbosity verbosity) {
-
-        for (NormalExpression normalExpression : globalIndex
-                .getNormalNamedExpressionLinearization()) {
-
-            switch (verbosity) {
-            case VERBOSE:
-                System.out.println("  - "
-                        + normalExpression.getNameToken().getText());
-                break;
-            }
-
-            Automaton automaton = RegularExpressionEvaluator
-                    .evaluateExpression(globalIndex, normalExpression
-                            .getExpression());
-
-            normalExpression.setAutomaton(automaton);
-        }
-
-        switch (verbosity) {
-        case VERBOSE:
-            System.out.println("  Computing automaton");
-            break;
-        }
-
-        Context context = globalIndex.getContexts().iterator().next();
-        Automaton lexerAutomaton = Automaton.getEmptyAutomaton();
-
-        for (MatchedToken matchedToken : context.getMatchedTokens()) {
-            lexerAutomaton = lexerAutomaton.or(matchedToken.getAutomaton());
-        }
-
-        switch (verbosity) {
-        case VERBOSE:
-            System.out.println("  Minimizing automaton");
-            break;
-        }
-
-        lexerAutomaton = lexerAutomaton.withPriorities(context).withMarkers()
-                .minimal();
-
-        return lexerAutomaton;
-    }
-
-    private static LRAutomaton computeParser(
-            GlobalIndex globalIndex,
-            Verbosity verbosity) {
-
-        Grammar grammar = globalIndex.getGrammar();
-
-        switch (verbosity) {
-        case VERBOSE:
-            System.out.println("  Detecting useless productions");
-            break;
-        }
-
-        grammar.computeShortestLengthAndDetectUselessProductions();
-
-        return new LRAutomaton(grammar, verbosity);
-    }
-
-    private static void generateJavaCode(
+    public static void generateCode(
             File destinationDirectory,
             String destinationPackage,
             GlobalIndex globalIndex,
@@ -436,19 +102,21 @@ public class SableCC {
         String languagePackageName = "language_"
                 + globalIndex.getLanguage().get_camelCaseName();
         File packageDirectory;
-        MNode mNode = new MNode();
+        MNode mNode = new MNode(languagePackageName);
         MToken mToken = new MToken();
-        MState mState = new MState();
-        MTransitionState mTransitionState = new MTransitionState();
-        MFinalState mFinalState = new MFinalState();
+        MState mState = new MState(languagePackageName);
+        MTransitionState mTransitionState = new MTransitionState(
+                languagePackageName);
+        MFinalState mFinalState = new MFinalState(languagePackageName);
         MSymbol mSymbol = new MSymbol();
-        MLexer mLexer = new MLexer();
+        MLexer mLexer = new MLexer(languagePackageName);
         MLexerException mLexerException = new MLexerException();
         MParserException mParserException = new MParserException();
         MTest mTest = new MTest();
-        MEnd mEnd = new MEnd();
-        MWalker mWalker = new MWalker();
-        MParser mParser = new MParser();
+        MEnd mEnd = new MEnd(languagePackageName);
+        MTransformer mTransformer = new MTransformer();
+        MTraverser mTraverser = new MTraverser();
+        MParser mParser = new MParser(languagePackageName);
 
         if (destinationPackage.equals("")) {
             packageDirectory = new File(destinationDirectory,
@@ -475,7 +143,9 @@ public class SableCC {
                     .get_camelCaseName());
             mEnd.newDefaultPackage(globalIndex.getLanguage()
                     .get_camelCaseName());
-            mWalker.newDefaultPackage(globalIndex.getLanguage()
+            mTransformer.newDefaultPackage(globalIndex.getLanguage()
+                    .get_camelCaseName());
+            mTraverser.newDefaultPackage(globalIndex.getLanguage()
                     .get_camelCaseName());
             mParser.newDefaultPackage(globalIndex.getLanguage()
                     .get_camelCaseName());
@@ -506,7 +176,9 @@ public class SableCC {
                     .get_camelCaseName(), destinationPackage);
             mEnd.newSpecifiedPackage(globalIndex.getLanguage()
                     .get_camelCaseName(), destinationPackage);
-            mWalker.newSpecifiedPackage(globalIndex.getLanguage()
+            mTransformer.newSpecifiedPackage(globalIndex.getLanguage()
+                    .get_camelCaseName(), destinationPackage);
+            mTraverser.newSpecifiedPackage(globalIndex.getLanguage()
                     .get_camelCaseName(), destinationPackage);
             mParser.newSpecifiedPackage(globalIndex.getLanguage()
                     .get_camelCaseName(), destinationPackage);
@@ -525,10 +197,6 @@ public class SableCC {
                     mNode.newNodeInternalTypeEnumEntry(nameToken
                             .get_CamelCaseName());
 
-                    mWalker.newWalkerIn(nameToken.get_CamelCaseName());
-                    mWalker.newWalkerCase(nameToken.get_CamelCaseName());
-                    mWalker.newWalkerOut(nameToken.get_CamelCaseName());
-
                     MCustomToken mCustomToken = new MCustomToken(nameToken
                             .get_CamelCaseName());
 
@@ -546,14 +214,14 @@ public class SableCC {
                         BufferedWriter bw = new BufferedWriter(new FileWriter(
                                 new File(packageDirectory, "N"
                                         + nameToken.get_CamelCaseName()
-                                        + ".java")));
+                                        + ".scala")));
 
                         bw.write(mCustomToken.toString());
                         bw.close();
                     }
                     catch (IOException e) {
                         throw CompilerException.outputError("N"
-                                + nameToken.get_CamelCaseName() + ".java", e);
+                                + nameToken.get_CamelCaseName() + ".scala", e);
                     }
                 }
                 else {
@@ -579,15 +247,15 @@ public class SableCC {
                         BufferedWriter bw = new BufferedWriter(new FileWriter(
                                 new File(packageDirectory, "N"
                                         + anonymousToken.get_CamelCaseName()
-                                        + ".java")));
+                                        + ".scala")));
 
                         bw.write(mAnonymousToken.toString());
                         bw.close();
                     }
                     catch (IOException e) {
-                        throw CompilerException.outputError("N"
-                                + anonymousToken.get_CamelCaseName() + ".java",
-                                e);
+                        throw CompilerException.outputError(
+                                "N" + anonymousToken.get_CamelCaseName()
+                                        + ".scala", e);
                     }
                 }
             }
@@ -630,7 +298,8 @@ public class SableCC {
             if (state.isAcceptState()) {
                 Acceptation acceptation = state.getAcceptations().first();
                 MFinalStateSingleton mFinalStateSingleton = new MFinalStateSingleton(
-                        "" + state.getId(), "" + acceptation.getBackCount());
+                        "" + state.getId(), "" + acceptation.getBackCount(),
+                        languagePackageName);
 
                 if (destinationPackage.equals("")) {
                     mFinalStateSingleton.newDefaultPackage(globalIndex
@@ -676,19 +345,19 @@ public class SableCC {
                 try {
                     BufferedWriter bw = new BufferedWriter(new FileWriter(
                             new File(packageDirectory, "S_" + state.getId()
-                                    + ".java")));
+                                    + ".scala")));
 
                     bw.write(mFinalStateSingleton.toString());
                     bw.close();
                 }
                 catch (IOException e) {
                     throw CompilerException.outputError("S_" + state.getId()
-                            + ".java", e);
+                            + ".scala", e);
                 }
             }
             else {
                 MTransitionStateSingleton mTransitionStateSingleton = new MTransitionStateSingleton(
-                        "" + state.getId());
+                        "" + state.getId(), languagePackageName);
 
                 if (destinationPackage.equals("")) {
                     mTransitionStateSingleton.newDefaultPackage(globalIndex
@@ -723,14 +392,14 @@ public class SableCC {
                 try {
                     BufferedWriter bw = new BufferedWriter(new FileWriter(
                             new File(packageDirectory, "S_" + state.getId()
-                                    + ".java")));
+                                    + ".scala")));
 
                     bw.write(mTransitionStateSingleton.toString());
                     bw.close();
                 }
                 catch (IOException e) {
                     throw CompilerException.outputError("S_" + state.getId()
-                            + ".java", e);
+                            + ".scala", e);
                 }
             }
         }
@@ -768,20 +437,21 @@ public class SableCC {
                     mProduction.newNamedProductionHeader();
                 }
                 else {
-                    mProduction.newAnonymousProductionHeader();
+                    mProduction
+                            .newAnonymousProductionHeader(languagePackageName);
                 }
 
                 try {
                     BufferedWriter bw = new BufferedWriter(new FileWriter(
                             new File(packageDirectory, "N"
-                                    + production_CamelCaseName + ".java")));
+                                    + production_CamelCaseName + ".scala")));
 
                     bw.write(mProduction.toString());
                     bw.close();
                 }
                 catch (IOException e) {
                     throw CompilerException.outputError("N"
-                            + production_CamelCaseName + ".java", e);
+                            + production_CamelCaseName + ".scala", e);
                 }
             }
 
@@ -796,17 +466,18 @@ public class SableCC {
                 MAlternative mAlternative = new MAlternative(
                         alt_CamelCaseFullName);
 
-                mAlternative.newAltProdType(production_CamelCaseName);
-
+                // XXX new case in the traverser
+                MNormalTraverserCase mTraverserCase = null;
+                MNormalTransformerCase mTransformerCase = null;
                 if (altIsPublic) {
-                    mWalker.newWalkerIn(alt_CamelCaseFullName);
-                    mWalker.newWalkerCase(alt_CamelCaseFullName);
-                    mWalker.newWalkerOut(alt_CamelCaseFullName);
-                    mAlternative.newAltNormalApply();
+                    mTraverserCase = mTraverser.newNormalTraverserCase("N"
+                            + alt_CamelCaseFullName);
+                    mTransformerCase = mTransformer
+                            .newNormalTransformerCase("N"
+                                    + alt_CamelCaseFullName);
                 }
-                else {
-                    mAlternative.newAltAnonymousApply();
-                }
+
+                mAlternative.newAltProdType(production_CamelCaseName);
 
                 if (destinationPackage.equals("")) {
                     mAlternative.newDefaultPackage(globalIndex.getLanguage()
@@ -820,10 +491,11 @@ public class SableCC {
                 mNode.newNodeInternalTypeEnumEntry(alt_CamelCaseFullName);
                 if (altIsPublic) {
                     mNode.newNodeTypeEnumEntry(alt_CamelCaseFullName);
-                    mAlternative.newPublic();
+                    // mAlternative.newPublic();
                     mAlternative.newNamedAltType();
                 }
                 else {
+                    mAlternative.newPackageProtected(languagePackageName);
                     mAlternative.newAnonymousAltType();
                 }
 
@@ -891,25 +563,30 @@ public class SableCC {
 
                     if (elementIsEndToken) {
                         mAlternative.newEndConstructorParameter();
-                        mAlternative.newEndContructorInitialization();
+                        if (altIsPublic) {
+                            // XXX extract the end parameter
+                            mTraverserCase.newEndCaseConstructorParameter();
+                            mTransformerCase
+                                    .newTransformEndCaseConstructorParameter();
+                        }
+                        // mAlternative.newEndContructorInitialization();
 
-                        mAlternative.newEndElementDeclaration();
-                        mAlternative.newEndElementAccessor();
+                        // mAlternative.newEndElementDeclaration();
+                        mAlternative.newEndElementAccessor(languagePackageName);
 
-                        mAlternative.newEndChildApply();
                     }
                     else {
                         mAlternative.newNormalConstructorParameter(
                                 element_CamelCaseType, element_CamelCaseName);
-                        mAlternative
-                                .newNormalContructorInitialization(element_CamelCaseName);
 
-                        mAlternative.newNormalElementDeclaration(
-                                element_CamelCaseType, element_CamelCaseName);
+                        // mAlternative
+                        // .newNormalContructorInitialization(element_CamelCaseName);
+
+                        // mAlternative.newNormalElementDeclaration(
+                        // element_CamelCaseType, element_CamelCaseName);
                         mAlternative.newNormalElementAccessor(
-                                element_CamelCaseType, element_CamelCaseName);
-
-                        mAlternative.newNormalChildApply(element_CamelCaseName);
+                                element_CamelCaseType, element_CamelCaseName,
+                                languagePackageName);
 
                         if (elementIsPublicReadable) {
                             MPublicElementAccessor publicElementAccessor = mAlternative
@@ -921,25 +598,40 @@ public class SableCC {
                             else {
                                 publicElementAccessor.newTokenElementType();
                             }
+
+                        }
+
+                        if (altIsPublic) {
+                            // XXX extract a normal parameter
+                            mTraverserCase
+                                    .newCaseConstructorParameter(element_CamelCaseName);
+                            mTransformerCase
+                                    .newTransformCaseConstructorParameter(element_CamelCaseName);
+                            // and the child to traverse
+                            mTraverserCase
+                                    .newChildTraverse(element_CamelCaseName);
+                            mTransformerCase.newChildTransform(
+                                    element_CamelCaseName, "N"
+                                            + element_CamelCaseType);
                         }
                     }
                 }
 
-                if (altHasPublicConstructor) {
-                    mAlternative.newPublicConstructor();
+                if (!altHasPublicConstructor) {
+                    mAlternative.newProtectedConstructor(languagePackageName);
                 }
 
                 try {
                     BufferedWriter bw = new BufferedWriter(new FileWriter(
                             new File(packageDirectory, "N"
-                                    + alt_CamelCaseFullName + ".java")));
+                                    + alt_CamelCaseFullName + ".scala")));
 
                     bw.write(mAlternative.toString());
                     bw.close();
                 }
                 catch (IOException e) {
                     throw CompilerException.outputError("N"
-                            + alt_CamelCaseFullName + ".java", e);
+                            + alt_CamelCaseFullName + ".scala", e);
                 }
             }
         }
@@ -1159,146 +851,156 @@ public class SableCC {
 
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(new File(
-                    packageDirectory, "Node.java")));
+                    packageDirectory, "Node.scala")));
 
             bw.write(mNode.toString());
             bw.close();
         }
         catch (IOException e) {
-            throw CompilerException.outputError("Node.java", e);
+            throw CompilerException.outputError("Node.scala", e);
         }
 
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(new File(
-                    packageDirectory, "Token.java")));
+                    packageDirectory, "Token.scala")));
 
             bw.write(mToken.toString());
             bw.close();
         }
         catch (IOException e) {
-            throw CompilerException.outputError("Token.java", e);
+            throw CompilerException.outputError("Token.scala", e);
         }
 
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(new File(
-                    packageDirectory, "State.java")));
+                    packageDirectory, "State.scala")));
 
             bw.write(mState.toString());
             bw.close();
         }
         catch (IOException e) {
-            throw CompilerException.outputError("State.java", e);
+            throw CompilerException.outputError("State.scala", e);
         }
 
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(new File(
-                    packageDirectory, "TransitionState.java")));
+                    packageDirectory, "TransitionState.scala")));
 
             bw.write(mTransitionState.toString());
             bw.close();
         }
         catch (IOException e) {
-            throw CompilerException.outputError("TransitionState.java", e);
+            throw CompilerException.outputError("TransitionState.scala", e);
         }
 
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(new File(
-                    packageDirectory, "FinalState.java")));
+                    packageDirectory, "FinalState.scala")));
 
             bw.write(mFinalState.toString());
             bw.close();
         }
         catch (IOException e) {
-            throw CompilerException.outputError("FinalState.java", e);
+            throw CompilerException.outputError("FinalState.scala", e);
         }
 
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(new File(
-                    packageDirectory, "Symbol.java")));
+                    packageDirectory, "Symbol.scala")));
 
             bw.write(mSymbol.toString());
             bw.close();
         }
         catch (IOException e) {
-            throw CompilerException.outputError("Symbol.java", e);
+            throw CompilerException.outputError("Symbol.scala", e);
         }
 
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(new File(
-                    packageDirectory, "Lexer.java")));
+                    packageDirectory, "Lexer.scala")));
 
             bw.write(mLexer.toString());
             bw.close();
         }
         catch (IOException e) {
-            throw CompilerException.outputError("Lexer.java", e);
+            throw CompilerException.outputError("Lexer.scala", e);
         }
 
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(new File(
-                    packageDirectory, "LexerException.java")));
+                    packageDirectory, "LexerException.scala")));
 
             bw.write(mLexerException.toString());
             bw.close();
         }
         catch (IOException e) {
-            throw CompilerException.outputError("LexerException.java", e);
+            throw CompilerException.outputError("LexerException.scala", e);
         }
 
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(new File(
-                    packageDirectory, "ParserException.java")));
+                    packageDirectory, "ParserException.scala")));
 
             bw.write(mParserException.toString());
             bw.close();
         }
         catch (IOException e) {
-            throw CompilerException.outputError("ParserException.java", e);
+            throw CompilerException.outputError("ParserException.scala", e);
         }
 
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(new File(
-                    packageDirectory, "Test.java")));
+                    packageDirectory, "Test.scala")));
 
             bw.write(mTest.toString());
             bw.close();
         }
         catch (IOException e) {
-            throw CompilerException.outputError("Test.java", e);
+            throw CompilerException.outputError("Test.scala", e);
         }
 
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(new File(
-                    packageDirectory, "End.java")));
+                    packageDirectory, "End.scala")));
 
             bw.write(mEnd.toString());
             bw.close();
         }
         catch (IOException e) {
-            throw CompilerException.outputError("End.java", e);
+            throw CompilerException.outputError("End.scala", e);
         }
 
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(new File(
-                    packageDirectory, "Walker.java")));
+                    packageDirectory, "Transformer.scala")));
 
-            bw.write(mWalker.toString());
+            bw.write(mTransformer.toString());
             bw.close();
         }
         catch (IOException e) {
-            throw CompilerException.outputError("Walker.java", e);
+            throw CompilerException.outputError("Transformer.scala", e);
         }
 
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(new File(
-                    packageDirectory, "Parser.java")));
+                    packageDirectory, "Traverser.scala")));
+
+            bw.write(mTraverser.toString());
+            bw.close();
+        }
+        catch (IOException e) {
+            throw CompilerException.outputError("Traverser.scala", e);
+        }
+
+        try {
+            BufferedWriter bw = new BufferedWriter(new FileWriter(new File(
+                    packageDirectory, "Parser.scala")));
 
             bw.write(mParser.toString());
             bw.close();
         }
         catch (IOException e) {
-            throw CompilerException.outputError("Parser.java", e);
+            throw CompilerException.outputError("Parser.scala", e);
         }
     }
-*/
 }
