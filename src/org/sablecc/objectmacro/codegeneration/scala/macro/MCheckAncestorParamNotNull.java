@@ -4,38 +4,30 @@ package org.sablecc.objectmacro.codegeneration.scala.macro;
 
 public class MCheckAncestorParamNotNull {
 
-    private final String pName;
+  private final String pName;
+  private final MCheckAncestorParamNotNull mCheckAncestorParamNotNull = this;
 
-    private final MCheckAncestorParamNotNull mCheckAncestorParamNotNull = this;
+  public MCheckAncestorParamNotNull(String pName) {
+    if(pName == null) throw new NullPointerException();
+    this.pName = pName;
+  }
 
-    public MCheckAncestorParamNotNull(
-            String pName) {
+  String pName() {
+    return this.pName;
+  }
 
-        if (pName == null) {
-            throw new NullPointerException();
-        }
-        this.pName = pName;
-    }
+  private String rName() {
+    return this.mCheckAncestorParamNotNull.pName();
+  }
 
-    String pName() {
-
-        return this.pName;
-    }
-
-    private String rName() {
-
-        return this.mCheckAncestorParamNotNull.pName();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("  require(m");
-        sb.append(rName());
-        sb.append(" != null)");
-        sb.append(System.getProperty("line.separator"));
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("  require(m");
+    sb.append(rName());
+    sb.append(" != null)");
+    sb.append(System.getProperty("line.separator"));
+    return sb.toString();
+  }
 
 }

@@ -4,36 +4,28 @@ package org.sablecc.objectmacro.codegeneration.scala.macro;
 
 public class MTextInsertAncestor {
 
-    private final String pName;
+  private final String pName;
+  private final MTextInsertAncestor mTextInsertAncestor = this;
 
-    private final MTextInsertAncestor mTextInsertAncestor = this;
+  public MTextInsertAncestor(String pName) {
+    if(pName == null) throw new NullPointerException();
+    this.pName = pName;
+  }
 
-    public MTextInsertAncestor(
-            String pName) {
+  String pName() {
+    return this.pName;
+  }
 
-        if (pName == null) {
-            throw new NullPointerException();
-        }
-        this.pName = pName;
-    }
+  private String rName() {
+    return this.mTextInsertAncestor.pName();
+  }
 
-    String pName() {
-
-        return this.pName;
-    }
-
-    private String rName() {
-
-        return this.mTextInsertAncestor.pName();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("this.m");
-        sb.append(rName());
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("this.m");
+    sb.append(rName());
+    return sb.toString();
+  }
 
 }

@@ -4,38 +4,30 @@ package org.sablecc.objectmacro.codegeneration.scala.macro;
 
 public class MCheckParamNotNull {
 
-    private final String pName;
+  private final String pName;
+  private final MCheckParamNotNull mCheckParamNotNull = this;
 
-    private final MCheckParamNotNull mCheckParamNotNull = this;
+  public MCheckParamNotNull(String pName) {
+    if(pName == null) throw new NullPointerException();
+    this.pName = pName;
+  }
 
-    public MCheckParamNotNull(
-            String pName) {
+  String pName() {
+    return this.pName;
+  }
 
-        if (pName == null) {
-            throw new NullPointerException();
-        }
-        this.pName = pName;
-    }
+  private String rName() {
+    return this.mCheckParamNotNull.pName();
+  }
 
-    String pName() {
-
-        return this.pName;
-    }
-
-    private String rName() {
-
-        return this.mCheckParamNotNull.pName();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("  require(p");
-        sb.append(rName());
-        sb.append(" != null)");
-        sb.append(System.getProperty("line.separator"));
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("  require(p");
+    sb.append(rName());
+    sb.append(" != null)");
+    sb.append(System.getProperty("line.separator"));
+    return sb.toString();
+  }
 
 }

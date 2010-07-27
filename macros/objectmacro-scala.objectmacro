@@ -94,7 +94,7 @@ $macro: macro_creator(name) $
   def new$name($expand: param_param, separator=", " $): M$name = {
     var l$name = new M$name($expand: param_arg, ancestor_arg, separator=", " $)
 $macro: add_to_expand(signature) $
-    e$signature + l$name
+    e$signature += l$name
 $end: add_to_expand $
     l$name
   }
@@ -253,7 +253,7 @@ $end: text_insert_ancestor $
 $comment: ========== imports ========== $
 
 $macro: imports $
-import _root_.scala.collection.mutable.ListBuffer
+import scala.collection.mutable.ListBuffer
 $end: imports $
 
 $comment: ========== protected ========== $
