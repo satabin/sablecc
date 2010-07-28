@@ -92,12 +92,9 @@ import org.sablecc.sablecc.oldstructure.NameToken;
  */
 public class ScalaGenerator {
 
-    public static void generateCode(
-            File destinationDirectory,
-            String destinationPackage,
-            GlobalIndex globalIndex,
-            Automaton lexer,
-            LRAutomaton parser) {
+    public static void generateCode(File destinationDirectory,
+            String destinationPackage, GlobalIndex globalIndex,
+            Automaton lexer, LRAutomaton parser) {
 
         String languagePackageName = "language_"
                 + globalIndex.getLanguage().get_camelCaseName();
@@ -149,8 +146,7 @@ public class ScalaGenerator {
                     .get_camelCaseName());
             mParser.newDefaultPackage(globalIndex.getLanguage()
                     .get_camelCaseName());
-        }
-        else {
+        } else {
             packageDirectory = new File(destinationDirectory,
                     destinationPackage.replace('.', '/') + "/"
                             + languagePackageName);
@@ -203,8 +199,7 @@ public class ScalaGenerator {
                     if (destinationPackage.equals("")) {
                         mCustomToken.newDefaultPackage(globalIndex
                                 .getLanguage().get_camelCaseName());
-                    }
-                    else {
+                    } else {
                         mCustomToken.newSpecifiedPackage(globalIndex
                                 .getLanguage().get_camelCaseName(),
                                 destinationPackage);
@@ -218,13 +213,11 @@ public class ScalaGenerator {
 
                         bw.write(mCustomToken.toString());
                         bw.close();
-                    }
-                    catch (IOException e) {
+                    } catch (IOException e) {
                         throw CompilerException.outputError("N"
                                 + nameToken.get_CamelCaseName() + ".scala", e);
                     }
-                }
-                else {
+                } else {
                     AnonymousToken anonymousToken = (AnonymousToken) matchedToken;
 
                     mNode.newNodeInternalTypeEnumEntry(""
@@ -236,8 +229,7 @@ public class ScalaGenerator {
                     if (destinationPackage.equals("")) {
                         mAnonymousToken.newDefaultPackage(globalIndex
                                 .getLanguage().get_camelCaseName());
-                    }
-                    else {
+                    } else {
                         mAnonymousToken.newSpecifiedPackage(globalIndex
                                 .getLanguage().get_camelCaseName(),
                                 destinationPackage);
@@ -251,8 +243,7 @@ public class ScalaGenerator {
 
                         bw.write(mAnonymousToken.toString());
                         bw.close();
-                    }
-                    catch (IOException e) {
+                    } catch (IOException e) {
                         throw CompilerException.outputError(
                                 "N" + anonymousToken.get_CamelCaseName()
                                         + ".scala", e);
@@ -273,21 +264,18 @@ public class ScalaGenerator {
             if (interval.getLowerBound() == Bound.MIN) {
                 if (interval.getUpperBound() == Bound.MAX) {
                     mSymbol.newOpenInterval(symbol.getSimpleName());
-                }
-                else {
+                } else {
                     mSymbol.newOpenLeftInterval(interval.getUpperBound()
                             .getValue().toString(), symbol.getSimpleName());
                 }
-            }
-            else if (interval.getUpperBound() == Bound.MAX) {
+            } else if (interval.getUpperBound() == Bound.MAX) {
                 mSymbol.newOpenRightInterval(interval.getLowerBound()
                         .getValue().toString(), symbol.getSimpleName());
-            }
-            else if (interval.getLowerBound().equals(interval.getUpperBound())) {
+            } else if (interval.getLowerBound()
+                    .equals(interval.getUpperBound())) {
                 mSymbol.newSingleChar(interval.getLowerBound().getValue()
                         .toString(), symbol.getSimpleName());
-            }
-            else {
+            } else {
                 mSymbol.newInterval(interval.getLowerBound().getValue()
                         .toString(), interval.getUpperBound().getValue()
                         .toString(), symbol.getSimpleName());
@@ -304,8 +292,7 @@ public class ScalaGenerator {
                 if (destinationPackage.equals("")) {
                     mFinalStateSingleton.newDefaultPackage(globalIndex
                             .getLanguage().get_camelCaseName());
-                }
-                else {
+                } else {
                     mFinalStateSingleton.newSpecifiedPackage(globalIndex
                             .getLanguage().get_camelCaseName(),
                             destinationPackage);
@@ -315,8 +302,7 @@ public class ScalaGenerator {
 
                 if (marker == null) {
                     mFinalStateSingleton.newAcceptTokenNoMarker();
-                }
-                else {
+                } else {
                     mFinalStateSingleton.newAcceptTokenWithMarker(marker
                             .getName());
                 }
@@ -326,15 +312,13 @@ public class ScalaGenerator {
 
                 if (matchedToken.isIgnored()) {
                     mFinalStateSingleton.newAcceptIgnoredToken();
-                }
-                else {
+                } else {
                     if (matchedToken instanceof NameToken) {
                         NameToken nameToken = (NameToken) matchedToken;
 
                         mFinalStateSingleton.newAcceptNormalToken(nameToken
                                 .get_CamelCaseName());
-                    }
-                    else {
+                    } else {
                         AnonymousToken anonymousToken = (AnonymousToken) matchedToken;
 
                         mFinalStateSingleton.newAcceptNormalToken(""
@@ -349,21 +333,18 @@ public class ScalaGenerator {
 
                     bw.write(mFinalStateSingleton.toString());
                     bw.close();
-                }
-                catch (IOException e) {
+                } catch (IOException e) {
                     throw CompilerException.outputError("S_" + state.getId()
                             + ".scala", e);
                 }
-            }
-            else {
+            } else {
                 MTransitionStateSingleton mTransitionStateSingleton = new MTransitionStateSingleton(
                         "" + state.getId(), languagePackageName);
 
                 if (destinationPackage.equals("")) {
                     mTransitionStateSingleton.newDefaultPackage(globalIndex
                             .getLanguage().get_camelCaseName());
-                }
-                else {
+                } else {
                     mTransitionStateSingleton.newSpecifiedPackage(globalIndex
                             .getLanguage().get_camelCaseName(),
                             destinationPackage);
@@ -373,8 +354,7 @@ public class ScalaGenerator {
 
                 if (marker == null) {
                     mTransitionStateSingleton.newNoMarker();
-                }
-                else {
+                } else {
                     mTransitionStateSingleton.newSetMarker(marker.getName());
                 }
 
@@ -396,8 +376,7 @@ public class ScalaGenerator {
 
                     bw.write(mTransitionStateSingleton.toString());
                     bw.close();
-                }
-                catch (IOException e) {
+                } catch (IOException e) {
                     throw CompilerException.outputError("S_" + state.getId()
                             + ".scala", e);
                 }
@@ -427,16 +406,14 @@ public class ScalaGenerator {
                 if (destinationPackage.equals("")) {
                     mProduction.newDefaultPackage(globalIndex.getLanguage()
                             .get_camelCaseName());
-                }
-                else {
+                } else {
                     mProduction.newSpecifiedPackage(globalIndex.getLanguage()
                             .get_camelCaseName(), destinationPackage);
                 }
 
                 if (production_CamelCaseName.indexOf('$') == -1) {
                     mProduction.newNamedProductionHeader();
-                }
-                else {
+                } else {
                     mProduction
                             .newAnonymousProductionHeader(languagePackageName);
                 }
@@ -448,8 +425,7 @@ public class ScalaGenerator {
 
                     bw.write(mProduction.toString());
                     bw.close();
-                }
-                catch (IOException e) {
+                } catch (IOException e) {
                     throw CompilerException.outputError("N"
                             + production_CamelCaseName + ".scala", e);
                 }
@@ -468,13 +444,13 @@ public class ScalaGenerator {
 
                 // XXX new case in the traverser
                 MNormalTraverserCase mTraverserCase = null;
-                //MNormalTransformerCase mTransformerCase = null;
+                MNormalTransformerCase mTransformerCase = null;
                 if (altIsPublic || alt_CamelCaseFullName.equals("$Start")) {
                     mTraverserCase = mTraverser.newNormalTraverserCase("N"
                             + alt_CamelCaseFullName);
-                    //mTransformerCase = mTransformer
-                    //        .newNormalTransformerCase("N"
-                    //                + alt_CamelCaseFullName);
+                    mTransformerCase = mTransformer
+                            .newNormalTransformerCase("N"
+                                    + alt_CamelCaseFullName);
                 }
 
                 mAlternative.newAltProdType(production_CamelCaseName);
@@ -482,8 +458,7 @@ public class ScalaGenerator {
                 if (destinationPackage.equals("")) {
                     mAlternative.newDefaultPackage(globalIndex.getLanguage()
                             .get_camelCaseName());
-                }
-                else {
+                } else {
                     mAlternative.newSpecifiedPackage(globalIndex.getLanguage()
                             .get_camelCaseName(), destinationPackage);
                 }
@@ -493,16 +468,14 @@ public class ScalaGenerator {
                     mNode.newNodeTypeEnumEntry(alt_CamelCaseFullName);
                     // mAlternative.newPublic();
                     mAlternative.newNamedAltType();
-                }
-                else {
+                } else {
                     mAlternative.newPackageProtected(languagePackageName);
                     mAlternative.newAnonymousAltType();
                 }
 
                 if (altExtendsNode) {
                     mAlternative.newAlternativeNodeParent();
-                }
-                else {
+                } else {
                     mAlternative
                             .newAlternativeNamedParent(production_CamelCaseName);
                 }
@@ -521,8 +494,7 @@ public class ScalaGenerator {
                             elementIsEndToken = true;
                             elementIsPublicReadable = false;
                             elementIsPublicWritable = false;
-                        }
-                        else {
+                        } else {
                             MatchedToken matchedToken = context
                                     .getMatchedToken(tokenElement.getToken()
                                             .getName());
@@ -530,8 +502,7 @@ public class ScalaGenerator {
                                 NameToken nameToken = (NameToken) matchedToken;
                                 element_CamelCaseType = nameToken
                                         .get_CamelCaseName();
-                            }
-                            else {
+                            } else {
                                 AnonymousToken anonymousToken = (AnonymousToken) matchedToken;
 
                                 element_CamelCaseType = ""
@@ -544,8 +515,7 @@ public class ScalaGenerator {
                             elementIsPublicWritable = elementIsPublicReadable
                                     && element_CamelCaseType.indexOf('$') == -1;
                         }
-                    }
-                    else {
+                    } else {
                         ProductionElement productionElement = (ProductionElement) element;
                         element_CamelCaseType = to_CamelCase(productionElement
                                 .getProduction().getName());
@@ -563,23 +533,18 @@ public class ScalaGenerator {
 
                     if (elementIsEndToken) {
                         mAlternative.newEndConstructorParameter();
-                        if (altIsPublic || alt_CamelCaseFullName.equals("$Start")) {
-                            // XXX extract the end parameter
-                            mTraverserCase.newEndCaseConstructorParameter();
-                            //mTransformerCase
-                            //        .newTransformEndCaseConstructorParameter();
-                        }
                         mAlternative.newEndElementAccessor(languagePackageName);
 
-                    }
-                    else {
+                    } else {
                         // XXX test to extract token parameters as Token
-                        if (element instanceof TokenElement) {
-                            mAlternative.newNormalExtractorType("Token");
-                        } else {
-                            mAlternative.newNormalExtractorType("N" + element_CamelCaseType);
+                        if ((altIsPublic || alt_CamelCaseFullName
+                                .equals("$Start"))
+                                && element_CamelCaseType.indexOf("$") == -1) {
+                            mAlternative.newExtractorType("N"
+                                    + element_CamelCaseType);
+                            mAlternative
+                                    .newExtractorParameter(element_CamelCaseName);
                         }
-                        mAlternative.newNormalExtractorParameter(element_CamelCaseName);
                         mAlternative.newNormalConstructorParameter(
                                 element_CamelCaseType, element_CamelCaseName);
 
@@ -593,25 +558,26 @@ public class ScalaGenerator {
                             if (elementIsPublicWritable) {
                                 publicElementAccessor
                                         .newPublicElementType(element_CamelCaseType);
-                            }
-                            else {
+                            } else {
                                 publicElementAccessor.newTokenElementType();
                             }
 
                         }
 
-                        if (altIsPublic || alt_CamelCaseFullName.equals("$Start")) {
+                        if ((altIsPublic || alt_CamelCaseFullName
+                                .equals("$Start"))
+                                && element_CamelCaseType.indexOf("$") == -1) {
                             // XXX extract a normal parameter
                             mTraverserCase
                                     .newCaseConstructorParameter(element_CamelCaseName);
-                            //mTransformerCase
-                            //        .newTransformCaseConstructorParameter(element_CamelCaseName);
+                            mTransformerCase
+                                    .newTransformCaseConstructorParameter(element_CamelCaseName);
                             // and the child to traverse
                             mTraverserCase
                                     .newChildTraverse(element_CamelCaseName);
-                            //mTransformerCase.newChildTransform(
-                            //        element_CamelCaseName, "N"
-                            //                + element_CamelCaseType);
+                            mTransformerCase.newChildTransform(
+                                    element_CamelCaseName, "N"
+                                            + element_CamelCaseType);
                         }
                     }
                 }
@@ -627,8 +593,7 @@ public class ScalaGenerator {
 
                     bw.write(mAlternative.toString());
                     bw.close();
-                }
-                catch (IOException e) {
+                } catch (IOException e) {
                     throw CompilerException.outputError("N"
                             + alt_CamelCaseFullName + ".scala", e);
                 }
@@ -647,16 +612,14 @@ public class ScalaGenerator {
                 if (token.getName().equals("$end")) {
                     mLrStateSingleton.newEndTokenLrTransitionTarget(target
                             .getName());
-                }
-                else {
+                } else {
                     MatchedToken matchedToken = context.getMatchedToken(token
                             .getName());
                     String element_CamelCaseType;
                     if (matchedToken instanceof NameToken) {
                         NameToken nameToken = (NameToken) matchedToken;
                         element_CamelCaseType = nameToken.get_CamelCaseName();
-                    }
-                    else {
+                    } else {
                         AnonymousToken anonymousToken = (AnonymousToken) matchedToken;
 
                         element_CamelCaseType = ""
@@ -704,16 +667,14 @@ public class ScalaGenerator {
 
                         if (tokens.size() == 0) {
                             mAction.newFalseGroup();
-                        }
-                        else {
+                        } else {
                             MNormalGroup mNormalGroup = mAction
                                     .newNormalGroup();
 
                             for (Token token : tokens) {
                                 if (token.getName().equals("$end")) {
                                     mNormalGroup.newEndCondition(ahead);
-                                }
-                                else {
+                                } else {
                                     MatchedToken matchedToken = context
                                             .getMatchedToken(token.getName());
                                     String element_CamelCaseType;
@@ -721,8 +682,7 @@ public class ScalaGenerator {
                                         NameToken nameToken = (NameToken) matchedToken;
                                         element_CamelCaseType = nameToken
                                                 .get_CamelCaseName();
-                                    }
-                                    else {
+                                    } else {
                                         AnonymousToken anonymousToken = (AnonymousToken) matchedToken;
 
                                         element_CamelCaseType = ""
@@ -740,8 +700,7 @@ public class ScalaGenerator {
 
                 if (action.getType() == ActionType.SHIFT) {
                     mAction.newShift();
-                }
-                else {
+                } else {
                     ReduceAction reduceAction = (ReduceAction) action;
                     Alternative alternative = reduceAction.getAlternative();
                     Production production = alternative.getProduction();
@@ -768,8 +727,7 @@ public class ScalaGenerator {
                             if (tokenElement.getToken().getName()
                                     .equals("$end")) {
                                 elementIsEndToken = true;
-                            }
-                            else {
+                            } else {
                                 MatchedToken matchedToken = context
                                         .getMatchedToken(tokenElement
                                                 .getToken().getName());
@@ -777,8 +735,7 @@ public class ScalaGenerator {
                                     NameToken nameToken = (NameToken) matchedToken;
                                     element_CamelCaseType = nameToken
                                             .get_CamelCaseName();
-                                }
-                                else {
+                                } else {
                                     AnonymousToken anonymousToken = (AnonymousToken) matchedToken;
 
                                     element_CamelCaseType = ""
@@ -788,8 +745,7 @@ public class ScalaGenerator {
 
                                 elementIsEndToken = false;
                             }
-                        }
-                        else {
+                        } else {
                             ProductionElement productionElement = (ProductionElement) element;
                             element_CamelCaseType = to_CamelCase(productionElement
                                     .getProduction().getName());
@@ -799,8 +755,7 @@ public class ScalaGenerator {
 
                         if (elementIsEndToken) {
                             mReduce.newReduceEndPop();
-                        }
-                        else {
+                        } else {
                             mReduce.newReduceNormalPop(element_CamelCaseType,
                                     element_CamelCaseName);
                         }
@@ -809,8 +764,7 @@ public class ScalaGenerator {
                     if (alt_CamelCaseFullName.equals("$Start")) {
                         mReduce.newAcceptDecision(to_CamelCase(elements.get(0)
                                 .getName()));
-                    }
-                    else {
+                    } else {
                         MReduceDecision mReduceDecision = mReduce
                                 .newReduceDecision();
 
@@ -823,18 +777,15 @@ public class ScalaGenerator {
                                 if (tokenElement.getToken().getName().equals(
                                         "$end")) {
                                     elementIsEndToken = true;
-                                }
-                                else {
+                                } else {
                                     elementIsEndToken = false;
                                 }
-                            }
-                            else {
+                            } else {
                                 elementIsEndToken = false;
                             }
                             if (elementIsEndToken) {
                                 mReduceDecision.newEndParameter();
-                            }
-                            else {
+                            } else {
                                 mReduceDecision
                                         .newNormalParameter(element_CamelCaseName);
                             }
@@ -854,8 +805,7 @@ public class ScalaGenerator {
 
             bw.write(mNode.toString());
             bw.close();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw CompilerException.outputError("Node.scala", e);
         }
 
@@ -865,8 +815,7 @@ public class ScalaGenerator {
 
             bw.write(mToken.toString());
             bw.close();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw CompilerException.outputError("Token.scala", e);
         }
 
@@ -876,8 +825,7 @@ public class ScalaGenerator {
 
             bw.write(mState.toString());
             bw.close();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw CompilerException.outputError("State.scala", e);
         }
 
@@ -887,8 +835,7 @@ public class ScalaGenerator {
 
             bw.write(mTransitionState.toString());
             bw.close();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw CompilerException.outputError("TransitionState.scala", e);
         }
 
@@ -898,8 +845,7 @@ public class ScalaGenerator {
 
             bw.write(mFinalState.toString());
             bw.close();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw CompilerException.outputError("FinalState.scala", e);
         }
 
@@ -909,8 +855,7 @@ public class ScalaGenerator {
 
             bw.write(mSymbol.toString());
             bw.close();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw CompilerException.outputError("Symbol.scala", e);
         }
 
@@ -920,8 +865,7 @@ public class ScalaGenerator {
 
             bw.write(mLexer.toString());
             bw.close();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw CompilerException.outputError("Lexer.scala", e);
         }
 
@@ -931,8 +875,7 @@ public class ScalaGenerator {
 
             bw.write(mLexerException.toString());
             bw.close();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw CompilerException.outputError("LexerException.scala", e);
         }
 
@@ -942,8 +885,7 @@ public class ScalaGenerator {
 
             bw.write(mParserException.toString());
             bw.close();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw CompilerException.outputError("ParserException.scala", e);
         }
 
@@ -953,8 +895,7 @@ public class ScalaGenerator {
 
             bw.write(mTest.toString());
             bw.close();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw CompilerException.outputError("Test.scala", e);
         }
 
@@ -964,8 +905,7 @@ public class ScalaGenerator {
 
             bw.write(mEnd.toString());
             bw.close();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw CompilerException.outputError("End.scala", e);
         }
 
@@ -975,8 +915,7 @@ public class ScalaGenerator {
 
             bw.write(mTransformer.toString());
             bw.close();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw CompilerException.outputError("Transformer.scala", e);
         }
 
@@ -986,8 +925,7 @@ public class ScalaGenerator {
 
             bw.write(mTraverser.toString());
             bw.close();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw CompilerException.outputError("Traverser.scala", e);
         }
 
@@ -997,8 +935,7 @@ public class ScalaGenerator {
 
             bw.write(mParser.toString());
             bw.close();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw CompilerException.outputError("Parser.scala", e);
         }
     }

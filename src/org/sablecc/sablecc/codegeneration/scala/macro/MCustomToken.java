@@ -46,7 +46,7 @@ public class MCustomToken {
       sb.append(oDefaultPackage_SpecifiedPackage.toString());
     }
     sb.append(System.getProperty("line.separator"));
-    sb.append("class N");
+    sb.append("case class N");
     sb.append(rName());
     sb.append("(text: String, line: Int, pos: Int)");
     sb.append(System.getProperty("line.separator"));

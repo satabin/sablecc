@@ -8,7 +8,7 @@ public class MNormalTransformerCase {
 
   private final String pCaseType;
   private final MNormalTransformerCase mNormalTransformerCase = this;
-  private final List<Object> eTransformCaseConstructorParameter_TransformEndCaseConstructorParameter = new LinkedList<Object>();
+  private final List<Object> eTransformCaseConstructorParameter = new LinkedList<Object>();
   private final List<Object> eChildTransform = new LinkedList<Object>();
 
   MNormalTransformerCase(String pCaseType) {
@@ -18,14 +18,8 @@ public class MNormalTransformerCase {
 
   public MTransformCaseConstructorParameter newTransformCaseConstructorParameter(String pCaseName) {
     MTransformCaseConstructorParameter lTransformCaseConstructorParameter = new MTransformCaseConstructorParameter(pCaseName);
-    this.eTransformCaseConstructorParameter_TransformEndCaseConstructorParameter.add(lTransformCaseConstructorParameter);
+    this.eTransformCaseConstructorParameter.add(lTransformCaseConstructorParameter);
     return lTransformCaseConstructorParameter;
-  }
-
-  public MTransformEndCaseConstructorParameter newTransformEndCaseConstructorParameter() {
-    MTransformEndCaseConstructorParameter lTransformEndCaseConstructorParameter = new MTransformEndCaseConstructorParameter();
-    this.eTransformCaseConstructorParameter_TransformEndCaseConstructorParameter.add(lTransformEndCaseConstructorParameter);
-    return lTransformEndCaseConstructorParameter;
   }
 
   public MChildTransform newChildTransform(String pElementName, String pElementType) {
@@ -47,30 +41,27 @@ public class MNormalTransformerCase {
     StringBuilder sb = new StringBuilder();
     sb.append("    case ");
     sb.append(rCaseType());
-    sb.append("(line, pos");
-    if(this.eTransformCaseConstructorParameter_TransformEndCaseConstructorParameter.size() > 0) {
+    sb.append("(_, _");
+    if(this.eTransformCaseConstructorParameter.size() > 0) {
       sb.append(", ");
     }
     {
       boolean first = true;
-      for(Object oTransformCaseConstructorParameter_TransformEndCaseConstructorParameter : this.eTransformCaseConstructorParameter_TransformEndCaseConstructorParameter) {
+      for(Object oTransformCaseConstructorParameter : this.eTransformCaseConstructorParameter) {
         if(first) {
           first = false;
         }
         else {
           sb.append(", ");
         }
-        sb.append(oTransformCaseConstructorParameter_TransformEndCaseConstructorParameter.toString());
+        sb.append(oTransformCaseConstructorParameter.toString());
       }
     }
     sb.append(") =>");
     sb.append(System.getProperty("line.separator"));
     sb.append("      ");
     sb.append(rCaseType());
-    sb.append("(line, pos");
-    if(this.eChildTransform.size() > 0) {
-      sb.append(", ");
-    }
+    sb.append(".copy(");
     {
       boolean first = true;
       for(Object oChildTransform : this.eChildTransform) {

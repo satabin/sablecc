@@ -15,10 +15,8 @@ public class MAlternative {
   private final List<Object> eAlternativeNamedParent_AlternativeNodeParent = new LinkedList<Object>();
   private final List<Object> ePublicElementAccessor = new LinkedList<Object>();
   private final List<Object> eNormalElementAccessor_EndElementAccessor = new LinkedList<Object>();
-  private final List<Object> eNormalExtractorType = new LinkedList<Object>();
-  private final List<Object> eNormalExtractorParameter = new LinkedList<Object>();
-  private final List<Object> eNormalApplyParameterDecl = new LinkedList<Object>();
-  private final List<Object> eNormalApplyParameter_EndApplyParameter = new LinkedList<Object>();
+  private final List<Object> eExtractorType = new LinkedList<Object>();
+  private final List<Object> eExtractorParameter = new LinkedList<Object>();
   private final List<Object> eNamedAltType = new LinkedList<Object>();
   private final List<Object> eAnonymousAltType = new LinkedList<Object>();
   private final List<Object> eAltProdType = new LinkedList<Object>();
@@ -112,34 +110,16 @@ public class MAlternative {
     return lEndElementAccessor;
   }
 
-  public MNormalExtractorType newNormalExtractorType(String pElementType) {
-    MNormalExtractorType lNormalExtractorType = new MNormalExtractorType(pElementType);
-    this.eNormalExtractorType.add(lNormalExtractorType);
-    return lNormalExtractorType;
+  public MExtractorType newExtractorType(String pElementType) {
+    MExtractorType lExtractorType = new MExtractorType(pElementType);
+    this.eExtractorType.add(lExtractorType);
+    return lExtractorType;
   }
 
-  public MNormalExtractorParameter newNormalExtractorParameter(String pElementName) {
-    MNormalExtractorParameter lNormalExtractorParameter = new MNormalExtractorParameter(pElementName);
-    this.eNormalExtractorParameter.add(lNormalExtractorParameter);
-    return lNormalExtractorParameter;
-  }
-
-  public MNormalApplyParameterDecl newNormalApplyParameterDecl(String pElementType, String pElementName) {
-    MNormalApplyParameterDecl lNormalApplyParameterDecl = new MNormalApplyParameterDecl(pElementType, pElementName);
-    this.eNormalApplyParameterDecl.add(lNormalApplyParameterDecl);
-    return lNormalApplyParameterDecl;
-  }
-
-  public MNormalApplyParameter newNormalApplyParameter(String pElementName) {
-    MNormalApplyParameter lNormalApplyParameter = new MNormalApplyParameter(pElementName);
-    this.eNormalApplyParameter_EndApplyParameter.add(lNormalApplyParameter);
-    return lNormalApplyParameter;
-  }
-
-  public MEndApplyParameter newEndApplyParameter() {
-    MEndApplyParameter lEndApplyParameter = new MEndApplyParameter();
-    this.eNormalApplyParameter_EndApplyParameter.add(lEndApplyParameter);
-    return lEndApplyParameter;
+  public MExtractorParameter newExtractorParameter(String pElementName) {
+    MExtractorParameter lExtractorParameter = new MExtractorParameter(pElementName);
+    this.eExtractorParameter.add(lExtractorParameter);
+    return lExtractorParameter;
   }
 
   String pName() {
@@ -164,7 +144,7 @@ public class MAlternative {
     for(Object oPackageProtected : this.ePackageProtected) {
       sb.append(oPackageProtected.toString());
     }
-    sb.append("class N");
+    sb.append("case class N");
     sb.append(rName());
     for(Object oProtectedConstructor : this.eProtectedConstructor) {
       sb.append(oProtectedConstructor.toString());
@@ -262,85 +242,42 @@ public class MAlternative {
     sb.append("  def unapply(node: N");
     sb.append(rName());
     sb.append("): Option[(Int, Int");
-    if(this.eNormalExtractorType.size() > 0) {
+    if(this.eExtractorType.size() > 0) {
       sb.append(", ");
     }
     {
       boolean first = true;
-      for(Object oNormalExtractorType : this.eNormalExtractorType) {
+      for(Object oExtractorType : this.eExtractorType) {
         if(first) {
           first = false;
         }
         else {
           sb.append(", ");
         }
-        sb.append(oNormalExtractorType.toString());
+        sb.append(oExtractorType.toString());
       }
     }
     sb.append(")] =");
     sb.append(System.getProperty("line.separator"));
     sb.append("    Some((node.line, node.pos");
-    if(this.eNormalExtractorParameter.size() > 0) {
+    if(this.eExtractorParameter.size() > 0) {
       sb.append(", ");
     }
     {
       boolean first = true;
-      for(Object oNormalExtractorParameter : this.eNormalExtractorParameter) {
+      for(Object oExtractorParameter : this.eExtractorParameter) {
         if(first) {
           first = false;
         }
         else {
           sb.append(", ");
         }
-        sb.append(oNormalExtractorParameter.toString());
+        sb.append(oExtractorParameter.toString());
       }
     }
     sb.append("))");
     sb.append(System.getProperty("line.separator"));
-    sb.append("  def apply(line: Int, pos: Int");
-    if(this.eNormalApplyParameterDecl.size() > 0) {
-      sb.append(", ");
-    }
-    {
-      boolean first = true;
-      for(Object oNormalApplyParameterDecl : this.eNormalApplyParameterDecl) {
-        if(first) {
-          first = false;
-        }
-        else {
-          sb.append(", ");
-        }
-        sb.append(oNormalApplyParameterDecl.toString());
-      }
-    }
-    sb.append("): N");
-    sb.append(rName());
-    sb.append(" =");
-    sb.append(System.getProperty("line.separator"));
-    sb.append("    new N");
-    sb.append(rName());
-    sb.append("(line, pos");
-    if(this.eNormalApplyParameter_EndApplyParameter.size() > 0) {
-      sb.append(", ");
-    }
-    {
-      boolean first = true;
-      for(Object oNormalApplyParameter_EndApplyParameter : this.eNormalApplyParameter_EndApplyParameter) {
-        if(first) {
-          first = false;
-        }
-        else {
-          sb.append(", ");
-        }
-        sb.append(oNormalApplyParameter_EndApplyParameter.toString());
-      }
-    }
-    sb.append(")");
-    sb.append(System.getProperty("line.separator"));
     sb.append("}");
-    sb.append(System.getProperty("line.separator"));
-    sb.append(System.getProperty("line.separator"));
-    sb.append(System.getProperty("line.separator"));
     sb.append(System.getProperty("line.separator"));
     sb.append(System.getProperty("line.separator"));
     sb.append(System.getProperty("line.separator"));

@@ -696,8 +696,8 @@ class Transformer {
   def transform(node: Node): Node = node match {
 $expand: normal_transformer_case $
 $macro: normal_transformer_case(case_type) $
-    case $case_type(_, _$expand: transform_case_constructor_parameter, separator=", " $) =>
-      $case_type.copy($expand: child_transform, before_first=", ", separator=", " $)
+    case $case_type(_, _$expand: transform_case_constructor_parameter, before_first=", ", separator=", " $) =>
+      $case_type.copy($expand: child_transform, separator=", " $)
 $macro: transform_case_constructor_parameter(case_name) $
 $(case_name)$no_eol$
 $end: transform_case_constructor_parameter $

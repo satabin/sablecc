@@ -2,12 +2,12 @@
 
 package org.sablecc.sablecc.codegeneration.scala.macro;
 
-public class MNormalExtractorParameter {
+public class MExtractorParameter {
 
   private final String pElementName;
-  private final MNormalExtractorParameter mNormalExtractorParameter = this;
+  private final MExtractorParameter mExtractorParameter = this;
 
-  MNormalExtractorParameter(String pElementName) {
+  MExtractorParameter(String pElementName) {
     if(pElementName == null) throw new NullPointerException();
     this.pElementName = pElementName;
   }
@@ -17,7 +17,7 @@ public class MNormalExtractorParameter {
   }
 
   private String rElementName() {
-    return this.mNormalExtractorParameter.pElementName();
+    return this.mExtractorParameter.pElementName();
   }
 
   @Override

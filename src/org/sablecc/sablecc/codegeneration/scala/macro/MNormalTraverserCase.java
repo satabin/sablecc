@@ -8,7 +8,7 @@ public class MNormalTraverserCase {
 
   private final String pCaseType;
   private final MNormalTraverserCase mNormalTraverserCase = this;
-  private final List<Object> eCaseConstructorParameter_EndCaseConstructorParameter = new LinkedList<Object>();
+  private final List<Object> eCaseConstructorParameter = new LinkedList<Object>();
   private final List<Object> eChildTraverse = new LinkedList<Object>();
 
   MNormalTraverserCase(String pCaseType) {
@@ -18,14 +18,8 @@ public class MNormalTraverserCase {
 
   public MCaseConstructorParameter newCaseConstructorParameter(String pCaseName) {
     MCaseConstructorParameter lCaseConstructorParameter = new MCaseConstructorParameter(pCaseName);
-    this.eCaseConstructorParameter_EndCaseConstructorParameter.add(lCaseConstructorParameter);
+    this.eCaseConstructorParameter.add(lCaseConstructorParameter);
     return lCaseConstructorParameter;
-  }
-
-  public MEndCaseConstructorParameter newEndCaseConstructorParameter() {
-    MEndCaseConstructorParameter lEndCaseConstructorParameter = new MEndCaseConstructorParameter();
-    this.eCaseConstructorParameter_EndCaseConstructorParameter.add(lEndCaseConstructorParameter);
-    return lEndCaseConstructorParameter;
   }
 
   public MChildTraverse newChildTraverse(String pElementName) {
@@ -48,19 +42,19 @@ public class MNormalTraverserCase {
     sb.append("    case ");
     sb.append(rCaseType());
     sb.append("(line, pos");
-    if(this.eCaseConstructorParameter_EndCaseConstructorParameter.size() > 0) {
+    if(this.eCaseConstructorParameter.size() > 0) {
       sb.append(", ");
     }
     {
       boolean first = true;
-      for(Object oCaseConstructorParameter_EndCaseConstructorParameter : this.eCaseConstructorParameter_EndCaseConstructorParameter) {
+      for(Object oCaseConstructorParameter : this.eCaseConstructorParameter) {
         if(first) {
           first = false;
         }
         else {
           sb.append(", ");
         }
-        sb.append(oCaseConstructorParameter_EndCaseConstructorParameter.toString());
+        sb.append(oCaseConstructorParameter.toString());
       }
     }
     sb.append(") =>");

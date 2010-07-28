@@ -2,12 +2,12 @@
 
 package org.sablecc.sablecc.codegeneration.scala.macro;
 
-public class MNormalExtractorType {
+public class MExtractorType {
 
   private final String pElementType;
-  private final MNormalExtractorType mNormalExtractorType = this;
+  private final MExtractorType mExtractorType = this;
 
-  MNormalExtractorType(String pElementType) {
+  MExtractorType(String pElementType) {
     if(pElementType == null) throw new NullPointerException();
     this.pElementType = pElementType;
   }
@@ -17,7 +17,7 @@ public class MNormalExtractorType {
   }
 
   private String rElementType() {
-    return this.mNormalExtractorType.pElementType();
+    return this.mExtractorType.pElementType();
   }
 
   @Override

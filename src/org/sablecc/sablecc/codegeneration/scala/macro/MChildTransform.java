@@ -34,7 +34,9 @@ public class MChildTransform {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("transform(e");
+    sb.append("e");
+    sb.append(rElementName());
+    sb.append(" = transform(");
     sb.append(rElementName());
     sb.append(").asInstanceOf[");
     sb.append(rElementType());
