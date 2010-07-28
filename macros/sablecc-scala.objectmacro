@@ -672,14 +672,11 @@ class Traverser {
   def traverse(node: Node): Unit = node match {
 $expand: normal_traverser_case $
 $macro: normal_traverser_case(case_type) $
-    case $case_type(line, pos$expand: case_constructor_parameter, end_case_constructor_parameter, before_first=", ", separator=", " $) =>
+    case $case_type(line, pos$expand: case_constructor_parameter, before_first=", ", separator=", " $) =>
 $expand: child_traverse $
 $macro: case_constructor_parameter(case_name) $
 e$(case_name)$no_eol$
 $end: case_constructor_parameter $
-$macro: end_case_constructor_parameter $
-e\$end$no_eol$
-$end: end_case_constructor_parameter $
 $macro: child_traverse(element_name) $
       traverse(e$element_name)
 $end: child_traverse $
