@@ -587,7 +587,7 @@ $insert: header $
 $expand: default_package, specified_package, before_first="\n" $
 
 $expand: package_protected $
-class N$(name)$expand: protected_constructor $ (val line: Int, val pos: Int$expand: normal_constructor_parameter, end_constructor_parameter, before_first=", ", separator=", " $)
+case class N$(name)$expand: protected_constructor $ (val line: Int, val pos: Int$expand: normal_constructor_parameter, end_constructor_parameter, before_first=", ", separator=", " $)
     extends $expand: alternative_named_parent, alternative_node_parent $ {
 $macro: protected_constructor(pkg) $
  protected[$pkg]$no_eol$
@@ -647,38 +647,19 @@ $end: end_element_accessor$
 
 }
 object N$(name) {
-  def unapply(node: N$(name)): Option[(Int, Int$expand: normal_extractor_type, before_first=", ", separator=", " $)] =
-    Some((node.line, node.pos$expand: normal_extractor_parameter, before_first=", ", separator=", " $))
-  def apply(line: Int, pos: Int$expand: normal_apply_parameter_decl, before_first=", ", separator=", " $): N$(name) =
-    new N$(name)(line, pos$expand: normal_apply_parameter, end_apply_parameter, before_first=", ", separator=", " $)
+  def unapply(node: N$(name)): Option[(Int, Int$expand: extractor_type, before_first=", ", separator=", " $)] =
+    Some((node.line, node.pos$expand: extractor_parameter, before_first=", ", separator=", " $))
 }
 
 $comment: return type for the unapply method $
-$macro: normal_extractor_type(element_type) $
+$macro: extractor_type(element_type) $
 $(element_type)$no_eol$
-$end: normal_extractor_type $
+$end: extractor_type $
 
 $comment: parameter of the unapply method $
-$macro: normal_extractor_parameter(element_name) $
+$macro: extractor_parameter(element_name) $
 node.internalGet$(element_name)$no_eol$
-$end: normal_extractor_parameter $
-
-$comment: parameter declaration of the apply method $
-$macro: normal_apply_parameter_decl(element_type,element_name) $
-e$(element_name): $(element_type)$no_eol$
-$end: normal_apply_parameter_decl $
-
-$comment: reference to an apply parameter $
-$macro:normal_apply_parameter(element_name) $
-e$(element_name)$expand: normal_apply_parameter_cast $ $no_eol$
-$macro: normal_apply_parameter_cast(cast_type) $
-.asInstanceOf[$cast_type]$no_eol$
-$end: normal_apply_parameter_cast $
-$end: normal_apply_parameter $
-
-$macro: end_apply_parameter $
-node.e\$end: End$no_eol$
-$end: end_apply_parameter $
+$end: extractor_parameter $
 $end: alternative $
 
 $comment: ========== traverser ========== $
@@ -718,16 +699,13 @@ class Transformer {
   def transform(node: Node): Node = node match {
 $expand: normal_transformer_case $
 $macro: normal_transformer_case(case_type) $
-    case $case_type(line, pos$expand: transform_case_constructor_parameter, transform_end_case_constructor_parameter, before_first=", ", separator=", " $) =>
-      $case_type(line, pos$expand: child_transform, before_first=", ", separator=", " $)
+    case $case_type(_, _$expand: transform_case_constructor_parameter, separator=", " $) =>
+      $case_type.copy($expand: child_transform, before_first=", ", separator=", " $)
 $macro: transform_case_constructor_parameter(case_name) $
-e$(case_name)$no_eol$
+$(case_name)$no_eol$
 $end: transform_case_constructor_parameter $
-$macro: transform_end_case_constructor_parameter $
-e\$end$no_eol$
-$end: transform_end_case_constructor_parameter $
 $macro: child_transform(element_name, element_type) $
-transform(e$element_name).asInstanceOf[$element_type]$no_eol$
+e$element_name = transform($element_name).asInstanceOf[$element_type]$no_eol$
 $end: child_transform $
 $end: normal_transformer_case $
     case _ => node
