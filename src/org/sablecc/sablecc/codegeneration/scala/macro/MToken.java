@@ -34,7 +34,7 @@ public class MToken {
       sb.append(oDefaultPackage_SpecifiedPackage.toString());
     }
     sb.append(System.getProperty("line.separator"));
-    sb.append("abstract class Token(val text: String, val line: Int, val pos: Int)");
+    sb.append("abstract case class Token(val text: String, val line: Int, val pos: Int)");
     sb.append(System.getProperty("line.separator"));
     sb.append("    extends Node {");
     sb.append(System.getProperty("line.separator"));

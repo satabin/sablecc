@@ -46,7 +46,7 @@ public class MEnd {
       sb.append(oDefaultPackage_SpecifiedPackage.toString());
     }
     sb.append(System.getProperty("line.separator"));
-    sb.append("case class End(line: Int, pos: Int)");
+    sb.append("class End(line: Int, pos: Int)");
     sb.append(System.getProperty("line.separator"));
     sb.append("    extends Token(\"\", line, pos) {");
     sb.append(System.getProperty("line.separator"));

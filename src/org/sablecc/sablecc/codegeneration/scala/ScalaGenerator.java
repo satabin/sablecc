@@ -569,21 +569,20 @@ public class ScalaGenerator {
                             //mTransformerCase
                             //        .newTransformEndCaseConstructorParameter();
                         }
-                        // mAlternative.newEndContructorInitialization();
-
-                        // mAlternative.newEndElementDeclaration();
                         mAlternative.newEndElementAccessor(languagePackageName);
 
                     }
                     else {
+                        // XXX test to extract token parameters as Token
+                        if (element instanceof TokenElement) {
+                            mAlternative.newNormalExtractorType("Token");
+                        } else {
+                            mAlternative.newNormalExtractorType("N" + element_CamelCaseType);
+                        }
+                        mAlternative.newNormalExtractorParameter(element_CamelCaseName);
                         mAlternative.newNormalConstructorParameter(
                                 element_CamelCaseType, element_CamelCaseName);
 
-                        // mAlternative
-                        // .newNormalContructorInitialization(element_CamelCaseName);
-
-                        // mAlternative.newNormalElementDeclaration(
-                        // element_CamelCaseType, element_CamelCaseName);
                         mAlternative.newNormalElementAccessor(
                                 element_CamelCaseType, element_CamelCaseName,
                                 languagePackageName);
