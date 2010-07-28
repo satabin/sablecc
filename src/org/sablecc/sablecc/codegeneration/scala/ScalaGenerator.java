@@ -468,13 +468,13 @@ public class ScalaGenerator {
 
                 // XXX new case in the traverser
                 MNormalTraverserCase mTraverserCase = null;
-                MNormalTransformerCase mTransformerCase = null;
+                //MNormalTransformerCase mTransformerCase = null;
                 if (altIsPublic || alt_CamelCaseFullName.equals("$Start")) {
                     mTraverserCase = mTraverser.newNormalTraverserCase("N"
                             + alt_CamelCaseFullName);
-                    mTransformerCase = mTransformer
-                            .newNormalTransformerCase("N"
-                                    + alt_CamelCaseFullName);
+                    //mTransformerCase = mTransformer
+                    //        .newNormalTransformerCase("N"
+                    //                + alt_CamelCaseFullName);
                 }
 
                 mAlternative.newAltProdType(production_CamelCaseName);
@@ -566,8 +566,8 @@ public class ScalaGenerator {
                         if (altIsPublic || alt_CamelCaseFullName.equals("$Start")) {
                             // XXX extract the end parameter
                             mTraverserCase.newEndCaseConstructorParameter();
-                            mTransformerCase
-                                    .newTransformEndCaseConstructorParameter();
+                            //mTransformerCase
+                            //        .newTransformEndCaseConstructorParameter();
                         }
                         // mAlternative.newEndContructorInitialization();
 
@@ -605,14 +605,14 @@ public class ScalaGenerator {
                             // XXX extract a normal parameter
                             mTraverserCase
                                     .newCaseConstructorParameter(element_CamelCaseName);
-                            mTransformerCase
-                                    .newTransformCaseConstructorParameter(element_CamelCaseName);
+                            //mTransformerCase
+                            //        .newTransformCaseConstructorParameter(element_CamelCaseName);
                             // and the child to traverse
                             mTraverserCase
                                     .newChildTraverse(element_CamelCaseName);
-                            mTransformerCase.newChildTransform(
-                                    element_CamelCaseName, "N"
-                                            + element_CamelCaseType);
+                            //mTransformerCase.newChildTransform(
+                            //        element_CamelCaseName, "N"
+                            //                + element_CamelCaseType);
                         }
                     }
                 }
