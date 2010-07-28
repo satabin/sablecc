@@ -105,7 +105,7 @@ $macro: token $
 $insert: header $
 $expand: default_package, specified_package, before_first="\n" $
 
-abstract case class Token(val text: String, val line: Int, val pos: Int)
+abstract class Token(val text: String, val line: Int, val pos: Int)
     extends Node {
 
   import Node._
@@ -121,7 +121,7 @@ $macro: custom_token(name) $
 $insert: header $
 $expand: default_package, specified_package, before_first="\n" $
 
-class N$name(text: String, line: Int, pos: Int)
+case class N$name(text: String, line: Int, pos: Int)
     extends Token(text, line, pos) {
 
   import Node._ 
