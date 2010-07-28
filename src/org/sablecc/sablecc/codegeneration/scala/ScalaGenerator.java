@@ -469,7 +469,7 @@ public class ScalaGenerator {
                 // XXX new case in the traverser
                 MNormalTraverserCase mTraverserCase = null;
                 MNormalTransformerCase mTransformerCase = null;
-                if (altIsPublic) {
+                if (altIsPublic || alt_CamelCaseFullName.equals("$Start")) {
                     mTraverserCase = mTraverser.newNormalTraverserCase("N"
                             + alt_CamelCaseFullName);
                     mTransformerCase = mTransformer
@@ -563,7 +563,7 @@ public class ScalaGenerator {
 
                     if (elementIsEndToken) {
                         mAlternative.newEndConstructorParameter();
-                        if (altIsPublic) {
+                        if (altIsPublic || alt_CamelCaseFullName.equals("$Start")) {
                             // XXX extract the end parameter
                             mTraverserCase.newEndCaseConstructorParameter();
                             mTransformerCase
@@ -601,7 +601,7 @@ public class ScalaGenerator {
 
                         }
 
-                        if (altIsPublic) {
+                        if (altIsPublic || alt_CamelCaseFullName.equals("$Start")) {
                             // XXX extract a normal parameter
                             mTraverserCase
                                     .newCaseConstructorParameter(element_CamelCaseName);
