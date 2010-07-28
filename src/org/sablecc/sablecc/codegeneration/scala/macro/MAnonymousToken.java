@@ -46,9 +46,9 @@ public class MAnonymousToken {
       sb.append(oDefaultPackage_SpecifiedPackage.toString());
     }
     sb.append(System.getProperty("line.separator"));
-    sb.append("case class N");
+    sb.append("class N");
     sb.append(rName());
-    sb.append(" protected (override val text: String, override val line: Int, override val pos: Int)");
+    sb.append(" protected (text: String, line: Int, pos: Int)");
     sb.append(System.getProperty("line.separator"));
     sb.append("    extends Token(text, line, pos) {");
     sb.append(System.getProperty("line.separator"));
