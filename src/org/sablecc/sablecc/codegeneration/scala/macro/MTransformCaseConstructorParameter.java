@@ -23,6 +23,7 @@ public class MTransformCaseConstructorParameter {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
+    sb.append("x");
     sb.append(rCaseName());
     return sb.toString();
   }

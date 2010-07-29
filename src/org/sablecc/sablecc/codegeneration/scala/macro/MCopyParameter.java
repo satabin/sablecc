@@ -2,13 +2,13 @@
 
 package org.sablecc.sablecc.codegeneration.scala.macro;
 
-public class MChildTransform {
+public class MCopyParameter {
 
   private final String pElementName;
   private final String pElementType;
-  private final MChildTransform mChildTransform = this;
+  private final MCopyParameter mCopyParameter = this;
 
-  MChildTransform(String pElementName, String pElementType) {
+  MCopyParameter(String pElementName, String pElementType) {
     if(pElementName == null) throw new NullPointerException();
     this.pElementName = pElementName;
     if(pElementType == null) throw new NullPointerException();
@@ -24,11 +24,11 @@ public class MChildTransform {
   }
 
   private String rElementName() {
-    return this.mChildTransform.pElementName();
+    return this.mCopyParameter.pElementName();
   }
 
   private String rElementType() {
-    return this.mChildTransform.pElementType();
+    return this.mCopyParameter.pElementType();
   }
 
   @Override
@@ -36,11 +36,10 @@ public class MChildTransform {
     StringBuilder sb = new StringBuilder();
     sb.append("e");
     sb.append(rElementName());
-    sb.append(" = transform(x");
-    sb.append(rElementName());
-    sb.append(").asInstanceOf[");
+    sb.append(": N");
     sb.append(rElementType());
-    sb.append("]");
+    sb.append(" = this.e");
+    sb.append(rElementName());
     return sb.toString();
   }
 

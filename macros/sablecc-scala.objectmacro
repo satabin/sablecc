@@ -121,7 +121,7 @@ $macro: custom_token(name) $
 $insert: header $
 $expand: default_package, specified_package, before_first="\n" $
 
-case class N$name(text: String, line: Int, pos: Int)
+case class N$name(override val text: String, override val line: Int, override val pos: Int)
     extends Token(text, line, pos) {
 
   import Node._ 
@@ -587,7 +587,7 @@ $insert: header $
 $expand: default_package, specified_package, before_first="\n" $
 
 $expand: package_protected $
-case class N$(name)$expand: protected_constructor $ (val line: Int, val pos: Int$expand: normal_constructor_parameter, end_constructor_parameter, before_first=", ", separator=", " $)
+class N$(name)$expand: protected_constructor $ (val line: Int, val pos: Int$expand: normal_constructor_parameter, end_constructor_parameter, before_first=", ", separator=", " $)
     extends $expand: alternative_named_parent, alternative_node_parent $ {
 $macro: protected_constructor(pkg) $
  protected[$pkg]$no_eol$
@@ -636,14 +636,29 @@ $macro: token_element_type $
 Token$no_eol$
 $end: token_element_type $
     this.e$element_name
-$end: public_element_accessor$
+$end: public_element_accessor $
 $macro: normal_element_accessor(element_type, element_name,pkg) $
   protected[$pkg] def internalGet$(element_name): N$element_type = this.e$element_name
-$end: normal_element_accessor$
+$end: normal_element_accessor $
 
 $macro: end_element_accessor(pkg) $
   protected[$pkg] def internalGet\$end: End = this.e\$end
-$end: end_element_accessor$
+$end: end_element_accessor $
+
+  def copy(line: Int = this.line, pos: Int = this.pos$expand: copy_parameter, before_first=", ", separator=", " $) =
+    new N$(name)(line, pos$expand: copy_constructor_param, before_first=", ", separator=", " $)
+
+$macro: copy_parameter(element_name, element_type) $
+e$(element_name): N$(element_type) = this.e$(element_name)$no_eol$
+$end: copy_parameter $
+$macro: copy_constructor_param(element_name) $
+$expand: this_target $ e$(element_name)$no_eol$
+$macro: this_target $
+this.$no_eol$
+$end: this_target $
+$end: copy_constructor_param $
+  
+  override def toString = "N$name"
 
 }
 object N$(name) {
@@ -696,13 +711,13 @@ class Transformer {
   def transform(node: Node): Node = node match {
 $expand: normal_transformer_case $
 $macro: normal_transformer_case(case_type) $
-    case $case_type(_, _$expand: transform_case_constructor_parameter, before_first=", ", separator=", " $) =>
-      $case_type.copy($expand: child_transform, separator=", " $)
+    case thisNode @ $case_type(_, _$expand: transform_case_constructor_parameter, before_first=", ", separator=", " $) =>
+      thisNode.copy($expand: child_transform, separator=", " $)
 $macro: transform_case_constructor_parameter(case_name) $
-$(case_name)$no_eol$
+x$(case_name)$no_eol$
 $end: transform_case_constructor_parameter $
 $macro: child_transform(element_name, element_type) $
-e$element_name = transform($element_name).asInstanceOf[$element_type]$no_eol$
+e$element_name = transform(x$element_name).asInstanceOf[$element_type]$no_eol$
 $end: child_transform $
 $end: normal_transformer_case $
     case _ => node

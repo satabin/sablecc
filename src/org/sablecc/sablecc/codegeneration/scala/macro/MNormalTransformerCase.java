@@ -39,7 +39,7 @@ public class MNormalTransformerCase {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("    case ");
+    sb.append("    case thisNode @ ");
     sb.append(rCaseType());
     sb.append("(_, _");
     if(this.eTransformCaseConstructorParameter.size() > 0) {
@@ -59,9 +59,7 @@ public class MNormalTransformerCase {
     }
     sb.append(") =>");
     sb.append(System.getProperty("line.separator"));
-    sb.append("      ");
-    sb.append(rCaseType());
-    sb.append(".copy(");
+    sb.append("      thisNode.copy(");
     {
       boolean first = true;
       for(Object oChildTransform : this.eChildTransform) {

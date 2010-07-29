@@ -15,6 +15,8 @@ public class MAlternative {
   private final List<Object> eAlternativeNamedParent_AlternativeNodeParent = new LinkedList<Object>();
   private final List<Object> ePublicElementAccessor = new LinkedList<Object>();
   private final List<Object> eNormalElementAccessor_EndElementAccessor = new LinkedList<Object>();
+  private final List<Object> eCopyParameter = new LinkedList<Object>();
+  private final List<Object> eCopyConstructorParam = new LinkedList<Object>();
   private final List<Object> eExtractorType = new LinkedList<Object>();
   private final List<Object> eExtractorParameter = new LinkedList<Object>();
   private final List<Object> eNamedAltType = new LinkedList<Object>();
@@ -110,6 +112,18 @@ public class MAlternative {
     return lEndElementAccessor;
   }
 
+  public MCopyParameter newCopyParameter(String pElementName, String pElementType) {
+    MCopyParameter lCopyParameter = new MCopyParameter(pElementName, pElementType);
+    this.eCopyParameter.add(lCopyParameter);
+    return lCopyParameter;
+  }
+
+  public MCopyConstructorParam newCopyConstructorParam(String pElementName) {
+    MCopyConstructorParam lCopyConstructorParam = new MCopyConstructorParam(pElementName);
+    this.eCopyConstructorParam.add(lCopyConstructorParam);
+    return lCopyConstructorParam;
+  }
+
   public MExtractorType newExtractorType(String pElementType) {
     MExtractorType lExtractorType = new MExtractorType(pElementType);
     this.eExtractorType.add(lExtractorType);
@@ -144,7 +158,7 @@ public class MAlternative {
     for(Object oPackageProtected : this.ePackageProtected) {
       sb.append(oPackageProtected.toString());
     }
-    sb.append("case class N");
+    sb.append("class N");
     sb.append(rName());
     for(Object oProtectedConstructor : this.eProtectedConstructor) {
       sb.append(oProtectedConstructor.toString());
@@ -231,6 +245,52 @@ public class MAlternative {
         sb.append(oNormalElementAccessor_EndElementAccessor.toString());
       }
     }
+    sb.append(System.getProperty("line.separator"));
+    sb.append(System.getProperty("line.separator"));
+    sb.append("  def copy(line: Int = this.line, pos: Int = this.pos");
+    if(this.eCopyParameter.size() > 0) {
+      sb.append(", ");
+    }
+    {
+      boolean first = true;
+      for(Object oCopyParameter : this.eCopyParameter) {
+        if(first) {
+          first = false;
+        }
+        else {
+          sb.append(", ");
+        }
+        sb.append(oCopyParameter.toString());
+      }
+    }
+    sb.append(") =");
+    sb.append(System.getProperty("line.separator"));
+    sb.append("    new N");
+    sb.append(rName());
+    sb.append("(line, pos");
+    if(this.eCopyConstructorParam.size() > 0) {
+      sb.append(", ");
+    }
+    {
+      boolean first = true;
+      for(Object oCopyConstructorParam : this.eCopyConstructorParam) {
+        if(first) {
+          first = false;
+        }
+        else {
+          sb.append(", ");
+        }
+        sb.append(oCopyConstructorParam.toString());
+      }
+    }
+    sb.append(")");
+    sb.append(System.getProperty("line.separator"));
+    sb.append(System.getProperty("line.separator"));
+    sb.append("  ");
+    sb.append(System.getProperty("line.separator"));
+    sb.append("  override def toString = \"N");
+    sb.append(rName());
+    sb.append("\"");
     sb.append(System.getProperty("line.separator"));
     sb.append(System.getProperty("line.separator"));
     sb.append("}");
