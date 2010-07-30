@@ -58,6 +58,14 @@ public class CompilerException
         return new CompilerException(new MInvalidArgument(argument_text)
                 .toString(), cause);
     }
+    
+    public static CompilerException missingTargetOptionOperand(
+            String optionName,
+            String operandName) {
+
+        return new CompilerException(new MMissingTargetOptionOperand(optionName,
+                operandName).toString());
+    }
 
     public static CompilerException missingLongOptionOperand(
             String optionName,

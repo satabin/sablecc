@@ -4,81 +4,61 @@ package org.sablecc.sablecc.errormessage;
 
 public class MNotImplemented {
 
-    private final String pFeature;
+  private final String pFeature;
+  private final String pLine;
+  private final String pChar;
+  private final MNotImplemented mNotImplemented = this;
 
-    private final String pLine;
+  public MNotImplemented(String pFeature, String pLine, String pChar) {
+    if(pFeature == null) throw new NullPointerException();
+    this.pFeature = pFeature;
+    if(pLine == null) throw new NullPointerException();
+    this.pLine = pLine;
+    if(pChar == null) throw new NullPointerException();
+    this.pChar = pChar;
+  }
 
-    private final String pChar;
+  String pFeature() {
+    return this.pFeature;
+  }
 
-    private final MNotImplemented mNotImplemented = this;
+  String pLine() {
+    return this.pLine;
+  }
 
-    public MNotImplemented(
-            String pFeature,
-            String pLine,
-            String pChar) {
+  String pChar() {
+    return this.pChar;
+  }
 
-        if (pFeature == null) {
-            throw new NullPointerException();
-        }
-        this.pFeature = pFeature;
-        if (pLine == null) {
-            throw new NullPointerException();
-        }
-        this.pLine = pLine;
-        if (pChar == null) {
-            throw new NullPointerException();
-        }
-        this.pChar = pChar;
-    }
+  private String rLine() {
+    return this.mNotImplemented.pLine();
+  }
 
-    String pFeature() {
+  private String rChar() {
+    return this.mNotImplemented.pChar();
+  }
 
-        return this.pFeature;
-    }
+  private String rFeature() {
+    return this.mNotImplemented.pFeature();
+  }
 
-    String pLine() {
-
-        return this.pLine;
-    }
-
-    String pChar() {
-
-        return this.pChar;
-    }
-
-    private String rLine() {
-
-        return this.mNotImplemented.pLine();
-    }
-
-    private String rChar() {
-
-        return this.mNotImplemented.pChar();
-    }
-
-    private String rFeature() {
-
-        return this.mNotImplemented.pFeature();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("*** IMPLEMENTATION ERROR ***");
-        sb.append(System.getProperty("line.separator"));
-        sb.append(System.getProperty("line.separator"));
-        sb.append("Line: ");
-        sb.append(rLine());
-        sb.append(System.getProperty("line.separator"));
-        sb.append("Char: ");
-        sb.append(rChar());
-        sb.append(System.getProperty("line.separator"));
-        sb.append("The ");
-        sb.append(rFeature());
-        sb.append(" feature is not yet implemented.");
-        sb.append(System.getProperty("line.separator"));
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("*** IMPLEMENTATION ERROR ***");
+    sb.append(System.getProperty("line.separator"));
+    sb.append(System.getProperty("line.separator"));
+    sb.append("Line: ");
+    sb.append(rLine());
+    sb.append(System.getProperty("line.separator"));
+    sb.append("Char: ");
+    sb.append(rChar());
+    sb.append(System.getProperty("line.separator"));
+    sb.append("The ");
+    sb.append(rFeature());
+    sb.append(" feature is not yet implemented.");
+    sb.append(System.getProperty("line.separator"));
+    return sb.toString();
+  }
 
 }

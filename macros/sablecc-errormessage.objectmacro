@@ -53,6 +53,19 @@ This option does not accept an operand.
 $insert: command_line_error_tail $
 $end: spurious_long_option_operand $
 
+$comment: ========== missing_target_option_operand ========== $
+
+$macro: missing_target_option_operand(option_name, operand_name) $
+$insert: command_line_error_head $
+
+The following option is rejected:
+ ---$option_name
+This option expects an operand:
+ ---$option_name=$operand_name
+
+$insert: command_line_error_tail $
+$end: missing_target_option_operand $
+
 $comment: ========== missing_long_option_operand ========== $
 
 $macro: missing_long_option_operand(option_name, operand_name) $

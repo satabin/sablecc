@@ -80,7 +80,12 @@ class ArgumentCollection {
 
                 if (currentArgIndex + 1 >= arguments.length) {
 
-                    if (arguments[currentArgIndex].startsWith("--")) {
+                	if (arguments[currentArgIndex].startsWith("---")) {
+                        throw CompilerException.missingTargetOptionOperand(
+                                incompleteOption.getLongName(),
+                                incompleteOption.getOperandName());
+                    } 
+                	else if (arguments[currentArgIndex].startsWith("--")) {
                         throw CompilerException.missingLongOptionOperand(
                                 incompleteOption.getLongName(),
                                 incompleteOption.getOperandName());
