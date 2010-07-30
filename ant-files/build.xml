@@ -52,7 +52,8 @@
   <!-- Global Properties -->
 
   <property name="package.name" value="sablecc" />
-  <property name="package.version" value="repository-snapshot" />
+  <property name="package.version.default" value="repository-snapshot" />
+  <property name="package.version.file" value="VERSION" />
 
   <property name="src.dir" value="src" />
   <property name="grammars.dir" value="grammars" />
@@ -88,10 +89,28 @@
 
   </target>
 
+  <!-- Git version extraction -->
+
+  <target name="set-build-version"
+	  description="Generate then load the VERSION file for the current build">
+    <echo file="${package.version.file}">package.version=${package.version.default}</echo>
+    <exec executable="git" spawn="false" failifexecutionfails="false" output="${package.version.file}">
+      <arg line="describe"/>
+      <arg line="--match=sablecc*"/>
+    </exec>
+    <!-- TODO: Append "-dirty" if workdir or index is dirty. -->
+    <replaceregexp file="${package.version.file}"
+	    match="^sablecc-"
+	    replace="package.version="
+	    byline="false"/>
+    <property file="${package.version.file}"/>
+    <echo level="info">Version: ${package.version}</echo>
+  </target>
+
   <!-- Source Compilation -->
 
   <target name="compile-sources"
-          depends="compile-grammars"
+          depends="compile-grammars, set-build-version"
           description="Compile the source code.">
 
     <delete dir="${classes.dir}" />
