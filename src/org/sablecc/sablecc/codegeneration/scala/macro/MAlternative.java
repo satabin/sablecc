@@ -17,6 +17,7 @@ public class MAlternative {
   private final List<Object> eNormalElementAccessor_EndElementAccessor = new LinkedList<Object>();
   private final List<Object> eCopyParameter = new LinkedList<Object>();
   private final List<Object> eCopyConstructorParam = new LinkedList<Object>();
+  private final List<Object> eTostringNodes = new LinkedList<Object>();
   private final List<Object> eExtractorType = new LinkedList<Object>();
   private final List<Object> eExtractorParameter = new LinkedList<Object>();
   private final List<Object> eNamedAltType = new LinkedList<Object>();
@@ -122,6 +123,12 @@ public class MAlternative {
     MCopyConstructorParam lCopyConstructorParam = new MCopyConstructorParam(pElementName);
     this.eCopyConstructorParam.add(lCopyConstructorParam);
     return lCopyConstructorParam;
+  }
+
+  public MTostringNodes newTostringNodes(String pElementName) {
+    MTostringNodes lTostringNodes = new MTostringNodes(pElementName);
+    this.eTostringNodes.add(lTostringNodes);
+    return lTostringNodes;
   }
 
   public MExtractorType newExtractorType(String pElementType) {
@@ -290,7 +297,23 @@ public class MAlternative {
     sb.append(System.getProperty("line.separator"));
     sb.append("  override def toString = \"N");
     sb.append(rName());
-    sb.append("\"");
+    sb.append("(\" + ");
+    {
+      boolean first = true;
+      for(Object oTostringNodes : this.eTostringNodes) {
+        if(first) {
+          first = false;
+        }
+        else {
+          sb.append(" + \", \" + ");
+        }
+        sb.append(oTostringNodes.toString());
+      }
+    }
+    if(this.eTostringNodes.size() > 1) {
+      sb.append(" + ");
+    }
+    sb.append(" \")\"");
     sb.append(System.getProperty("line.separator"));
     sb.append(System.getProperty("line.separator"));
     sb.append("}");

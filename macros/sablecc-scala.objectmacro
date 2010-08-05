@@ -658,7 +658,10 @@ this.$no_eol$
 $end: this_target $
 $end: copy_constructor_param $
   
-  override def toString = "N$name"
+  override def toString = "N$name(" + $expand: tostring_nodes, separator=" + \", \" + ", after_many=" + " $ ")"
+$macro: tostring_nodes(element_name) $
+this.e$(element_name)$no_eol$
+$end: tostring_nodes $
 
 }
 object N$(name) {

@@ -445,7 +445,7 @@ public class ScalaGenerator {
 				// XXX new case in the traverser
 				MNormalTraverserCase mTraverserCase = null;
 				MNormalTransformerCase mTransformerCase = null;
-				if (altIsPublic || alt_CamelCaseFullName.equals("$Start")) {
+				if (altIsPublic) {
 					mTraverserCase = mTraverser.newNormalTraverserCase("N"
 							+ alt_CamelCaseFullName);
 					mTransformerCase = mTransformer
@@ -540,8 +540,7 @@ public class ScalaGenerator {
 
 					} else {
 						// XXX test to extract token parameters as Token
-						if ((altIsPublic || alt_CamelCaseFullName
-								.equals("$Start"))
+						if (altIsPublic
 								&& element_CamelCaseType.indexOf("$") == -1) {
 							mAlternative.newExtractorType("N"
 									+ element_CamelCaseType);
@@ -552,6 +551,7 @@ public class ScalaGenerator {
 									element_CamelCaseType);
 							mAlternative
 									.newCopyConstructorParam(element_CamelCaseName);
+							mAlternative.newTostringNodes(element_CamelCaseName);
 						} else {
 							mAlternative.newCopyConstructorParam(
 									element_CamelCaseName).newThisTarget();
@@ -575,8 +575,7 @@ public class ScalaGenerator {
 
 						}
 
-						if ((altIsPublic || alt_CamelCaseFullName
-								.equals("$Start"))
+						if (altIsPublic
 								&& element_CamelCaseType.indexOf("$") == -1) {
 							// XXX extract a normal parameter
 							mTraverserCase
