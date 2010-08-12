@@ -18,7 +18,6 @@
 package org.sablecc.sablecc.backends;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -35,8 +34,6 @@ import java.util.Properties;
  */
 public class BackendFinder {
 
-    private final File directory;
-
     private final URLClassLoader classloader;
 
     /**
@@ -45,17 +42,14 @@ public class BackendFinder {
      * @param directory
      *            the directory to search for
      */
-    public BackendFinder(
-            File directory) {
+    public BackendFinder(File directory) {
 
-        this.directory = directory;
         File[] files = directory.listFiles();
         URL[] jars = new URL[files.length];
         for (int i = 0; i < files.length; i++) {
             try {
                 jars[i] = files[i].toURI().toURL();
-            }
-            catch (MalformedURLException e) {
+            } catch (MalformedURLException e) {
                 // should not happen
                 // TODO handle it correctly
                 e.printStackTrace();
@@ -72,24 +66,28 @@ public class BackendFinder {
      *            the back-end name
      * @return the found back-end or <code>null</code> if not found.
      */
-    public SableCCBackend findBackend(
-            String name) {
+    @SuppressWarnings("unchecked")
+    public SableCCBackend findBackend(String name) {
 
-        // find the configuration file
-        InputStream configuration = classloader.getResourceAsStream(name + ".backend");
-        if(configuration == null) {
-            return null;
+        InputStream configuration = classloader.getResourceAsStream(name
+                + ".backend");
+
+        if (configuration != null) {
+            try {
+                Properties backendProp = new Properties();
+                backendProp.load(configuration);
+
+                String className = backendProp
+                        .getProperty("sablecc.backend.class");
+                Class<SableCCBackend> clazz = (Class<SableCCBackend>) classloader
+                        .loadClass(className);
+                return clazz.newInstance();
+            } catch (Exception e) {
+                // TODO handle it correctly
+                e.printStackTrace();
+            }
         }
-        
-        try {
-            Properties backendProp = new Properties();
-            backendProp.load(configuration);
-        }
-        catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        
+
         return null;
 
     }
