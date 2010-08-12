@@ -39,6 +39,7 @@ import org.sablecc.sablecc.automaton.Acceptation;
 import org.sablecc.sablecc.automaton.Automaton;
 import org.sablecc.sablecc.automaton.Marker;
 import org.sablecc.sablecc.automaton.State;
+import org.sablecc.sablecc.backends.SableCCBackend;
 import org.sablecc.sablecc.codegeneration.scala.macro.MAction;
 import org.sablecc.sablecc.codegeneration.scala.macro.MAlternative;
 import org.sablecc.sablecc.codegeneration.scala.macro.MAnonymousToken;
@@ -88,11 +89,11 @@ import org.sablecc.sablecc.oldstructure.MatchedToken;
 import org.sablecc.sablecc.oldstructure.NameToken;
 
 /**
- * The main class of SableCC.
+ * Scala back-end.
  */
-public class ScalaGenerator {
+public class ScalaGenerator implements SableCCBackend {
 
-	public static void generateCode(File destinationDirectory,
+	public void generateCode(File destinationDirectory,
 			String destinationPackage, GlobalIndex globalIndex,
 			Automaton lexer, LRAutomaton parser) {
 
