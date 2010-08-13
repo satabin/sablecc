@@ -91,7 +91,7 @@ import org.sablecc.sablecc.oldstructure.NameToken;
 /**
  * Scala back-end.
  */
-public class ScalaGenerator implements SableCCBackend {
+public class ScalaBackend implements SableCCBackend {
 
 	public void generateCode(File destinationDirectory,
 			String destinationPackage, GlobalIndex globalIndex,

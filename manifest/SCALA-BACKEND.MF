@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+SableCC-TargetClass: org.sablecc.sablecc.codegeneration.scala.ScalaBackend
+SableCC-TargetName: scala
+Sealed: true

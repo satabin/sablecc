@@ -19,15 +19,14 @@ package org.sablecc.sablecc.backends;
 
 import java.io.File;
 import java.io.FilenameFilter;
-import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
+import java.util.Set;
+import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 
 /**
@@ -48,7 +47,7 @@ public class BackendFinder {
 
     private final Map<String, String> backends;
 
-    private final URLClassLoader classloader;
+    private final ClassLoader classloader;
 
     /**
      * Creates a new {@link BackendFinder}.
@@ -56,35 +55,48 @@ public class BackendFinder {
      * @param directory
      *            the directory to search for back-ends
      */
-    public BackendFinder(File directory) {
+    public BackendFinder(
+            File directory) {
 
         this.backends = new HashMap<String, String>();
-        File[] files = directory.listFiles(new FilenameFilter() {
-            @Override
-            public boolean accept(File dir, String name) {
-                // only accept jar files
-                return name.endsWith(".jar");
-            }
-        });
-        List<URL> urls = new ArrayList<URL>();
-        for (File file : files) {
-            try {
-                JarFile jar = new JarFile(file);
-                String targetName = jar.getManifest().getMainAttributes()
-                        .getValue("SableCC-TargetName");
-                String targetClass = jar.getManifest().getMainAttributes()
-                        .getValue("SableCC-TargetClass");
-                if (targetName != null) {
-                    backends.put(targetName, targetClass);
-                    urls.add(file.toURI().toURL());
-                }
-            } catch (Exception e) {
-                // should not happen
-                // TODO handle it correctly
-                e.printStackTrace();
-            }
+        if (!directory.exists()) {
+            directory.mkdir();
         }
-        classloader = new URLClassLoader(urls.toArray(new URL[urls.size()]));
+        if (directory.isDirectory()) {
+            File[] files = directory.listFiles(new FilenameFilter() {
+
+                @Override
+                public boolean accept(
+                        File dir,
+                        String name) {
+
+                    // only accept jar files
+                    return name.endsWith(".jar");
+                }
+            });
+            List<URL> urls = new ArrayList<URL>();
+            for (File file : files) {
+                try {
+                    JarFile jar = new JarFile(file);
+                    Attributes attrs = jar.getManifest().getMainAttributes();
+                    String targetName = attrs.getValue("SableCC-TargetName");
+                    String targetClass = attrs.getValue("SableCC-TargetClass");
+                    if (targetName != null && targetClass != null) {
+                        backends.put(targetName, targetClass);
+                        urls.add(file.toURI().toURL());
+                    }
+                }
+                catch (Exception e) {
+                    // should not happen
+                    // TODO handle it correctly
+                    e.printStackTrace();
+                }
+            }
+            classloader = new URLClassLoader(urls.toArray(new URL[urls.size()]));
+        }
+        else {
+            classloader = getClass().getClassLoader();
+        }
 
     }
 
@@ -96,14 +108,16 @@ public class BackendFinder {
      * @return the found back-end or <code>null</code> if not found.
      */
     @SuppressWarnings("unchecked")
-    public SableCCBackend findBackend(String name) {
+    public SableCCBackend findBackend(
+            String name) {
 
         try {
             String className = backends.get(name);
             Class<SableCCBackend> clazz = (Class<SableCCBackend>) classloader
                     .loadClass(className);
             return clazz.newInstance();
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             // TODO handle it correctly
             e.printStackTrace();
         }
@@ -117,9 +131,9 @@ public class BackendFinder {
      * 
      * @return the non-<code>null</code> list of known plugged targets
      */
-    public String[] getAllTargets() {
+    public Set<String> getAllTargets() {
 
-        return new String[0];
+        return backends.keySet();
     }
 
 }

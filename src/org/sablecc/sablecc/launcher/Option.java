@@ -71,7 +71,7 @@ enum Option {
 
     /** Display help and exit. */
     HELP("h", "help", null, "display help and exit"),
-    
+
     TARGET_OPTION(null, null, null, "Any option specific to the target");
 
     /** The short name. */
