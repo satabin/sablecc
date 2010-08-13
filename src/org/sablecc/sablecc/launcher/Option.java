@@ -70,9 +70,7 @@ enum Option {
     VERSION(null, "version", null, "display version and exit"),
 
     /** Display help and exit. */
-    HELP("h", "help", null, "display help and exit"),
-
-    TARGET_OPTION(null, null, null, "Any option specific to the target");
+    HELP("h", "help", null, "display help and exit");
 
     /** The short name. */
     private String shortName;
