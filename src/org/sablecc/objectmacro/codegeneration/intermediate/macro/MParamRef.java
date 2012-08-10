@@ -4,63 +4,49 @@ package org.sablecc.objectmacro.codegeneration.intermediate.macro;
 
 public class MParamRef {
 
-    private final String pName;
+  private final String pName;
+  private final String pContextName;
+  private final MParamRef mParamRef = this;
 
-    private final String pContextName;
+  public MParamRef(String pName, String pContextName) {
+    if(pName == null) throw new NullPointerException();
+    this.pName = pName;
+    if(pContextName == null) throw new NullPointerException();
+    this.pContextName = pContextName;
+  }
 
-    private final MParamRef mParamRef = this;
+  String pName() {
+    return this.pName;
+  }
 
-    public MParamRef(
-            String pName,
-            String pContextName) {
+  String pContextName() {
+    return this.pContextName;
+  }
 
-        if (pName == null) {
-            throw new NullPointerException();
-        }
-        this.pName = pName;
-        if (pContextName == null) {
-            throw new NullPointerException();
-        }
-        this.pContextName = pContextName;
-    }
+  private String rName() {
+    return this.mParamRef.pName();
+  }
 
-    String pName() {
+  private String rContextName() {
+    return this.mParamRef.pContextName();
+  }
 
-        return this.pName;
-    }
-
-    String pContextName() {
-
-        return this.pContextName;
-    }
-
-    private String rName() {
-
-        return this.mParamRef.pName();
-    }
-
-    private String rContextName() {
-
-        return this.mParamRef.pContextName();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("  param_ref {");
-        sb.append(System.getProperty("line.separator"));
-        sb.append("    name = ");
-        sb.append(rName());
-        sb.append(";");
-        sb.append(System.getProperty("line.separator"));
-        sb.append("    context_name = ");
-        sb.append(rContextName());
-        sb.append(";");
-        sb.append(System.getProperty("line.separator"));
-        sb.append("  }");
-        sb.append(System.getProperty("line.separator"));
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("  param_ref {");
+    sb.append(System.getProperty("line.separator"));
+    sb.append("    name = ");
+    sb.append(rName());
+    sb.append(";");
+    sb.append(System.getProperty("line.separator"));
+    sb.append("    context_name = ");
+    sb.append(rContextName());
+    sb.append(";");
+    sb.append(System.getProperty("line.separator"));
+    sb.append("  }");
+    sb.append(System.getProperty("line.separator"));
+    return sb.toString();
+  }
 
 }

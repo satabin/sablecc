@@ -4,56 +4,42 @@ package org.sablecc.sablecc.codegeneration.java.macro;
 
 public class MAlternatedDeclaration {
 
-    private final String pLeftListType;
+  private final String pLeftListType;
+  private final String pRightListType;
+  private final MAlternatedDeclaration mAlternatedDeclaration = this;
 
-    private final String pRightListType;
+  MAlternatedDeclaration(String pLeftListType, String pRightListType) {
+    if(pLeftListType == null) throw new NullPointerException();
+    this.pLeftListType = pLeftListType;
+    if(pRightListType == null) throw new NullPointerException();
+    this.pRightListType = pRightListType;
+  }
 
-    private final MAlternatedDeclaration mAlternatedDeclaration = this;
+  String pLeftListType() {
+    return this.pLeftListType;
+  }
 
-    MAlternatedDeclaration(
-            String pLeftListType,
-            String pRightListType) {
+  String pRightListType() {
+    return this.pRightListType;
+  }
 
-        if (pLeftListType == null) {
-            throw new NullPointerException();
-        }
-        this.pLeftListType = pLeftListType;
-        if (pRightListType == null) {
-            throw new NullPointerException();
-        }
-        this.pRightListType = pRightListType;
-    }
+  private String rLeftListType() {
+    return this.mAlternatedDeclaration.pLeftListType();
+  }
 
-    String pLeftListType() {
+  private String rRightListType() {
+    return this.mAlternatedDeclaration.pRightListType();
+  }
 
-        return this.pLeftListType;
-    }
-
-    String pRightListType() {
-
-        return this.pRightListType;
-    }
-
-    private String rLeftListType() {
-
-        return this.mAlternatedDeclaration.pLeftListType();
-    }
-
-    private String rRightListType() {
-
-        return this.mAlternatedDeclaration.pRightListType();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("PairNodeList<N");
-        sb.append(rLeftListType());
-        sb.append(",N");
-        sb.append(rRightListType());
-        sb.append(">");
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("PairNodeList<N");
+    sb.append(rLeftListType());
+    sb.append(",N");
+    sb.append(rRightListType());
+    sb.append(">");
+    return sb.toString();
+  }
 
 }

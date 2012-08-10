@@ -4,141 +4,103 @@ package org.sablecc.sablecc.core.errormessage;
 
 public class MDuplicateProductionTransformationElementName {
 
-    private final String pName;
+  private final String pName;
+  private final String pTransfName;
+  private final String pLine;
+  private final String pChar;
+  private final String pRefLine;
+  private final String pRefChar;
+  private final MDuplicateProductionTransformationElementName mDuplicateProductionTransformationElementName = this;
 
-    private final String pTransfName;
+  public MDuplicateProductionTransformationElementName(String pName, String pTransfName, String pLine, String pChar, String pRefLine, String pRefChar) {
+    if(pName == null) throw new NullPointerException();
+    this.pName = pName;
+    if(pTransfName == null) throw new NullPointerException();
+    this.pTransfName = pTransfName;
+    if(pLine == null) throw new NullPointerException();
+    this.pLine = pLine;
+    if(pChar == null) throw new NullPointerException();
+    this.pChar = pChar;
+    if(pRefLine == null) throw new NullPointerException();
+    this.pRefLine = pRefLine;
+    if(pRefChar == null) throw new NullPointerException();
+    this.pRefChar = pRefChar;
+  }
 
-    private final String pLine;
+  String pName() {
+    return this.pName;
+  }
 
-    private final String pChar;
+  String pTransfName() {
+    return this.pTransfName;
+  }
 
-    private final String pRefLine;
+  String pLine() {
+    return this.pLine;
+  }
 
-    private final String pRefChar;
+  String pChar() {
+    return this.pChar;
+  }
 
-    private final MDuplicateProductionTransformationElementName mDuplicateProductionTransformationElementName = this;
+  String pRefLine() {
+    return this.pRefLine;
+  }
 
-    public MDuplicateProductionTransformationElementName(
-            String pName,
-            String pTransfName,
-            String pLine,
-            String pChar,
-            String pRefLine,
-            String pRefChar) {
+  String pRefChar() {
+    return this.pRefChar;
+  }
 
-        if (pName == null) {
-            throw new NullPointerException();
-        }
-        this.pName = pName;
-        if (pTransfName == null) {
-            throw new NullPointerException();
-        }
-        this.pTransfName = pTransfName;
-        if (pLine == null) {
-            throw new NullPointerException();
-        }
-        this.pLine = pLine;
-        if (pChar == null) {
-            throw new NullPointerException();
-        }
-        this.pChar = pChar;
-        if (pRefLine == null) {
-            throw new NullPointerException();
-        }
-        this.pRefLine = pRefLine;
-        if (pRefChar == null) {
-            throw new NullPointerException();
-        }
-        this.pRefChar = pRefChar;
-    }
+  private String rLine() {
+    return this.mDuplicateProductionTransformationElementName.pLine();
+  }
 
-    String pName() {
+  private String rChar() {
+    return this.mDuplicateProductionTransformationElementName.pChar();
+  }
 
-        return this.pName;
-    }
+  private String rName() {
+    return this.mDuplicateProductionTransformationElementName.pName();
+  }
 
-    String pTransfName() {
+  private String rTransfName() {
+    return this.mDuplicateProductionTransformationElementName.pTransfName();
+  }
 
-        return this.pTransfName;
-    }
+  private String rRefLine() {
+    return this.mDuplicateProductionTransformationElementName.pRefLine();
+  }
 
-    String pLine() {
+  private String rRefChar() {
+    return this.mDuplicateProductionTransformationElementName.pRefChar();
+  }
 
-        return this.pLine;
-    }
-
-    String pChar() {
-
-        return this.pChar;
-    }
-
-    String pRefLine() {
-
-        return this.pRefLine;
-    }
-
-    String pRefChar() {
-
-        return this.pRefChar;
-    }
-
-    private String rLine() {
-
-        return this.mDuplicateProductionTransformationElementName.pLine();
-    }
-
-    private String rChar() {
-
-        return this.mDuplicateProductionTransformationElementName.pChar();
-    }
-
-    private String rName() {
-
-        return this.mDuplicateProductionTransformationElementName.pName();
-    }
-
-    private String rTransfName() {
-
-        return this.mDuplicateProductionTransformationElementName.pTransfName();
-    }
-
-    private String rRefLine() {
-
-        return this.mDuplicateProductionTransformationElementName.pRefLine();
-    }
-
-    private String rRefChar() {
-
-        return this.mDuplicateProductionTransformationElementName.pRefChar();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append(new MSemanticErrorHead().toString());
-        sb.append(System.getProperty("line.separator"));
-        sb.append("Line: ");
-        sb.append(rLine());
-        sb.append(System.getProperty("line.separator"));
-        sb.append("Char: ");
-        sb.append(rChar());
-        sb.append(System.getProperty("line.separator"));
-        sb.append("The \"");
-        sb.append(rName());
-        sb.append("\" element reuses an existing name in transformation of production \"");
-        sb.append(rTransfName());
-        sb.append("\".");
-        sb.append(System.getProperty("line.separator"));
-        sb.append("A \"");
-        sb.append(rName());
-        sb.append("\" element is already declared at line ");
-        sb.append(rRefLine());
-        sb.append(", char ");
-        sb.append(rRefChar());
-        sb.append(".");
-        sb.append(System.getProperty("line.separator"));
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append(new MSemanticErrorHead().toString());
+    sb.append(System.getProperty("line.separator"));
+    sb.append("Line: ");
+    sb.append(rLine());
+    sb.append(System.getProperty("line.separator"));
+    sb.append("Char: ");
+    sb.append(rChar());
+    sb.append(System.getProperty("line.separator"));
+    sb.append("The \"");
+    sb.append(rName());
+    sb.append("\" element reuses an existing name in transformation of production \"");
+    sb.append(rTransfName());
+    sb.append("\".");
+    sb.append(System.getProperty("line.separator"));
+    sb.append("A \"");
+    sb.append(rName());
+    sb.append("\" element is already declared at line ");
+    sb.append(rRefLine());
+    sb.append(", char ");
+    sb.append(rRefChar());
+    sb.append(".");
+    sb.append(System.getProperty("line.separator"));
+    return sb.toString();
+  }
 
 }

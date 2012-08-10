@@ -4,62 +4,48 @@ package org.sablecc.sablecc.core.errormessage;
 
 public class MSingleUnaryPriority {
 
-    private final String pLine;
+  private final String pLine;
+  private final String pChar;
+  private final MSingleUnaryPriority mSingleUnaryPriority = this;
 
-    private final String pChar;
+  public MSingleUnaryPriority(String pLine, String pChar) {
+    if(pLine == null) throw new NullPointerException();
+    this.pLine = pLine;
+    if(pChar == null) throw new NullPointerException();
+    this.pChar = pChar;
+  }
 
-    private final MSingleUnaryPriority mSingleUnaryPriority = this;
+  String pLine() {
+    return this.pLine;
+  }
 
-    public MSingleUnaryPriority(
-            String pLine,
-            String pChar) {
+  String pChar() {
+    return this.pChar;
+  }
 
-        if (pLine == null) {
-            throw new NullPointerException();
-        }
-        this.pLine = pLine;
-        if (pChar == null) {
-            throw new NullPointerException();
-        }
-        this.pChar = pChar;
-    }
+  private String rLine() {
+    return this.mSingleUnaryPriority.pLine();
+  }
 
-    String pLine() {
+  private String rChar() {
+    return this.mSingleUnaryPriority.pChar();
+  }
 
-        return this.pLine;
-    }
-
-    String pChar() {
-
-        return this.pChar;
-    }
-
-    private String rLine() {
-
-        return this.mSingleUnaryPriority.pLine();
-    }
-
-    private String rChar() {
-
-        return this.mSingleUnaryPriority.pChar();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append(new MSemanticErrorHead().toString());
-        sb.append(System.getProperty("line.separator"));
-        sb.append("Line: ");
-        sb.append(rLine());
-        sb.append(System.getProperty("line.separator"));
-        sb.append("Char: ");
-        sb.append(rChar());
-        sb.append(System.getProperty("line.separator"));
-        sb.append(System.getProperty("line.separator"));
-        sb.append("A unary priority can't be defined without another left, right or reversed unary priority.");
-        sb.append(System.getProperty("line.separator"));
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append(new MSemanticErrorHead().toString());
+    sb.append(System.getProperty("line.separator"));
+    sb.append("Line: ");
+    sb.append(rLine());
+    sb.append(System.getProperty("line.separator"));
+    sb.append("Char: ");
+    sb.append(rChar());
+    sb.append(System.getProperty("line.separator"));
+    sb.append(System.getProperty("line.separator"));
+    sb.append("A unary priority can't be defined without another left, right or reversed unary priority.");
+    sb.append(System.getProperty("line.separator"));
+    return sb.toString();
+  }
 
 }

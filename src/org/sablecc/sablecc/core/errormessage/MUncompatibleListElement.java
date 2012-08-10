@@ -4,141 +4,103 @@ package org.sablecc.sablecc.core.errormessage;
 
 public class MUncompatibleListElement {
 
-    private final String pFirstElem;
+  private final String pFirstElem;
+  private final String pSecondElem;
+  private final String pFirstLine;
+  private final String pFirstChar;
+  private final String pSecondLine;
+  private final String pSecondChar;
+  private final MUncompatibleListElement mUncompatibleListElement = this;
 
-    private final String pSecondElem;
+  public MUncompatibleListElement(String pFirstElem, String pSecondElem, String pFirstLine, String pFirstChar, String pSecondLine, String pSecondChar) {
+    if(pFirstElem == null) throw new NullPointerException();
+    this.pFirstElem = pFirstElem;
+    if(pSecondElem == null) throw new NullPointerException();
+    this.pSecondElem = pSecondElem;
+    if(pFirstLine == null) throw new NullPointerException();
+    this.pFirstLine = pFirstLine;
+    if(pFirstChar == null) throw new NullPointerException();
+    this.pFirstChar = pFirstChar;
+    if(pSecondLine == null) throw new NullPointerException();
+    this.pSecondLine = pSecondLine;
+    if(pSecondChar == null) throw new NullPointerException();
+    this.pSecondChar = pSecondChar;
+  }
 
-    private final String pFirstLine;
+  String pFirstElem() {
+    return this.pFirstElem;
+  }
 
-    private final String pFirstChar;
+  String pSecondElem() {
+    return this.pSecondElem;
+  }
 
-    private final String pSecondLine;
+  String pFirstLine() {
+    return this.pFirstLine;
+  }
 
-    private final String pSecondChar;
+  String pFirstChar() {
+    return this.pFirstChar;
+  }
 
-    private final MUncompatibleListElement mUncompatibleListElement = this;
+  String pSecondLine() {
+    return this.pSecondLine;
+  }
 
-    public MUncompatibleListElement(
-            String pFirstElem,
-            String pSecondElem,
-            String pFirstLine,
-            String pFirstChar,
-            String pSecondLine,
-            String pSecondChar) {
+  String pSecondChar() {
+    return this.pSecondChar;
+  }
 
-        if (pFirstElem == null) {
-            throw new NullPointerException();
-        }
-        this.pFirstElem = pFirstElem;
-        if (pSecondElem == null) {
-            throw new NullPointerException();
-        }
-        this.pSecondElem = pSecondElem;
-        if (pFirstLine == null) {
-            throw new NullPointerException();
-        }
-        this.pFirstLine = pFirstLine;
-        if (pFirstChar == null) {
-            throw new NullPointerException();
-        }
-        this.pFirstChar = pFirstChar;
-        if (pSecondLine == null) {
-            throw new NullPointerException();
-        }
-        this.pSecondLine = pSecondLine;
-        if (pSecondChar == null) {
-            throw new NullPointerException();
-        }
-        this.pSecondChar = pSecondChar;
-    }
+  private String rSecondLine() {
+    return this.mUncompatibleListElement.pSecondLine();
+  }
 
-    String pFirstElem() {
+  private String rSecondChar() {
+    return this.mUncompatibleListElement.pSecondChar();
+  }
 
-        return this.pFirstElem;
-    }
+  private String rFirstElem() {
+    return this.mUncompatibleListElement.pFirstElem();
+  }
 
-    String pSecondElem() {
+  private String rFirstLine() {
+    return this.mUncompatibleListElement.pFirstLine();
+  }
 
-        return this.pSecondElem;
-    }
+  private String rFirstChar() {
+    return this.mUncompatibleListElement.pFirstChar();
+  }
 
-    String pFirstLine() {
+  private String rSecondElem() {
+    return this.mUncompatibleListElement.pSecondElem();
+  }
 
-        return this.pFirstLine;
-    }
-
-    String pFirstChar() {
-
-        return this.pFirstChar;
-    }
-
-    String pSecondLine() {
-
-        return this.pSecondLine;
-    }
-
-    String pSecondChar() {
-
-        return this.pSecondChar;
-    }
-
-    private String rSecondLine() {
-
-        return this.mUncompatibleListElement.pSecondLine();
-    }
-
-    private String rSecondChar() {
-
-        return this.mUncompatibleListElement.pSecondChar();
-    }
-
-    private String rFirstElem() {
-
-        return this.mUncompatibleListElement.pFirstElem();
-    }
-
-    private String rFirstLine() {
-
-        return this.mUncompatibleListElement.pFirstLine();
-    }
-
-    private String rFirstChar() {
-
-        return this.mUncompatibleListElement.pFirstChar();
-    }
-
-    private String rSecondElem() {
-
-        return this.mUncompatibleListElement.pSecondElem();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append(new MSemanticErrorHead().toString());
-        sb.append(System.getProperty("line.separator"));
-        sb.append("Line: ");
-        sb.append(rSecondLine());
-        sb.append(System.getProperty("line.separator"));
-        sb.append("Char: ");
-        sb.append(rSecondChar());
-        sb.append(System.getProperty("line.separator"));
-        sb.append("List element \"");
-        sb.append(rFirstElem());
-        sb.append("\" defined at line ");
-        sb.append(rFirstLine());
-        sb.append(", char ");
-        sb.append(rFirstChar());
-        sb.append(" is not compatible with \"");
-        sb.append(rSecondElem());
-        sb.append("\" defined at line ");
-        sb.append(rSecondChar());
-        sb.append(", char ");
-        sb.append(rSecondChar());
-        sb.append(".");
-        sb.append(System.getProperty("line.separator"));
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append(new MSemanticErrorHead().toString());
+    sb.append(System.getProperty("line.separator"));
+    sb.append("Line: ");
+    sb.append(rSecondLine());
+    sb.append(System.getProperty("line.separator"));
+    sb.append("Char: ");
+    sb.append(rSecondChar());
+    sb.append(System.getProperty("line.separator"));
+    sb.append("List element \"");
+    sb.append(rFirstElem());
+    sb.append("\" defined at line ");
+    sb.append(rFirstLine());
+    sb.append(", char ");
+    sb.append(rFirstChar());
+    sb.append(" is not compatible with \"");
+    sb.append(rSecondElem());
+    sb.append("\" defined at line ");
+    sb.append(rSecondChar());
+    sb.append(", char ");
+    sb.append(rSecondChar());
+    sb.append(".");
+    sb.append(System.getProperty("line.separator"));
+    return sb.toString();
+  }
 
 }

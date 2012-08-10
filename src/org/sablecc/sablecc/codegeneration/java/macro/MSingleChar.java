@@ -4,57 +4,43 @@ package org.sablecc.sablecc.codegeneration.java.macro;
 
 public class MSingleChar {
 
-    private final String pBound;
+  private final String pBound;
+  private final String pName;
+  private final MSingleChar mSingleChar = this;
 
-    private final String pName;
+  MSingleChar(String pBound, String pName) {
+    if(pBound == null) throw new NullPointerException();
+    this.pBound = pBound;
+    if(pName == null) throw new NullPointerException();
+    this.pName = pName;
+  }
 
-    private final MSingleChar mSingleChar = this;
+  String pBound() {
+    return this.pBound;
+  }
 
-    MSingleChar(
-            String pBound,
-            String pName) {
+  String pName() {
+    return this.pName;
+  }
 
-        if (pBound == null) {
-            throw new NullPointerException();
-        }
-        this.pBound = pBound;
-        if (pName == null) {
-            throw new NullPointerException();
-        }
-        this.pName = pName;
-    }
+  private String rBound() {
+    return this.mSingleChar.pBound();
+  }
 
-    String pBound() {
+  private String rName() {
+    return this.mSingleChar.pName();
+  }
 
-        return this.pBound;
-    }
-
-    String pName() {
-
-        return this.pName;
-    }
-
-    private String rBound() {
-
-        return this.mSingleChar.pBound();
-    }
-
-    private String rName() {
-
-        return this.mSingleChar.pName();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("    case ");
-        sb.append(rBound());
-        sb.append(": return Symbol_");
-        sb.append(rName());
-        sb.append(";");
-        sb.append(System.getProperty("line.separator"));
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("    case ");
+    sb.append(rBound());
+    sb.append(": return Symbol_");
+    sb.append(rName());
+    sb.append(";");
+    sb.append(System.getProperty("line.separator"));
+    return sb.toString();
+  }
 
 }

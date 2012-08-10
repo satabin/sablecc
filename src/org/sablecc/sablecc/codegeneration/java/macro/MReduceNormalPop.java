@@ -4,38 +4,30 @@ package org.sablecc.sablecc.codegeneration.java.macro;
 
 public class MReduceNormalPop {
 
-    private final String pElementName;
+  private final String pElementName;
+  private final MReduceNormalPop mReduceNormalPop = this;
 
-    private final MReduceNormalPop mReduceNormalPop = this;
+  MReduceNormalPop(String pElementName) {
+    if(pElementName == null) throw new NullPointerException();
+    this.pElementName = pElementName;
+  }
 
-    MReduceNormalPop(
-            String pElementName) {
+  String pElementName() {
+    return this.pElementName;
+  }
 
-        if (pElementName == null) {
-            throw new NullPointerException();
-        }
-        this.pElementName = pElementName;
-    }
+  private String rElementName() {
+    return this.mReduceNormalPop.pElementName();
+  }
 
-    String pElementName() {
-
-        return this.pElementName;
-    }
-
-    private String rElementName() {
-
-        return this.mReduceNormalPop.pElementName();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("      AbstractForest l");
-        sb.append(rElementName());
-        sb.append(" = stack.pop();");
-        sb.append(System.getProperty("line.separator"));
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("      AbstractForest l");
+    sb.append(rElementName());
+    sb.append(" = stack.pop();");
+    sb.append(System.getProperty("line.separator"));
+    return sb.toString();
+  }
 
 }

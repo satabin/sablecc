@@ -6,151 +6,115 @@ import java.util.*;
 
 public class MExpandInsertPart {
 
-    private final String pName;
+  private final String pName;
+  private final MExpandInsertPart mExpandInsertPart = this;
+  private final MFile mFile;
+  private final List<Object> eNone = new LinkedList<Object>();
+  private final List<Object> eBeforeFirst = new LinkedList<Object>();
+  private final List<Object> eBeforeOne = new LinkedList<Object>();
+  private final List<Object> eBeforeMany = new LinkedList<Object>();
+  private final List<Object> eSeparator = new LinkedList<Object>();
+  private final List<Object> eNoSeparator = new LinkedList<Object>();
+  private final List<Object> eAfterLast = new LinkedList<Object>();
+  private final List<Object> eAfterOne = new LinkedList<Object>();
+  private final List<Object> eAfterMany = new LinkedList<Object>();
 
-    private final MExpandInsertPart mExpandInsertPart = this;
+  MExpandInsertPart(String pName, MFile mFile) {
+    if(pName == null) throw new NullPointerException();
+    this.pName = pName;
+    if(mFile == null) throw new NullPointerException();
+    this.mFile = mFile;
+  }
 
-    private final MFile mFile;
+  public MNone newNone() {
+    MNone lNone = new MNone(mFile, mExpandInsertPart);
+    this.eNone.add(lNone);
+    return lNone;
+  }
 
-    private final List<Object> eNone = new LinkedList<Object>();
+  public MBeforeFirst newBeforeFirst() {
+    MBeforeFirst lBeforeFirst = new MBeforeFirst(mFile, mExpandInsertPart);
+    this.eBeforeFirst.add(lBeforeFirst);
+    return lBeforeFirst;
+  }
 
-    private final List<Object> eBeforeFirst = new LinkedList<Object>();
+  public MBeforeOne newBeforeOne() {
+    MBeforeOne lBeforeOne = new MBeforeOne(mFile, mExpandInsertPart);
+    this.eBeforeOne.add(lBeforeOne);
+    return lBeforeOne;
+  }
 
-    private final List<Object> eBeforeOne = new LinkedList<Object>();
+  public MBeforeMany newBeforeMany() {
+    MBeforeMany lBeforeMany = new MBeforeMany(mFile, mExpandInsertPart);
+    this.eBeforeMany.add(lBeforeMany);
+    return lBeforeMany;
+  }
 
-    private final List<Object> eBeforeMany = new LinkedList<Object>();
+  public MSeparator newSeparator() {
+    MSeparator lSeparator = new MSeparator(mFile, mExpandInsertPart);
+    this.eSeparator.add(lSeparator);
+    return lSeparator;
+  }
 
-    private final List<Object> eSeparator = new LinkedList<Object>();
+  public MNoSeparator newNoSeparator() {
+    MNoSeparator lNoSeparator = new MNoSeparator(mFile, mExpandInsertPart);
+    this.eNoSeparator.add(lNoSeparator);
+    return lNoSeparator;
+  }
 
-    private final List<Object> eNoSeparator = new LinkedList<Object>();
+  public MAfterLast newAfterLast() {
+    MAfterLast lAfterLast = new MAfterLast(mFile, mExpandInsertPart);
+    this.eAfterLast.add(lAfterLast);
+    return lAfterLast;
+  }
 
-    private final List<Object> eAfterLast = new LinkedList<Object>();
+  public MAfterOne newAfterOne() {
+    MAfterOne lAfterOne = new MAfterOne(mFile, mExpandInsertPart);
+    this.eAfterOne.add(lAfterOne);
+    return lAfterOne;
+  }
 
-    private final List<Object> eAfterOne = new LinkedList<Object>();
+  public MAfterMany newAfterMany() {
+    MAfterMany lAfterMany = new MAfterMany(mFile, mExpandInsertPart);
+    this.eAfterMany.add(lAfterMany);
+    return lAfterMany;
+  }
 
-    private final List<Object> eAfterMany = new LinkedList<Object>();
+  String pName() {
+    return this.pName;
+  }
 
-    MExpandInsertPart(
-            String pName,
-            MFile mFile) {
-
-        if (pName == null) {
-            throw new NullPointerException();
-        }
-        this.pName = pName;
-        if (mFile == null) {
-            throw new NullPointerException();
-        }
-        this.mFile = mFile;
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    for(Object oNone : this.eNone) {
+      sb.append(oNone.toString());
     }
-
-    public MNone newNone() {
-
-        MNone lNone = new MNone(this.mFile, this.mExpandInsertPart);
-        this.eNone.add(lNone);
-        return lNone;
+    for(Object oBeforeFirst : this.eBeforeFirst) {
+      sb.append(oBeforeFirst.toString());
     }
-
-    public MBeforeFirst newBeforeFirst() {
-
-        MBeforeFirst lBeforeFirst = new MBeforeFirst(this.mFile,
-                this.mExpandInsertPart);
-        this.eBeforeFirst.add(lBeforeFirst);
-        return lBeforeFirst;
+    for(Object oBeforeOne : this.eBeforeOne) {
+      sb.append(oBeforeOne.toString());
     }
-
-    public MBeforeOne newBeforeOne() {
-
-        MBeforeOne lBeforeOne = new MBeforeOne(this.mFile,
-                this.mExpandInsertPart);
-        this.eBeforeOne.add(lBeforeOne);
-        return lBeforeOne;
+    for(Object oBeforeMany : this.eBeforeMany) {
+      sb.append(oBeforeMany.toString());
     }
-
-    public MBeforeMany newBeforeMany() {
-
-        MBeforeMany lBeforeMany = new MBeforeMany(this.mFile,
-                this.mExpandInsertPart);
-        this.eBeforeMany.add(lBeforeMany);
-        return lBeforeMany;
+    for(Object oSeparator : this.eSeparator) {
+      sb.append(oSeparator.toString());
     }
-
-    public MSeparator newSeparator() {
-
-        MSeparator lSeparator = new MSeparator(this.mFile,
-                this.mExpandInsertPart);
-        this.eSeparator.add(lSeparator);
-        return lSeparator;
+    for(Object oNoSeparator : this.eNoSeparator) {
+      sb.append(oNoSeparator.toString());
     }
-
-    public MNoSeparator newNoSeparator() {
-
-        MNoSeparator lNoSeparator = new MNoSeparator(this.mFile,
-                this.mExpandInsertPart);
-        this.eNoSeparator.add(lNoSeparator);
-        return lNoSeparator;
+    for(Object oAfterLast : this.eAfterLast) {
+      sb.append(oAfterLast.toString());
     }
-
-    public MAfterLast newAfterLast() {
-
-        MAfterLast lAfterLast = new MAfterLast(this.mFile,
-                this.mExpandInsertPart);
-        this.eAfterLast.add(lAfterLast);
-        return lAfterLast;
+    for(Object oAfterOne : this.eAfterOne) {
+      sb.append(oAfterOne.toString());
     }
-
-    public MAfterOne newAfterOne() {
-
-        MAfterOne lAfterOne = new MAfterOne(this.mFile, this.mExpandInsertPart);
-        this.eAfterOne.add(lAfterOne);
-        return lAfterOne;
+    for(Object oAfterMany : this.eAfterMany) {
+      sb.append(oAfterMany.toString());
     }
-
-    public MAfterMany newAfterMany() {
-
-        MAfterMany lAfterMany = new MAfterMany(this.mFile,
-                this.mExpandInsertPart);
-        this.eAfterMany.add(lAfterMany);
-        return lAfterMany;
-    }
-
-    String pName() {
-
-        return this.pName;
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        for (Object oNone : this.eNone) {
-            sb.append(oNone.toString());
-        }
-        for (Object oBeforeFirst : this.eBeforeFirst) {
-            sb.append(oBeforeFirst.toString());
-        }
-        for (Object oBeforeOne : this.eBeforeOne) {
-            sb.append(oBeforeOne.toString());
-        }
-        for (Object oBeforeMany : this.eBeforeMany) {
-            sb.append(oBeforeMany.toString());
-        }
-        for (Object oSeparator : this.eSeparator) {
-            sb.append(oSeparator.toString());
-        }
-        for (Object oNoSeparator : this.eNoSeparator) {
-            sb.append(oNoSeparator.toString());
-        }
-        for (Object oAfterLast : this.eAfterLast) {
-            sb.append(oAfterLast.toString());
-        }
-        for (Object oAfterOne : this.eAfterOne) {
-            sb.append(oAfterOne.toString());
-        }
-        for (Object oAfterMany : this.eAfterMany) {
-            sb.append(oAfterMany.toString());
-        }
-        return sb.toString();
-    }
+    return sb.toString();
+  }
 
 }

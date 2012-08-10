@@ -4,55 +4,41 @@ package org.sablecc.sablecc.codegeneration.java.macro;
 
 public class MListConstructorParameter {
 
-    private final String pListType;
+  private final String pListType;
+  private final String pElementName;
+  private final MListConstructorParameter mListConstructorParameter = this;
 
-    private final String pElementName;
+  MListConstructorParameter(String pListType, String pElementName) {
+    if(pListType == null) throw new NullPointerException();
+    this.pListType = pListType;
+    if(pElementName == null) throw new NullPointerException();
+    this.pElementName = pElementName;
+  }
 
-    private final MListConstructorParameter mListConstructorParameter = this;
+  String pListType() {
+    return this.pListType;
+  }
 
-    MListConstructorParameter(
-            String pListType,
-            String pElementName) {
+  String pElementName() {
+    return this.pElementName;
+  }
 
-        if (pListType == null) {
-            throw new NullPointerException();
-        }
-        this.pListType = pListType;
-        if (pElementName == null) {
-            throw new NullPointerException();
-        }
-        this.pElementName = pElementName;
-    }
+  private String rListType() {
+    return this.mListConstructorParameter.pListType();
+  }
 
-    String pListType() {
+  private String rElementName() {
+    return this.mListConstructorParameter.pElementName();
+  }
 
-        return this.pListType;
-    }
-
-    String pElementName() {
-
-        return this.pElementName;
-    }
-
-    private String rListType() {
-
-        return this.mListConstructorParameter.pListType();
-    }
-
-    private String rElementName() {
-
-        return this.mListConstructorParameter.pElementName();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("NodeList<N");
-        sb.append(rListType());
-        sb.append("> p");
-        sb.append(rElementName());
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("NodeList<N");
+    sb.append(rListType());
+    sb.append("> p");
+    sb.append(rElementName());
+    return sb.toString();
+  }
 
 }

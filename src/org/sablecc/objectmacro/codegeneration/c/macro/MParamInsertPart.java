@@ -4,54 +4,41 @@ package org.sablecc.objectmacro.codegeneration.c.macro;
 
 public class MParamInsertPart {
 
-    private final String pName;
+  private final String pName;
+  private final MParamInsertPart mParamInsertPart = this;
+  private final MFile mFile;
 
-    private final MParamInsertPart mParamInsertPart = this;
+  MParamInsertPart(String pName, MFile mFile) {
+    if(pName == null) throw new NullPointerException();
+    this.pName = pName;
+    if(mFile == null) throw new NullPointerException();
+    this.mFile = mFile;
+  }
 
-    private final MFile mFile;
+  String pName() {
+    return this.pName;
+  }
 
-    MParamInsertPart(
-            String pName,
-            MFile mFile) {
+  private String rFileName() {
+    return this.mFile.pFileName();
+  }
 
-        if (pName == null) {
-            throw new NullPointerException();
-        }
-        this.pName = pName;
-        if (mFile == null) {
-            throw new NullPointerException();
-        }
-        this.mFile = mFile;
-    }
+  private String rName() {
+    return this.mParamInsertPart.pName();
+  }
 
-    String pName() {
-
-        return this.pName;
-    }
-
-    private String rFileName() {
-
-        return this.mFile.pFileName();
-    }
-
-    private String rName() {
-
-        return this.mParamInsertPart.pName();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("  sizeString += List_pushback(listString, strdup(M");
-        sb.append(rFileName());
-        sb.append("_r");
-        sb.append(rName());
-        sb.append("(m");
-        sb.append(rFileName());
-        sb.append(")));");
-        sb.append(System.getProperty("line.separator"));
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("  sizeString += List_pushback(listString, strdup(M");
+    sb.append(rFileName());
+    sb.append("_r");
+    sb.append(rName());
+    sb.append("(m");
+    sb.append(rFileName());
+    sb.append(")));");
+    sb.append(System.getProperty("line.separator"));
+    return sb.toString();
+  }
 
 }

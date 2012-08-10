@@ -4,36 +4,28 @@ package org.sablecc.sablecc.codegeneration.java.macro;
 
 public class MNewParameter {
 
-    private final String pElementName;
+  private final String pElementName;
+  private final MNewParameter mNewParameter = this;
 
-    private final MNewParameter mNewParameter = this;
+  MNewParameter(String pElementName) {
+    if(pElementName == null) throw new NullPointerException();
+    this.pElementName = pElementName;
+  }
 
-    MNewParameter(
-            String pElementName) {
+  String pElementName() {
+    return this.pElementName;
+  }
 
-        if (pElementName == null) {
-            throw new NullPointerException();
-        }
-        this.pElementName = pElementName;
-    }
+  private String rElementName() {
+    return this.mNewParameter.pElementName();
+  }
 
-    String pElementName() {
-
-        return this.pElementName;
-    }
-
-    private String rElementName() {
-
-        return this.mNewParameter.pElementName();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("n");
-        sb.append(rElementName());
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("n");
+    sb.append(rElementName());
+    return sb.toString();
+  }
 
 }

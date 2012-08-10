@@ -4,57 +4,43 @@ package org.sablecc.sablecc.codegeneration.java.macro;
 
 public class MSpecifiedPackage {
 
-    private final String pLanguageName;
+  private final String pLanguageName;
+  private final String pPackage;
+  private final MSpecifiedPackage mSpecifiedPackage = this;
 
-    private final String pPackage;
+  public MSpecifiedPackage(String pLanguageName, String pPackage) {
+    if(pLanguageName == null) throw new NullPointerException();
+    this.pLanguageName = pLanguageName;
+    if(pPackage == null) throw new NullPointerException();
+    this.pPackage = pPackage;
+  }
 
-    private final MSpecifiedPackage mSpecifiedPackage = this;
+  String pLanguageName() {
+    return this.pLanguageName;
+  }
 
-    public MSpecifiedPackage(
-            String pLanguageName,
-            String pPackage) {
+  String pPackage() {
+    return this.pPackage;
+  }
 
-        if (pLanguageName == null) {
-            throw new NullPointerException();
-        }
-        this.pLanguageName = pLanguageName;
-        if (pPackage == null) {
-            throw new NullPointerException();
-        }
-        this.pPackage = pPackage;
-    }
+  private String rPackage() {
+    return this.mSpecifiedPackage.pPackage();
+  }
 
-    String pLanguageName() {
+  private String rLanguageName() {
+    return this.mSpecifiedPackage.pLanguageName();
+  }
 
-        return this.pLanguageName;
-    }
-
-    String pPackage() {
-
-        return this.pPackage;
-    }
-
-    private String rPackage() {
-
-        return this.mSpecifiedPackage.pPackage();
-    }
-
-    private String rLanguageName() {
-
-        return this.mSpecifiedPackage.pLanguageName();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("package ");
-        sb.append(rPackage());
-        sb.append(".");
-        sb.append(rLanguageName());
-        sb.append(";");
-        sb.append(System.getProperty("line.separator"));
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("package ");
+    sb.append(rPackage());
+    sb.append(".");
+    sb.append(rLanguageName());
+    sb.append(";");
+    sb.append(System.getProperty("line.separator"));
+    return sb.toString();
+  }
 
 }

@@ -4,95 +4,69 @@ package org.sablecc.sablecc.codegeneration.java.macro;
 
 public class MAddPopElementLeft {
 
-    private final String pListName;
+  private final String pListName;
+  private final String pElementName;
+  private final String pElementType;
+  private final String pIndex;
+  private final MAddPopElementLeft mAddPopElementLeft = this;
 
-    private final String pElementName;
+  MAddPopElementLeft(String pListName, String pElementName, String pElementType, String pIndex) {
+    if(pListName == null) throw new NullPointerException();
+    this.pListName = pListName;
+    if(pElementName == null) throw new NullPointerException();
+    this.pElementName = pElementName;
+    if(pElementType == null) throw new NullPointerException();
+    this.pElementType = pElementType;
+    if(pIndex == null) throw new NullPointerException();
+    this.pIndex = pIndex;
+  }
 
-    private final String pElementType;
+  String pListName() {
+    return this.pListName;
+  }
 
-    private final String pIndex;
+  String pElementName() {
+    return this.pElementName;
+  }
 
-    private final MAddPopElementLeft mAddPopElementLeft = this;
+  String pElementType() {
+    return this.pElementType;
+  }
 
-    MAddPopElementLeft(
-            String pListName,
-            String pElementName,
-            String pElementType,
-            String pIndex) {
+  String pIndex() {
+    return this.pIndex;
+  }
 
-        if (pListName == null) {
-            throw new NullPointerException();
-        }
-        this.pListName = pListName;
-        if (pElementName == null) {
-            throw new NullPointerException();
-        }
-        this.pElementName = pElementName;
-        if (pElementType == null) {
-            throw new NullPointerException();
-        }
-        this.pElementType = pElementType;
-        if (pIndex == null) {
-            throw new NullPointerException();
-        }
-        this.pIndex = pIndex;
-    }
+  private String rListName() {
+    return this.mAddPopElementLeft.pListName();
+  }
 
-    String pListName() {
+  private String rElementType() {
+    return this.mAddPopElementLeft.pElementType();
+  }
 
-        return this.pListName;
-    }
+  private String rElementName() {
+    return this.mAddPopElementLeft.pElementName();
+  }
 
-    String pElementName() {
+  private String rIndex() {
+    return this.mAddPopElementLeft.pIndex();
+  }
 
-        return this.pElementName;
-    }
-
-    String pElementType() {
-
-        return this.pElementType;
-    }
-
-    String pIndex() {
-
-        return this.pIndex;
-    }
-
-    private String rListName() {
-
-        return this.mAddPopElementLeft.pListName();
-    }
-
-    private String rElementType() {
-
-        return this.mAddPopElementLeft.pElementType();
-    }
-
-    private String rElementName() {
-
-        return this.mAddPopElementLeft.pElementName();
-    }
-
-    private String rIndex() {
-
-        return this.mAddPopElementLeft.pIndex();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("      n");
-        sb.append(rListName());
-        sb.append(".addLeft((N");
-        sb.append(rElementType());
-        sb.append(")l");
-        sb.append(rElementName());
-        sb.append(".getNodes().get(");
-        sb.append(rIndex());
-        sb.append("));");
-        sb.append(System.getProperty("line.separator"));
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("      n");
+    sb.append(rListName());
+    sb.append(".addLeft((N");
+    sb.append(rElementType());
+    sb.append(")l");
+    sb.append(rElementName());
+    sb.append(".getNodes().get(");
+    sb.append(rIndex());
+    sb.append("));");
+    sb.append(System.getProperty("line.separator"));
+    return sb.toString();
+  }
 
 }

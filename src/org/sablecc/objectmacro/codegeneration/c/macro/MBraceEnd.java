@@ -4,17 +4,15 @@ package org.sablecc.objectmacro.codegeneration.c.macro;
 
 public class MBraceEnd {
 
-    MBraceEnd() {
+  MBraceEnd() {
+  }
 
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("}");
-        sb.append(System.getProperty("line.separator"));
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("}");
+    sb.append(System.getProperty("line.separator"));
+    return sb.toString();
+  }
 
 }

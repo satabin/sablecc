@@ -4,16 +4,14 @@ package org.sablecc.sablecc.codegeneration.java.macro;
 
 public class MGetRight {
 
-    MGetRight() {
+  MGetRight() {
+  }
 
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append(".getRight()");
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append(".getRight()");
+    return sb.toString();
+  }
 
 }

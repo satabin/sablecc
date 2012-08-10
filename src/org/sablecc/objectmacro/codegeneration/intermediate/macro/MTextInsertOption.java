@@ -6,54 +6,42 @@ import java.util.*;
 
 public class MTextInsertOption {
 
-    private final String pOption;
+  private final String pOption;
+  private final MTextInsertOption mTextInsertOption = this;
+  private final List<Object> eTextInsert = new LinkedList<Object>();
 
-    private final MTextInsertOption mTextInsertOption = this;
+  public MTextInsertOption(String pOption) {
+    if(pOption == null) throw new NullPointerException();
+    this.pOption = pOption;
+  }
 
-    private final List<Object> eTextInsert = new LinkedList<Object>();
+  public MTextInsert newTextInsert(String pName, String pIndent) {
+    MTextInsert lTextInsert = new MTextInsert(pName, pIndent);
+    this.eTextInsert.add(lTextInsert);
+    return lTextInsert;
+  }
 
-    public MTextInsertOption(
-            String pOption) {
+  String pOption() {
+    return this.pOption;
+  }
 
-        if (pOption == null) {
-            throw new NullPointerException();
-        }
-        this.pOption = pOption;
+  private String rOption() {
+    return this.mTextInsertOption.pOption();
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("    ");
+    sb.append(rOption());
+    sb.append(" {");
+    sb.append(System.getProperty("line.separator"));
+    for(Object oTextInsert : this.eTextInsert) {
+      sb.append(oTextInsert.toString());
     }
-
-    public MTextInsert newTextInsert(
-            String pName,
-            String pIndent) {
-
-        MTextInsert lTextInsert = new MTextInsert(pName, pIndent);
-        this.eTextInsert.add(lTextInsert);
-        return lTextInsert;
-    }
-
-    String pOption() {
-
-        return this.pOption;
-    }
-
-    private String rOption() {
-
-        return this.mTextInsertOption.pOption();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("    ");
-        sb.append(rOption());
-        sb.append(" {");
-        sb.append(System.getProperty("line.separator"));
-        for (Object oTextInsert : this.eTextInsert) {
-            sb.append(oTextInsert.toString());
-        }
-        sb.append("    }");
-        sb.append(System.getProperty("line.separator"));
-        return sb.toString();
-    }
+    sb.append("    }");
+    sb.append(System.getProperty("line.separator"));
+    return sb.toString();
+  }
 
 }

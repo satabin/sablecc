@@ -4,52 +4,39 @@ package org.sablecc.sablecc.codegeneration.java.macro;
 
 public class MAcceptTokenWithMarker {
 
-    private final String pMarkerName;
+  private final String pMarkerName;
+  private final MAcceptTokenWithMarker mAcceptTokenWithMarker = this;
+  private final MFinalStateSingleton mFinalStateSingleton;
 
-    private final MAcceptTokenWithMarker mAcceptTokenWithMarker = this;
+  MAcceptTokenWithMarker(String pMarkerName, MFinalStateSingleton mFinalStateSingleton) {
+    if(pMarkerName == null) throw new NullPointerException();
+    this.pMarkerName = pMarkerName;
+    if(mFinalStateSingleton == null) throw new NullPointerException();
+    this.mFinalStateSingleton = mFinalStateSingleton;
+  }
 
-    private final MFinalStateSingleton mFinalStateSingleton;
+  String pMarkerName() {
+    return this.pMarkerName;
+  }
 
-    MAcceptTokenWithMarker(
-            String pMarkerName,
-            MFinalStateSingleton mFinalStateSingleton) {
+  private String rMarkerName() {
+    return this.mAcceptTokenWithMarker.pMarkerName();
+  }
 
-        if (pMarkerName == null) {
-            throw new NullPointerException();
-        }
-        this.pMarkerName = pMarkerName;
-        if (mFinalStateSingleton == null) {
-            throw new NullPointerException();
-        }
-        this.mFinalStateSingleton = mFinalStateSingleton;
-    }
+  private String rBackCount() {
+    return this.mFinalStateSingleton.pBackCount();
+  }
 
-    String pMarkerName() {
-
-        return this.pMarkerName;
-    }
-
-    private String rMarkerName() {
-
-        return this.mAcceptTokenWithMarker.pMarkerName();
-    }
-
-    private String rBackCount() {
-
-        return this.mFinalStateSingleton.pBackCount();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("    String text = lexer.acceptWithMarker");
-        sb.append(rMarkerName());
-        sb.append("(");
-        sb.append(rBackCount());
-        sb.append(");");
-        sb.append(System.getProperty("line.separator"));
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("    String text = lexer.acceptWithMarker");
+    sb.append(rMarkerName());
+    sb.append("(");
+    sb.append(rBackCount());
+    sb.append(");");
+    sb.append(System.getProperty("line.separator"));
+    return sb.toString();
+  }
 
 }

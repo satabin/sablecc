@@ -6,84 +6,64 @@ import java.util.*;
 
 public class MExpandedMacro {
 
-    private final String pName;
+  private final String pName;
+  private final MExpandedMacro mExpandedMacro = this;
+  private final List<Object> eParam = new LinkedList<Object>();
+  private final List<Object> eAncestorRef = new LinkedList<Object>();
+  private final List<Object> eExpand = new LinkedList<Object>();
 
-    private final MExpandedMacro mExpandedMacro = this;
+  public MExpandedMacro(String pName) {
+    if(pName == null) throw new NullPointerException();
+    this.pName = pName;
+  }
 
-    private final List<Object> eParam = new LinkedList<Object>();
+  public MParam newParam(String pName, String pIndent) {
+    MParam lParam = new MParam(pName, pIndent);
+    this.eParam.add(lParam);
+    return lParam;
+  }
 
-    private final List<Object> eAncestorRef = new LinkedList<Object>();
+  public MAncestorRef newAncestorRef(String pName, String pIndent) {
+    MAncestorRef lAncestorRef = new MAncestorRef(pName, pIndent);
+    this.eAncestorRef.add(lAncestorRef);
+    return lAncestorRef;
+  }
 
-    private final List<Object> eExpand = new LinkedList<Object>();
+  public MExpand newExpand(String pName, String pIndent) {
+    MExpand lExpand = new MExpand(pName, pIndent);
+    this.eExpand.add(lExpand);
+    return lExpand;
+  }
 
-    public MExpandedMacro(
-            String pName) {
+  String pName() {
+    return this.pName;
+  }
 
-        if (pName == null) {
-            throw new NullPointerException();
-        }
-        this.pName = pName;
+  private String rName() {
+    return this.mExpandedMacro.pName();
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("  expanded_macro {");
+    sb.append(System.getProperty("line.separator"));
+    sb.append("    name = ");
+    sb.append(rName());
+    sb.append(";");
+    sb.append(System.getProperty("line.separator"));
+    for(Object oParam : this.eParam) {
+      sb.append(oParam.toString());
     }
-
-    public MParam newParam(
-            String pName,
-            String pIndent) {
-
-        MParam lParam = new MParam(pName, pIndent);
-        this.eParam.add(lParam);
-        return lParam;
+    for(Object oAncestorRef : this.eAncestorRef) {
+      sb.append(oAncestorRef.toString());
     }
-
-    public MAncestorRef newAncestorRef(
-            String pName,
-            String pIndent) {
-
-        MAncestorRef lAncestorRef = new MAncestorRef(pName, pIndent);
-        this.eAncestorRef.add(lAncestorRef);
-        return lAncestorRef;
+    for(Object oExpand : this.eExpand) {
+      sb.append(oExpand.toString());
     }
-
-    public MExpand newExpand(
-            String pName,
-            String pIndent) {
-
-        MExpand lExpand = new MExpand(pName, pIndent);
-        this.eExpand.add(lExpand);
-        return lExpand;
-    }
-
-    String pName() {
-
-        return this.pName;
-    }
-
-    private String rName() {
-
-        return this.mExpandedMacro.pName();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("  expanded_macro {");
-        sb.append(System.getProperty("line.separator"));
-        sb.append("    name = ");
-        sb.append(rName());
-        sb.append(";");
-        sb.append(System.getProperty("line.separator"));
-        for (Object oParam : this.eParam) {
-            sb.append(oParam.toString());
-        }
-        for (Object oAncestorRef : this.eAncestorRef) {
-            sb.append(oAncestorRef.toString());
-        }
-        for (Object oExpand : this.eExpand) {
-            sb.append(oExpand.toString());
-        }
-        sb.append("  }");
-        sb.append(System.getProperty("line.separator"));
-        return sb.toString();
-    }
+    sb.append("  }");
+    sb.append(System.getProperty("line.separator"));
+    return sb.toString();
+  }
 
 }

@@ -4,37 +4,29 @@ package org.sablecc.sablecc.codegeneration.java.macro;
 
 public class MNormalDeclaration {
 
-    private final String pNormalListType;
+  private final String pNormalListType;
+  private final MNormalDeclaration mNormalDeclaration = this;
 
-    private final MNormalDeclaration mNormalDeclaration = this;
+  MNormalDeclaration(String pNormalListType) {
+    if(pNormalListType == null) throw new NullPointerException();
+    this.pNormalListType = pNormalListType;
+  }
 
-    MNormalDeclaration(
-            String pNormalListType) {
+  String pNormalListType() {
+    return this.pNormalListType;
+  }
 
-        if (pNormalListType == null) {
-            throw new NullPointerException();
-        }
-        this.pNormalListType = pNormalListType;
-    }
+  private String rNormalListType() {
+    return this.mNormalDeclaration.pNormalListType();
+  }
 
-    String pNormalListType() {
-
-        return this.pNormalListType;
-    }
-
-    private String rNormalListType() {
-
-        return this.mNormalDeclaration.pNormalListType();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("NodeList<N");
-        sb.append(rNormalListType());
-        sb.append(">");
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("NodeList<N");
+    sb.append(rNormalListType());
+    sb.append(">");
+    return sb.toString();
+  }
 
 }

@@ -4,16 +4,14 @@ package org.sablecc.sablecc.codegeneration.java.macro;
 
 public class MTokenElementType {
 
-    MTokenElementType() {
+  MTokenElementType() {
+  }
 
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("Token");
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("Token");
+    return sb.toString();
+  }
 
 }

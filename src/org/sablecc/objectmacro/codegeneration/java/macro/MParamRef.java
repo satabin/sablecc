@@ -4,63 +4,49 @@ package org.sablecc.objectmacro.codegeneration.java.macro;
 
 public class MParamRef {
 
-    private final String pName;
+  private final String pName;
+  private final String pContext;
+  private final MParamRef mParamRef = this;
 
-    private final String pContext;
+  public MParamRef(String pName, String pContext) {
+    if(pName == null) throw new NullPointerException();
+    this.pName = pName;
+    if(pContext == null) throw new NullPointerException();
+    this.pContext = pContext;
+  }
 
-    private final MParamRef mParamRef = this;
+  String pName() {
+    return this.pName;
+  }
 
-    public MParamRef(
-            String pName,
-            String pContext) {
+  String pContext() {
+    return this.pContext;
+  }
 
-        if (pName == null) {
-            throw new NullPointerException();
-        }
-        this.pName = pName;
-        if (pContext == null) {
-            throw new NullPointerException();
-        }
-        this.pContext = pContext;
-    }
+  private String rName() {
+    return this.mParamRef.pName();
+  }
 
-    String pName() {
+  private String rContext() {
+    return this.mParamRef.pContext();
+  }
 
-        return this.pName;
-    }
-
-    String pContext() {
-
-        return this.pContext;
-    }
-
-    private String rName() {
-
-        return this.mParamRef.pName();
-    }
-
-    private String rContext() {
-
-        return this.mParamRef.pContext();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("  private String r");
-        sb.append(rName());
-        sb.append("() {");
-        sb.append(System.getProperty("line.separator"));
-        sb.append("    return this.m");
-        sb.append(rContext());
-        sb.append(".p");
-        sb.append(rName());
-        sb.append("();");
-        sb.append(System.getProperty("line.separator"));
-        sb.append("  }");
-        sb.append(System.getProperty("line.separator"));
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("  private String r");
+    sb.append(rName());
+    sb.append("() {");
+    sb.append(System.getProperty("line.separator"));
+    sb.append("    return this.m");
+    sb.append(rContext());
+    sb.append(".p");
+    sb.append(rName());
+    sb.append("();");
+    sb.append(System.getProperty("line.separator"));
+    sb.append("  }");
+    sb.append(System.getProperty("line.separator"));
+    return sb.toString();
+  }
 
 }

@@ -4,66 +4,48 @@ package org.sablecc.objectmacro.codegeneration.c.macro;
 
 public class MAddToExpand {
 
-    private final String pSignature;
+  private final String pSignature;
+  private final MAddToExpand mAddToExpand = this;
+  private final MFile mFile;
+  private final MMacroCreator mMacroCreator;
 
-    private final MAddToExpand mAddToExpand = this;
+  MAddToExpand(String pSignature, MFile mFile, MMacroCreator mMacroCreator) {
+    if(pSignature == null) throw new NullPointerException();
+    this.pSignature = pSignature;
+    if(mFile == null) throw new NullPointerException();
+    this.mFile = mFile;
+    if(mMacroCreator == null) throw new NullPointerException();
+    this.mMacroCreator = mMacroCreator;
+  }
 
-    private final MFile mFile;
+  String pSignature() {
+    return this.pSignature;
+  }
 
-    private final MMacroCreator mMacroCreator;
+  private String rFileName() {
+    return this.mFile.pFileName();
+  }
 
-    MAddToExpand(
-            String pSignature,
-            MFile mFile,
-            MMacroCreator mMacroCreator) {
+  private String rSignature() {
+    return this.mAddToExpand.pSignature();
+  }
 
-        if (pSignature == null) {
-            throw new NullPointerException();
-        }
-        this.pSignature = pSignature;
-        if (mFile == null) {
-            throw new NullPointerException();
-        }
-        this.mFile = mFile;
-        if (mMacroCreator == null) {
-            throw new NullPointerException();
-        }
-        this.mMacroCreator = mMacroCreator;
-    }
+  private String rName() {
+    return this.mMacroCreator.pName();
+  }
 
-    String pSignature() {
-
-        return this.pSignature;
-    }
-
-    private String rFileName() {
-
-        return this.mFile.pFileName();
-    }
-
-    private String rSignature() {
-
-        return this.mAddToExpand.pSignature();
-    }
-
-    private String rName() {
-
-        return this.mMacroCreator.pName();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("  List_pushback_MType(m");
-        sb.append(rFileName());
-        sb.append("->_e");
-        sb.append(rSignature());
-        sb.append("_, l");
-        sb.append(rName());
-        sb.append(", 1);");
-        sb.append(System.getProperty("line.separator"));
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("  List_pushback_MType(m");
+    sb.append(rFileName());
+    sb.append("->_e");
+    sb.append(rSignature());
+    sb.append("_, l");
+    sb.append(rName());
+    sb.append(", 1);");
+    sb.append(System.getProperty("line.separator"));
+    return sb.toString();
+  }
 
 }

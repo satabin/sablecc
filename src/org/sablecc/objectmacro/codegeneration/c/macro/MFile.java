@@ -6,588 +6,469 @@ import java.util.*;
 
 public class MFile {
 
-    private final String pFileName;
+  private final String pFileName;
+  private final MFile mFile = this;
+  private final List<Object> eTextH = new LinkedList<Object>();
+  private final List<Object> eTextC = new LinkedList<Object>();
+  private final List<Object> eMacroH = new LinkedList<Object>();
+  private final List<Object> eMacroC = new LinkedList<Object>();
+  private final List<Object> eInclude = new LinkedList<Object>();
+  private final List<Object> eSelfRefH = new LinkedList<Object>();
+  private final List<Object> eSelfRefC = new LinkedList<Object>();
+  private final List<Object> eParamField = new LinkedList<Object>();
+  private final List<Object> eAncestorField = new LinkedList<Object>();
+  private final List<Object> eExpandField = new LinkedList<Object>();
+  private final List<Object> eExpandDestructor = new LinkedList<Object>();
+  private final List<Object> eMacroCreator = new LinkedList<Object>();
+  private final List<Object> eMacroCreatorPrototype = new LinkedList<Object>();
+  private final List<Object> eParam = new LinkedList<Object>();
+  private final List<Object> eParamPrototype = new LinkedList<Object>();
+  private final List<Object> eParamRef = new LinkedList<Object>();
+  private final List<Object> eParamRefPrototype = new LinkedList<Object>();
+  private final List<Object> eParamParam = new LinkedList<Object>();
+  private final List<Object> eAncestorParam = new LinkedList<Object>();
+  private final List<Object> eParamArg = new LinkedList<Object>();
+  private final List<Object> eAncestorArg = new LinkedList<Object>();
+  private final List<Object> eParamConstructorInit = new LinkedList<Object>();
+  private final List<Object> eAncestorConstructorInit = new LinkedList<Object>();
+  private final List<Object> eExpandConstructorInit = new LinkedList<Object>();
+  private final List<Object> eStringPart = new LinkedList<Object>();
+  private final List<Object> eEolPart = new LinkedList<Object>();
+  private final List<Object> eParamInsertPart = new LinkedList<Object>();
+  private final List<Object> eTextInsertPart = new LinkedList<Object>();
+  private final List<Object> eExpandInsertPart = new LinkedList<Object>();
+  private final List<Object> eTextInsert = new LinkedList<Object>();
+  private final List<Object> eTextInsertString = new LinkedList<Object>();
+  private final List<Object> eTextInsertDestructor = new LinkedList<Object>();
+  private final List<Object> eInlineText = new LinkedList<Object>();
+  private final List<Object> eInlineString = new LinkedList<Object>();
+  private final List<Object> eInlineEol = new LinkedList<Object>();
+  private final List<Object> eParamInsert = new LinkedList<Object>();
+  private final List<Object> eTextInsertAncestor = new LinkedList<Object>();
 
-    private final MFile mFile = this;
+  public MFile(String pFileName) {
+    if(pFileName == null) throw new NullPointerException();
+    this.pFileName = pFileName;
+  }
 
-    private final List<Object> eTextH = new LinkedList<Object>();
+  public MTextH newTextH() {
+    MTextH lTextH = new MTextH(mFile);
+    this.eTextH.add(lTextH);
+    return lTextH;
+  }
 
-    private final List<Object> eTextC = new LinkedList<Object>();
+  public MTextC newTextC() {
+    MTextC lTextC = new MTextC(mFile);
+    this.eTextC.add(lTextC);
+    return lTextC;
+  }
 
-    private final List<Object> eMacroH = new LinkedList<Object>();
+  public MMacroH newMacroH() {
+    MMacroH lMacroH = new MMacroH(mFile);
+    this.eMacroH.add(lMacroH);
+    return lMacroH;
+  }
 
-    private final List<Object> eMacroC = new LinkedList<Object>();
+  public MMacroC newMacroC() {
+    MMacroC lMacroC = new MMacroC(mFile);
+    this.eMacroC.add(lMacroC);
+    return lMacroC;
+  }
 
-    private final List<Object> eInclude = new LinkedList<Object>();
+  public MInclude newInclude(String pName) {
+    MInclude lInclude = new MInclude(pName);
+    this.eInclude.add(lInclude);
+    return lInclude;
+  }
 
-    private final List<Object> eSelfRefH = new LinkedList<Object>();
+  public MSelfRefH newSelfRefH() {
+    MSelfRefH lSelfRefH = new MSelfRefH(mFile);
+    this.eSelfRefH.add(lSelfRefH);
+    return lSelfRefH;
+  }
 
-    private final List<Object> eSelfRefC = new LinkedList<Object>();
+  public MSelfRefC newSelfRefC() {
+    MSelfRefC lSelfRefC = new MSelfRefC(mFile);
+    this.eSelfRefC.add(lSelfRefC);
+    return lSelfRefC;
+  }
 
-    private final List<Object> eParamField = new LinkedList<Object>();
+  public MParamField newParamField(String pName) {
+    MParamField lParamField = new MParamField(pName);
+    this.eParamField.add(lParamField);
+    return lParamField;
+  }
 
-    private final List<Object> eAncestorField = new LinkedList<Object>();
+  public MAncestorField newAncestorField(String pName) {
+    MAncestorField lAncestorField = new MAncestorField(pName);
+    this.eAncestorField.add(lAncestorField);
+    return lAncestorField;
+  }
 
-    private final List<Object> eExpandField = new LinkedList<Object>();
+  public MExpandField newExpandField(String pName) {
+    MExpandField lExpandField = new MExpandField(pName);
+    this.eExpandField.add(lExpandField);
+    return lExpandField;
+  }
 
-    private final List<Object> eExpandDestructor = new LinkedList<Object>();
+  public MExpandDestructor newExpandDestructor(String pName) {
+    MExpandDestructor lExpandDestructor = new MExpandDestructor(pName, mFile);
+    this.eExpandDestructor.add(lExpandDestructor);
+    return lExpandDestructor;
+  }
 
-    private final List<Object> eMacroCreator = new LinkedList<Object>();
+  public MMacroCreator newMacroCreator(String pName) {
+    MMacroCreator lMacroCreator = new MMacroCreator(pName, mFile);
+    this.eMacroCreator.add(lMacroCreator);
+    return lMacroCreator;
+  }
 
-    private final List<Object> eMacroCreatorPrototype = new LinkedList<Object>();
+  public MMacroCreatorPrototype newMacroCreatorPrototype(String pName) {
+    MMacroCreatorPrototype lMacroCreatorPrototype = new MMacroCreatorPrototype(pName, mFile);
+    this.eMacroCreatorPrototype.add(lMacroCreatorPrototype);
+    return lMacroCreatorPrototype;
+  }
 
-    private final List<Object> eParam = new LinkedList<Object>();
+  public MParam newParam(String pName) {
+    MParam lParam = new MParam(pName, mFile);
+    this.eParam.add(lParam);
+    return lParam;
+  }
 
-    private final List<Object> eParamPrototype = new LinkedList<Object>();
+  public MParamPrototype newParamPrototype(String pName) {
+    MParamPrototype lParamPrototype = new MParamPrototype(pName, mFile);
+    this.eParamPrototype.add(lParamPrototype);
+    return lParamPrototype;
+  }
 
-    private final List<Object> eParamRef = new LinkedList<Object>();
+  public MParamRef newParamRef(String pName, String pContext) {
+    MParamRef lParamRef = new MParamRef(pName, pContext, mFile);
+    this.eParamRef.add(lParamRef);
+    return lParamRef;
+  }
 
-    private final List<Object> eParamRefPrototype = new LinkedList<Object>();
+  public MParamRefPrototype newParamRefPrototype(String pName) {
+    MParamRefPrototype lParamRefPrototype = new MParamRefPrototype(pName, mFile);
+    this.eParamRefPrototype.add(lParamRefPrototype);
+    return lParamRefPrototype;
+  }
 
-    private final List<Object> eParamParam = new LinkedList<Object>();
+  public MParamParam newParamParam(String pName) {
+    MParamParam lParamParam = new MParamParam(pName);
+    this.eParamParam.add(lParamParam);
+    return lParamParam;
+  }
 
-    private final List<Object> eAncestorParam = new LinkedList<Object>();
+  public MAncestorParam newAncestorParam(String pName) {
+    MAncestorParam lAncestorParam = new MAncestorParam(pName);
+    this.eAncestorParam.add(lAncestorParam);
+    return lAncestorParam;
+  }
 
-    private final List<Object> eParamArg = new LinkedList<Object>();
+  public MParamArg newParamArg(String pName) {
+    MParamArg lParamArg = new MParamArg(pName);
+    this.eParamArg.add(lParamArg);
+    return lParamArg;
+  }
 
-    private final List<Object> eAncestorArg = new LinkedList<Object>();
+  public MAncestorArg newAncestorArg(String pName) {
+    MAncestorArg lAncestorArg = new MAncestorArg(pName, mFile);
+    this.eAncestorArg.add(lAncestorArg);
+    return lAncestorArg;
+  }
 
-    private final List<Object> eParamConstructorInit = new LinkedList<Object>();
+  public MParamConstructorInit newParamConstructorInit(String pName) {
+    MParamConstructorInit lParamConstructorInit = new MParamConstructorInit(pName, mFile);
+    this.eParamConstructorInit.add(lParamConstructorInit);
+    return lParamConstructorInit;
+  }
 
-    private final List<Object> eAncestorConstructorInit = new LinkedList<Object>();
+  public MAncestorConstructorInit newAncestorConstructorInit(String pName) {
+    MAncestorConstructorInit lAncestorConstructorInit = new MAncestorConstructorInit(pName, mFile);
+    this.eAncestorConstructorInit.add(lAncestorConstructorInit);
+    return lAncestorConstructorInit;
+  }
 
-    private final List<Object> eExpandConstructorInit = new LinkedList<Object>();
+  public MExpandConstructorInit newExpandConstructorInit(String pName) {
+    MExpandConstructorInit lExpandConstructorInit = new MExpandConstructorInit(pName, mFile);
+    this.eExpandConstructorInit.add(lExpandConstructorInit);
+    return lExpandConstructorInit;
+  }
 
-    private final List<Object> eStringPart = new LinkedList<Object>();
+  public MStringPart newStringPart(String pString) {
+    MStringPart lStringPart = new MStringPart(pString);
+    this.eStringPart.add(lStringPart);
+    return lStringPart;
+  }
 
-    private final List<Object> eEolPart = new LinkedList<Object>();
+  public MEolPart newEolPart() {
+    MEolPart lEolPart = new MEolPart();
+    this.eEolPart.add(lEolPart);
+    return lEolPart;
+  }
 
-    private final List<Object> eParamInsertPart = new LinkedList<Object>();
+  public MParamInsertPart newParamInsertPart(String pName) {
+    MParamInsertPart lParamInsertPart = new MParamInsertPart(pName, mFile);
+    this.eParamInsertPart.add(lParamInsertPart);
+    return lParamInsertPart;
+  }
 
-    private final List<Object> eTextInsertPart = new LinkedList<Object>();
+  public MTextInsertPart newTextInsertPart() {
+    MTextInsertPart lTextInsertPart = new MTextInsertPart(mFile);
+    this.eTextInsertPart.add(lTextInsertPart);
+    return lTextInsertPart;
+  }
 
-    private final List<Object> eExpandInsertPart = new LinkedList<Object>();
+  public MExpandInsertPart newExpandInsertPart(String pName) {
+    MExpandInsertPart lExpandInsertPart = new MExpandInsertPart(pName, mFile);
+    this.eExpandInsertPart.add(lExpandInsertPart);
+    return lExpandInsertPart;
+  }
 
-    private final List<Object> eTextInsert = new LinkedList<Object>();
+  public MTextInsert newTextInsert(String pName) {
+    MTextInsert lTextInsert = new MTextInsert(pName, mFile);
+    this.eTextInsert.add(lTextInsert);
+    return lTextInsert;
+  }
 
-    private final List<Object> eTextInsertString = new LinkedList<Object>();
+  public MTextInsertString newTextInsertString(String pName) {
+    MTextInsertString lTextInsertString = new MTextInsertString(pName);
+    this.eTextInsertString.add(lTextInsertString);
+    return lTextInsertString;
+  }
 
-    private final List<Object> eTextInsertDestructor = new LinkedList<Object>();
+  public MTextInsertDestructor newTextInsertDestructor(String pName) {
+    MTextInsertDestructor lTextInsertDestructor = new MTextInsertDestructor(pName);
+    this.eTextInsertDestructor.add(lTextInsertDestructor);
+    return lTextInsertDestructor;
+  }
 
-    private final List<Object> eInlineText = new LinkedList<Object>();
+  public MInlineText newInlineText() {
+    MInlineText lInlineText = new MInlineText();
+    this.eInlineText.add(lInlineText);
+    return lInlineText;
+  }
 
-    private final List<Object> eInlineString = new LinkedList<Object>();
+  public MInlineString newInlineString(String pString) {
+    MInlineString lInlineString = new MInlineString(pString);
+    this.eInlineString.add(lInlineString);
+    return lInlineString;
+  }
 
-    private final List<Object> eInlineEol = new LinkedList<Object>();
+  public MInlineEol newInlineEol() {
+    MInlineEol lInlineEol = new MInlineEol();
+    this.eInlineEol.add(lInlineEol);
+    return lInlineEol;
+  }
 
-    private final List<Object> eParamInsert = new LinkedList<Object>();
+  public MParamInsert newParamInsert(String pName) {
+    MParamInsert lParamInsert = new MParamInsert(pName, mFile);
+    this.eParamInsert.add(lParamInsert);
+    return lParamInsert;
+  }
 
-    private final List<Object> eTextInsertAncestor = new LinkedList<Object>();
+  public MTextInsertAncestor newTextInsertAncestor(String pName) {
+    MTextInsertAncestor lTextInsertAncestor = new MTextInsertAncestor(pName, mFile);
+    this.eTextInsertAncestor.add(lTextInsertAncestor);
+    return lTextInsertAncestor;
+  }
 
-    public MFile(
-            String pFileName) {
+  String pFileName() {
+    return this.pFileName;
+  }
 
-        if (pFileName == null) {
-            throw new NullPointerException();
-        }
-        this.pFileName = pFileName;
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append(System.getProperty("line.separator"));
+    sb.append(System.getProperty("line.separator"));
+    for(Object oTextH : this.eTextH) {
+      sb.append(oTextH.toString());
     }
-
-    public MTextH newTextH() {
-
-        MTextH lTextH = new MTextH(this.mFile);
-        this.eTextH.add(lTextH);
-        return lTextH;
+    sb.append(System.getProperty("line.separator"));
+    sb.append(System.getProperty("line.separator"));
+    for(Object oTextC : this.eTextC) {
+      sb.append(oTextC.toString());
     }
-
-    public MTextC newTextC() {
-
-        MTextC lTextC = new MTextC(this.mFile);
-        this.eTextC.add(lTextC);
-        return lTextC;
+    sb.append(System.getProperty("line.separator"));
+    sb.append(System.getProperty("line.separator"));
+    for(Object oMacroH : this.eMacroH) {
+      sb.append(oMacroH.toString());
     }
-
-    public MMacroH newMacroH() {
-
-        MMacroH lMacroH = new MMacroH(this.mFile);
-        this.eMacroH.add(lMacroH);
-        return lMacroH;
+    sb.append(System.getProperty("line.separator"));
+    sb.append(System.getProperty("line.separator"));
+    sb.append(System.getProperty("line.separator"));
+    for(Object oMacroC : this.eMacroC) {
+      sb.append(oMacroC.toString());
     }
-
-    public MMacroC newMacroC() {
-
-        MMacroC lMacroC = new MMacroC(this.mFile);
-        this.eMacroC.add(lMacroC);
-        return lMacroC;
+    sb.append(System.getProperty("line.separator"));
+    sb.append(System.getProperty("line.separator"));
+    sb.append(System.getProperty("line.separator"));
+    for(Object oInclude : this.eInclude) {
+      sb.append(oInclude.toString());
     }
-
-    public MInclude newInclude(
-            String pName) {
-
-        MInclude lInclude = new MInclude(pName);
-        this.eInclude.add(lInclude);
-        return lInclude;
+    sb.append(System.getProperty("line.separator"));
+    sb.append(System.getProperty("line.separator"));
+    for(Object oSelfRefH : this.eSelfRefH) {
+      sb.append(oSelfRefH.toString());
     }
-
-    public MSelfRefH newSelfRefH() {
-
-        MSelfRefH lSelfRefH = new MSelfRefH(this.mFile);
-        this.eSelfRefH.add(lSelfRefH);
-        return lSelfRefH;
+    sb.append(System.getProperty("line.separator"));
+    sb.append(System.getProperty("line.separator"));
+    for(Object oSelfRefC : this.eSelfRefC) {
+      sb.append(oSelfRefC.toString());
     }
-
-    public MSelfRefC newSelfRefC() {
-
-        MSelfRefC lSelfRefC = new MSelfRefC(this.mFile);
-        this.eSelfRefC.add(lSelfRefC);
-        return lSelfRefC;
+    sb.append(System.getProperty("line.separator"));
+    sb.append(System.getProperty("line.separator"));
+    for(Object oParamField : this.eParamField) {
+      sb.append(oParamField.toString());
     }
-
-    public MParamField newParamField(
-            String pName) {
-
-        MParamField lParamField = new MParamField(pName);
-        this.eParamField.add(lParamField);
-        return lParamField;
+    sb.append(System.getProperty("line.separator"));
+    sb.append(System.getProperty("line.separator"));
+    for(Object oAncestorField : this.eAncestorField) {
+      sb.append(oAncestorField.toString());
     }
-
-    public MAncestorField newAncestorField(
-            String pName) {
-
-        MAncestorField lAncestorField = new MAncestorField(pName);
-        this.eAncestorField.add(lAncestorField);
-        return lAncestorField;
+    sb.append(System.getProperty("line.separator"));
+    sb.append(System.getProperty("line.separator"));
+    for(Object oExpandField : this.eExpandField) {
+      sb.append(oExpandField.toString());
     }
-
-    public MExpandField newExpandField(
-            String pName) {
-
-        MExpandField lExpandField = new MExpandField(pName);
-        this.eExpandField.add(lExpandField);
-        return lExpandField;
+    sb.append(System.getProperty("line.separator"));
+    sb.append(System.getProperty("line.separator"));
+    for(Object oExpandDestructor : this.eExpandDestructor) {
+      sb.append(oExpandDestructor.toString());
     }
-
-    public MExpandDestructor newExpandDestructor(
-            String pName) {
-
-        MExpandDestructor lExpandDestructor = new MExpandDestructor(pName,
-                this.mFile);
-        this.eExpandDestructor.add(lExpandDestructor);
-        return lExpandDestructor;
+    sb.append(System.getProperty("line.separator"));
+    sb.append(System.getProperty("line.separator"));
+    for(Object oMacroCreator : this.eMacroCreator) {
+      sb.append(oMacroCreator.toString());
     }
-
-    public MMacroCreator newMacroCreator(
-            String pName) {
-
-        MMacroCreator lMacroCreator = new MMacroCreator(pName, this.mFile);
-        this.eMacroCreator.add(lMacroCreator);
-        return lMacroCreator;
+    sb.append(System.getProperty("line.separator"));
+    sb.append(System.getProperty("line.separator"));
+    for(Object oMacroCreatorPrototype : this.eMacroCreatorPrototype) {
+      sb.append(oMacroCreatorPrototype.toString());
     }
-
-    public MMacroCreatorPrototype newMacroCreatorPrototype(
-            String pName) {
-
-        MMacroCreatorPrototype lMacroCreatorPrototype = new MMacroCreatorPrototype(
-                pName, this.mFile);
-        this.eMacroCreatorPrototype.add(lMacroCreatorPrototype);
-        return lMacroCreatorPrototype;
+    sb.append(System.getProperty("line.separator"));
+    sb.append(System.getProperty("line.separator"));
+    for(Object oParam : this.eParam) {
+      sb.append(oParam.toString());
     }
-
-    public MParam newParam(
-            String pName) {
-
-        MParam lParam = new MParam(pName, this.mFile);
-        this.eParam.add(lParam);
-        return lParam;
+    sb.append(System.getProperty("line.separator"));
+    sb.append(System.getProperty("line.separator"));
+    for(Object oParamPrototype : this.eParamPrototype) {
+      sb.append(oParamPrototype.toString());
     }
-
-    public MParamPrototype newParamPrototype(
-            String pName) {
-
-        MParamPrototype lParamPrototype = new MParamPrototype(pName, this.mFile);
-        this.eParamPrototype.add(lParamPrototype);
-        return lParamPrototype;
+    sb.append(System.getProperty("line.separator"));
+    sb.append(System.getProperty("line.separator"));
+    for(Object oParamRef : this.eParamRef) {
+      sb.append(oParamRef.toString());
     }
-
-    public MParamRef newParamRef(
-            String pName,
-            String pContext) {
-
-        MParamRef lParamRef = new MParamRef(pName, pContext, this.mFile);
-        this.eParamRef.add(lParamRef);
-        return lParamRef;
+    sb.append(System.getProperty("line.separator"));
+    sb.append(System.getProperty("line.separator"));
+    for(Object oParamRefPrototype : this.eParamRefPrototype) {
+      sb.append(oParamRefPrototype.toString());
     }
-
-    public MParamRefPrototype newParamRefPrototype(
-            String pName) {
-
-        MParamRefPrototype lParamRefPrototype = new MParamRefPrototype(pName,
-                this.mFile);
-        this.eParamRefPrototype.add(lParamRefPrototype);
-        return lParamRefPrototype;
+    sb.append(System.getProperty("line.separator"));
+    sb.append(System.getProperty("line.separator"));
+    for(Object oParamParam : this.eParamParam) {
+      sb.append(oParamParam.toString());
     }
-
-    public MParamParam newParamParam(
-            String pName) {
-
-        MParamParam lParamParam = new MParamParam(pName);
-        this.eParamParam.add(lParamParam);
-        return lParamParam;
+    sb.append(System.getProperty("line.separator"));
+    sb.append(System.getProperty("line.separator"));
+    for(Object oAncestorParam : this.eAncestorParam) {
+      sb.append(oAncestorParam.toString());
     }
-
-    public MAncestorParam newAncestorParam(
-            String pName) {
-
-        MAncestorParam lAncestorParam = new MAncestorParam(pName);
-        this.eAncestorParam.add(lAncestorParam);
-        return lAncestorParam;
+    sb.append(System.getProperty("line.separator"));
+    sb.append(System.getProperty("line.separator"));
+    for(Object oParamArg : this.eParamArg) {
+      sb.append(oParamArg.toString());
     }
-
-    public MParamArg newParamArg(
-            String pName) {
-
-        MParamArg lParamArg = new MParamArg(pName);
-        this.eParamArg.add(lParamArg);
-        return lParamArg;
+    sb.append(System.getProperty("line.separator"));
+    sb.append(System.getProperty("line.separator"));
+    for(Object oAncestorArg : this.eAncestorArg) {
+      sb.append(oAncestorArg.toString());
     }
-
-    public MAncestorArg newAncestorArg(
-            String pName) {
-
-        MAncestorArg lAncestorArg = new MAncestorArg(pName, this.mFile);
-        this.eAncestorArg.add(lAncestorArg);
-        return lAncestorArg;
+    sb.append(System.getProperty("line.separator"));
+    sb.append(System.getProperty("line.separator"));
+    for(Object oParamConstructorInit : this.eParamConstructorInit) {
+      sb.append(oParamConstructorInit.toString());
     }
-
-    public MParamConstructorInit newParamConstructorInit(
-            String pName) {
-
-        MParamConstructorInit lParamConstructorInit = new MParamConstructorInit(
-                pName, this.mFile);
-        this.eParamConstructorInit.add(lParamConstructorInit);
-        return lParamConstructorInit;
+    sb.append(System.getProperty("line.separator"));
+    sb.append(System.getProperty("line.separator"));
+    for(Object oAncestorConstructorInit : this.eAncestorConstructorInit) {
+      sb.append(oAncestorConstructorInit.toString());
     }
-
-    public MAncestorConstructorInit newAncestorConstructorInit(
-            String pName) {
-
-        MAncestorConstructorInit lAncestorConstructorInit = new MAncestorConstructorInit(
-                pName, this.mFile);
-        this.eAncestorConstructorInit.add(lAncestorConstructorInit);
-        return lAncestorConstructorInit;
+    sb.append(System.getProperty("line.separator"));
+    sb.append(System.getProperty("line.separator"));
+    for(Object oExpandConstructorInit : this.eExpandConstructorInit) {
+      sb.append(oExpandConstructorInit.toString());
     }
-
-    public MExpandConstructorInit newExpandConstructorInit(
-            String pName) {
-
-        MExpandConstructorInit lExpandConstructorInit = new MExpandConstructorInit(
-                pName, this.mFile);
-        this.eExpandConstructorInit.add(lExpandConstructorInit);
-        return lExpandConstructorInit;
+    sb.append(System.getProperty("line.separator"));
+    sb.append(System.getProperty("line.separator"));
+    for(Object oStringPart : this.eStringPart) {
+      sb.append(oStringPart.toString());
     }
-
-    public MStringPart newStringPart(
-            String pString) {
-
-        MStringPart lStringPart = new MStringPart(pString);
-        this.eStringPart.add(lStringPart);
-        return lStringPart;
+    sb.append(System.getProperty("line.separator"));
+    sb.append(System.getProperty("line.separator"));
+    for(Object oEolPart : this.eEolPart) {
+      sb.append(oEolPart.toString());
     }
-
-    public MEolPart newEolPart() {
-
-        MEolPart lEolPart = new MEolPart();
-        this.eEolPart.add(lEolPart);
-        return lEolPart;
+    sb.append(System.getProperty("line.separator"));
+    sb.append(System.getProperty("line.separator"));
+    for(Object oParamInsertPart : this.eParamInsertPart) {
+      sb.append(oParamInsertPart.toString());
     }
-
-    public MParamInsertPart newParamInsertPart(
-            String pName) {
-
-        MParamInsertPart lParamInsertPart = new MParamInsertPart(pName,
-                this.mFile);
-        this.eParamInsertPart.add(lParamInsertPart);
-        return lParamInsertPart;
+    sb.append(System.getProperty("line.separator"));
+    sb.append(System.getProperty("line.separator"));
+    for(Object oTextInsertPart : this.eTextInsertPart) {
+      sb.append(oTextInsertPart.toString());
     }
-
-    public MTextInsertPart newTextInsertPart() {
-
-        MTextInsertPart lTextInsertPart = new MTextInsertPart(this.mFile);
-        this.eTextInsertPart.add(lTextInsertPart);
-        return lTextInsertPart;
+    sb.append(System.getProperty("line.separator"));
+    sb.append(System.getProperty("line.separator"));
+    for(Object oExpandInsertPart : this.eExpandInsertPart) {
+      sb.append(oExpandInsertPart.toString());
     }
-
-    public MExpandInsertPart newExpandInsertPart(
-            String pName) {
-
-        MExpandInsertPart lExpandInsertPart = new MExpandInsertPart(pName,
-                this.mFile);
-        this.eExpandInsertPart.add(lExpandInsertPart);
-        return lExpandInsertPart;
+    sb.append(System.getProperty("line.separator"));
+    sb.append(System.getProperty("line.separator"));
+    for(Object oTextInsert : this.eTextInsert) {
+      sb.append(oTextInsert.toString());
     }
-
-    public MTextInsert newTextInsert(
-            String pName) {
-
-        MTextInsert lTextInsert = new MTextInsert(pName, this.mFile);
-        this.eTextInsert.add(lTextInsert);
-        return lTextInsert;
+    sb.append(System.getProperty("line.separator"));
+    sb.append(System.getProperty("line.separator"));
+    for(Object oTextInsertString : this.eTextInsertString) {
+      sb.append(oTextInsertString.toString());
     }
-
-    public MTextInsertString newTextInsertString(
-            String pName) {
-
-        MTextInsertString lTextInsertString = new MTextInsertString(pName);
-        this.eTextInsertString.add(lTextInsertString);
-        return lTextInsertString;
+    sb.append(System.getProperty("line.separator"));
+    sb.append(System.getProperty("line.separator"));
+    for(Object oTextInsertDestructor : this.eTextInsertDestructor) {
+      sb.append(oTextInsertDestructor.toString());
     }
-
-    public MTextInsertDestructor newTextInsertDestructor(
-            String pName) {
-
-        MTextInsertDestructor lTextInsertDestructor = new MTextInsertDestructor(
-                pName);
-        this.eTextInsertDestructor.add(lTextInsertDestructor);
-        return lTextInsertDestructor;
+    sb.append(System.getProperty("line.separator"));
+    sb.append(System.getProperty("line.separator"));
+    for(Object oInlineText : this.eInlineText) {
+      sb.append(oInlineText.toString());
     }
-
-    public MInlineText newInlineText() {
-
-        MInlineText lInlineText = new MInlineText();
-        this.eInlineText.add(lInlineText);
-        return lInlineText;
+    sb.append(System.getProperty("line.separator"));
+    sb.append(System.getProperty("line.separator"));
+    for(Object oInlineString : this.eInlineString) {
+      sb.append(oInlineString.toString());
     }
-
-    public MInlineString newInlineString(
-            String pString) {
-
-        MInlineString lInlineString = new MInlineString(pString);
-        this.eInlineString.add(lInlineString);
-        return lInlineString;
+    sb.append(System.getProperty("line.separator"));
+    sb.append(System.getProperty("line.separator"));
+    for(Object oInlineEol : this.eInlineEol) {
+      sb.append(oInlineEol.toString());
     }
-
-    public MInlineEol newInlineEol() {
-
-        MInlineEol lInlineEol = new MInlineEol();
-        this.eInlineEol.add(lInlineEol);
-        return lInlineEol;
+    sb.append(System.getProperty("line.separator"));
+    sb.append(System.getProperty("line.separator"));
+    for(Object oParamInsert : this.eParamInsert) {
+      sb.append(oParamInsert.toString());
     }
-
-    public MParamInsert newParamInsert(
-            String pName) {
-
-        MParamInsert lParamInsert = new MParamInsert(pName, this.mFile);
-        this.eParamInsert.add(lParamInsert);
-        return lParamInsert;
+    sb.append(System.getProperty("line.separator"));
+    sb.append(System.getProperty("line.separator"));
+    for(Object oTextInsertAncestor : this.eTextInsertAncestor) {
+      sb.append(oTextInsertAncestor.toString());
     }
-
-    public MTextInsertAncestor newTextInsertAncestor(
-            String pName) {
-
-        MTextInsertAncestor lTextInsertAncestor = new MTextInsertAncestor(
-                pName, this.mFile);
-        this.eTextInsertAncestor.add(lTextInsertAncestor);
-        return lTextInsertAncestor;
-    }
-
-    String pFileName() {
-
-        return this.pFileName;
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append(System.getProperty("line.separator"));
-        sb.append(System.getProperty("line.separator"));
-        for (Object oTextH : this.eTextH) {
-            sb.append(oTextH.toString());
-        }
-        sb.append(System.getProperty("line.separator"));
-        sb.append(System.getProperty("line.separator"));
-        for (Object oTextC : this.eTextC) {
-            sb.append(oTextC.toString());
-        }
-        sb.append(System.getProperty("line.separator"));
-        sb.append(System.getProperty("line.separator"));
-        for (Object oMacroH : this.eMacroH) {
-            sb.append(oMacroH.toString());
-        }
-        sb.append(System.getProperty("line.separator"));
-        sb.append(System.getProperty("line.separator"));
-        sb.append(System.getProperty("line.separator"));
-        for (Object oMacroC : this.eMacroC) {
-            sb.append(oMacroC.toString());
-        }
-        sb.append(System.getProperty("line.separator"));
-        sb.append(System.getProperty("line.separator"));
-        sb.append(System.getProperty("line.separator"));
-        for (Object oInclude : this.eInclude) {
-            sb.append(oInclude.toString());
-        }
-        sb.append(System.getProperty("line.separator"));
-        sb.append(System.getProperty("line.separator"));
-        for (Object oSelfRefH : this.eSelfRefH) {
-            sb.append(oSelfRefH.toString());
-        }
-        sb.append(System.getProperty("line.separator"));
-        sb.append(System.getProperty("line.separator"));
-        for (Object oSelfRefC : this.eSelfRefC) {
-            sb.append(oSelfRefC.toString());
-        }
-        sb.append(System.getProperty("line.separator"));
-        sb.append(System.getProperty("line.separator"));
-        for (Object oParamField : this.eParamField) {
-            sb.append(oParamField.toString());
-        }
-        sb.append(System.getProperty("line.separator"));
-        sb.append(System.getProperty("line.separator"));
-        for (Object oAncestorField : this.eAncestorField) {
-            sb.append(oAncestorField.toString());
-        }
-        sb.append(System.getProperty("line.separator"));
-        sb.append(System.getProperty("line.separator"));
-        for (Object oExpandField : this.eExpandField) {
-            sb.append(oExpandField.toString());
-        }
-        sb.append(System.getProperty("line.separator"));
-        sb.append(System.getProperty("line.separator"));
-        for (Object oExpandDestructor : this.eExpandDestructor) {
-            sb.append(oExpandDestructor.toString());
-        }
-        sb.append(System.getProperty("line.separator"));
-        sb.append(System.getProperty("line.separator"));
-        for (Object oMacroCreator : this.eMacroCreator) {
-            sb.append(oMacroCreator.toString());
-        }
-        sb.append(System.getProperty("line.separator"));
-        sb.append(System.getProperty("line.separator"));
-        for (Object oMacroCreatorPrototype : this.eMacroCreatorPrototype) {
-            sb.append(oMacroCreatorPrototype.toString());
-        }
-        sb.append(System.getProperty("line.separator"));
-        sb.append(System.getProperty("line.separator"));
-        for (Object oParam : this.eParam) {
-            sb.append(oParam.toString());
-        }
-        sb.append(System.getProperty("line.separator"));
-        sb.append(System.getProperty("line.separator"));
-        for (Object oParamPrototype : this.eParamPrototype) {
-            sb.append(oParamPrototype.toString());
-        }
-        sb.append(System.getProperty("line.separator"));
-        sb.append(System.getProperty("line.separator"));
-        for (Object oParamRef : this.eParamRef) {
-            sb.append(oParamRef.toString());
-        }
-        sb.append(System.getProperty("line.separator"));
-        sb.append(System.getProperty("line.separator"));
-        for (Object oParamRefPrototype : this.eParamRefPrototype) {
-            sb.append(oParamRefPrototype.toString());
-        }
-        sb.append(System.getProperty("line.separator"));
-        sb.append(System.getProperty("line.separator"));
-        for (Object oParamParam : this.eParamParam) {
-            sb.append(oParamParam.toString());
-        }
-        sb.append(System.getProperty("line.separator"));
-        sb.append(System.getProperty("line.separator"));
-        for (Object oAncestorParam : this.eAncestorParam) {
-            sb.append(oAncestorParam.toString());
-        }
-        sb.append(System.getProperty("line.separator"));
-        sb.append(System.getProperty("line.separator"));
-        for (Object oParamArg : this.eParamArg) {
-            sb.append(oParamArg.toString());
-        }
-        sb.append(System.getProperty("line.separator"));
-        sb.append(System.getProperty("line.separator"));
-        for (Object oAncestorArg : this.eAncestorArg) {
-            sb.append(oAncestorArg.toString());
-        }
-        sb.append(System.getProperty("line.separator"));
-        sb.append(System.getProperty("line.separator"));
-        for (Object oParamConstructorInit : this.eParamConstructorInit) {
-            sb.append(oParamConstructorInit.toString());
-        }
-        sb.append(System.getProperty("line.separator"));
-        sb.append(System.getProperty("line.separator"));
-        for (Object oAncestorConstructorInit : this.eAncestorConstructorInit) {
-            sb.append(oAncestorConstructorInit.toString());
-        }
-        sb.append(System.getProperty("line.separator"));
-        sb.append(System.getProperty("line.separator"));
-        for (Object oExpandConstructorInit : this.eExpandConstructorInit) {
-            sb.append(oExpandConstructorInit.toString());
-        }
-        sb.append(System.getProperty("line.separator"));
-        sb.append(System.getProperty("line.separator"));
-        for (Object oStringPart : this.eStringPart) {
-            sb.append(oStringPart.toString());
-        }
-        sb.append(System.getProperty("line.separator"));
-        sb.append(System.getProperty("line.separator"));
-        for (Object oEolPart : this.eEolPart) {
-            sb.append(oEolPart.toString());
-        }
-        sb.append(System.getProperty("line.separator"));
-        sb.append(System.getProperty("line.separator"));
-        for (Object oParamInsertPart : this.eParamInsertPart) {
-            sb.append(oParamInsertPart.toString());
-        }
-        sb.append(System.getProperty("line.separator"));
-        sb.append(System.getProperty("line.separator"));
-        for (Object oTextInsertPart : this.eTextInsertPart) {
-            sb.append(oTextInsertPart.toString());
-        }
-        sb.append(System.getProperty("line.separator"));
-        sb.append(System.getProperty("line.separator"));
-        for (Object oExpandInsertPart : this.eExpandInsertPart) {
-            sb.append(oExpandInsertPart.toString());
-        }
-        sb.append(System.getProperty("line.separator"));
-        sb.append(System.getProperty("line.separator"));
-        for (Object oTextInsert : this.eTextInsert) {
-            sb.append(oTextInsert.toString());
-        }
-        sb.append(System.getProperty("line.separator"));
-        sb.append(System.getProperty("line.separator"));
-        for (Object oTextInsertString : this.eTextInsertString) {
-            sb.append(oTextInsertString.toString());
-        }
-        sb.append(System.getProperty("line.separator"));
-        sb.append(System.getProperty("line.separator"));
-        for (Object oTextInsertDestructor : this.eTextInsertDestructor) {
-            sb.append(oTextInsertDestructor.toString());
-        }
-        sb.append(System.getProperty("line.separator"));
-        sb.append(System.getProperty("line.separator"));
-        for (Object oInlineText : this.eInlineText) {
-            sb.append(oInlineText.toString());
-        }
-        sb.append(System.getProperty("line.separator"));
-        sb.append(System.getProperty("line.separator"));
-        for (Object oInlineString : this.eInlineString) {
-            sb.append(oInlineString.toString());
-        }
-        sb.append(System.getProperty("line.separator"));
-        sb.append(System.getProperty("line.separator"));
-        for (Object oInlineEol : this.eInlineEol) {
-            sb.append(oInlineEol.toString());
-        }
-        sb.append(System.getProperty("line.separator"));
-        sb.append(System.getProperty("line.separator"));
-        for (Object oParamInsert : this.eParamInsert) {
-            sb.append(oParamInsert.toString());
-        }
-        sb.append(System.getProperty("line.separator"));
-        sb.append(System.getProperty("line.separator"));
-        for (Object oTextInsertAncestor : this.eTextInsertAncestor) {
-            sb.append(oTextInsertAncestor.toString());
-        }
-        sb.append(System.getProperty("line.separator"));
-        return sb.toString();
-    }
+    sb.append(System.getProperty("line.separator"));
+    return sb.toString();
+  }
 
 }

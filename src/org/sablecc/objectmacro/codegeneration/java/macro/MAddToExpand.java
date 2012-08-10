@@ -4,52 +4,39 @@ package org.sablecc.objectmacro.codegeneration.java.macro;
 
 public class MAddToExpand {
 
-    private final String pSignature;
+  private final String pSignature;
+  private final MAddToExpand mAddToExpand = this;
+  private final MMacroCreator mMacroCreator;
 
-    private final MAddToExpand mAddToExpand = this;
+  MAddToExpand(String pSignature, MMacroCreator mMacroCreator) {
+    if(pSignature == null) throw new NullPointerException();
+    this.pSignature = pSignature;
+    if(mMacroCreator == null) throw new NullPointerException();
+    this.mMacroCreator = mMacroCreator;
+  }
 
-    private final MMacroCreator mMacroCreator;
+  String pSignature() {
+    return this.pSignature;
+  }
 
-    MAddToExpand(
-            String pSignature,
-            MMacroCreator mMacroCreator) {
+  private String rSignature() {
+    return this.mAddToExpand.pSignature();
+  }
 
-        if (pSignature == null) {
-            throw new NullPointerException();
-        }
-        this.pSignature = pSignature;
-        if (mMacroCreator == null) {
-            throw new NullPointerException();
-        }
-        this.mMacroCreator = mMacroCreator;
-    }
+  private String rName() {
+    return this.mMacroCreator.pName();
+  }
 
-    String pSignature() {
-
-        return this.pSignature;
-    }
-
-    private String rSignature() {
-
-        return this.mAddToExpand.pSignature();
-    }
-
-    private String rName() {
-
-        return this.mMacroCreator.pName();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("    this.e");
-        sb.append(rSignature());
-        sb.append(".add(l");
-        sb.append(rName());
-        sb.append(");");
-        sb.append(System.getProperty("line.separator"));
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("    this.e");
+    sb.append(rSignature());
+    sb.append(".add(l");
+    sb.append(rName());
+    sb.append(");");
+    sb.append(System.getProperty("line.separator"));
+    return sb.toString();
+  }
 
 }

@@ -4,16 +4,14 @@ package org.sablecc.sablecc.codegeneration.java.macro;
 
 public class MEndConstructorParameter {
 
-    MEndConstructorParameter() {
+  MEndConstructorParameter() {
+  }
 
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("End p$end");
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("End p$end");
+    return sb.toString();
+  }
 
 }

@@ -4,56 +4,42 @@ package org.sablecc.sablecc.codegeneration.java.macro;
 
 public class MPublicAlternatedListElementType {
 
-    private final String pLeftElementType;
+  private final String pLeftElementType;
+  private final String pRightElementType;
+  private final MPublicAlternatedListElementType mPublicAlternatedListElementType = this;
 
-    private final String pRightElementType;
+  MPublicAlternatedListElementType(String pLeftElementType, String pRightElementType) {
+    if(pLeftElementType == null) throw new NullPointerException();
+    this.pLeftElementType = pLeftElementType;
+    if(pRightElementType == null) throw new NullPointerException();
+    this.pRightElementType = pRightElementType;
+  }
 
-    private final MPublicAlternatedListElementType mPublicAlternatedListElementType = this;
+  String pLeftElementType() {
+    return this.pLeftElementType;
+  }
 
-    MPublicAlternatedListElementType(
-            String pLeftElementType,
-            String pRightElementType) {
+  String pRightElementType() {
+    return this.pRightElementType;
+  }
 
-        if (pLeftElementType == null) {
-            throw new NullPointerException();
-        }
-        this.pLeftElementType = pLeftElementType;
-        if (pRightElementType == null) {
-            throw new NullPointerException();
-        }
-        this.pRightElementType = pRightElementType;
-    }
+  private String rLeftElementType() {
+    return this.mPublicAlternatedListElementType.pLeftElementType();
+  }
 
-    String pLeftElementType() {
+  private String rRightElementType() {
+    return this.mPublicAlternatedListElementType.pRightElementType();
+  }
 
-        return this.pLeftElementType;
-    }
-
-    String pRightElementType() {
-
-        return this.pRightElementType;
-    }
-
-    private String rLeftElementType() {
-
-        return this.mPublicAlternatedListElementType.pLeftElementType();
-    }
-
-    private String rRightElementType() {
-
-        return this.mPublicAlternatedListElementType.pRightElementType();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("PairNodeList<N");
-        sb.append(rLeftElementType());
-        sb.append(",N");
-        sb.append(rRightElementType());
-        sb.append(">");
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("PairNodeList<N");
+    sb.append(rLeftElementType());
+    sb.append(",N");
+    sb.append(rRightElementType());
+    sb.append(">");
+    return sb.toString();
+  }
 
 }

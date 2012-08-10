@@ -4,54 +4,41 @@ package org.sablecc.objectmacro.codegeneration.c.macro;
 
 public class MParamConstructorInit {
 
-    private final String pName;
+  private final String pName;
+  private final MParamConstructorInit mParamConstructorInit = this;
+  private final MFile mFile;
 
-    private final MParamConstructorInit mParamConstructorInit = this;
+  MParamConstructorInit(String pName, MFile mFile) {
+    if(pName == null) throw new NullPointerException();
+    this.pName = pName;
+    if(mFile == null) throw new NullPointerException();
+    this.mFile = mFile;
+  }
 
-    private final MFile mFile;
+  String pName() {
+    return this.pName;
+  }
 
-    MParamConstructorInit(
-            String pName,
-            MFile mFile) {
+  private String rFileName() {
+    return this.mFile.pFileName();
+  }
 
-        if (pName == null) {
-            throw new NullPointerException();
-        }
-        this.pName = pName;
-        if (mFile == null) {
-            throw new NullPointerException();
-        }
-        this.mFile = mFile;
-    }
+  private String rName() {
+    return this.mParamConstructorInit.pName();
+  }
 
-    String pName() {
-
-        return this.pName;
-    }
-
-    private String rFileName() {
-
-        return this.mFile.pFileName();
-    }
-
-    private String rName() {
-
-        return this.mParamConstructorInit.pName();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("  m");
-        sb.append(rFileName());
-        sb.append("->_p");
-        sb.append(rName());
-        sb.append("_ = _p");
-        sb.append(rName());
-        sb.append("_;");
-        sb.append(System.getProperty("line.separator"));
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("  m");
+    sb.append(rFileName());
+    sb.append("->_p");
+    sb.append(rName());
+    sb.append("_ = _p");
+    sb.append(rName());
+    sb.append("_;");
+    sb.append(System.getProperty("line.separator"));
+    return sb.toString();
+  }
 
 }

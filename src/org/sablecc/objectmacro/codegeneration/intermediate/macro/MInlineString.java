@@ -4,35 +4,27 @@ package org.sablecc.objectmacro.codegeneration.intermediate.macro;
 
 public class MInlineString {
 
-    private final String pString;
+  private final String pString;
+  private final MInlineString mInlineString = this;
 
-    private final MInlineString mInlineString = this;
+  public MInlineString(String pString) {
+    if(pString == null) throw new NullPointerException();
+    this.pString = pString;
+  }
 
-    public MInlineString(
-            String pString) {
+  String pString() {
+    return this.pString;
+  }
 
-        if (pString == null) {
-            throw new NullPointerException();
-        }
-        this.pString = pString;
-    }
+  private String rString() {
+    return this.mInlineString.pString();
+  }
 
-    String pString() {
-
-        return this.pString;
-    }
-
-    private String rString() {
-
-        return this.mInlineString.pString();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append(rString());
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append(rString());
+    return sb.toString();
+  }
 
 }

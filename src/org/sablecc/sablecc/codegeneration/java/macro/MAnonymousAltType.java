@@ -4,17 +4,15 @@ package org.sablecc.sablecc.codegeneration.java.macro;
 
 public class MAnonymousAltType {
 
-    MAnonymousAltType() {
+  MAnonymousAltType() {
+  }
 
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("    return Type.TAnonymous;");
-        sb.append(System.getProperty("line.separator"));
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("    return Type.TAnonymous;");
+    sb.append(System.getProperty("line.separator"));
+    return sb.toString();
+  }
 
 }

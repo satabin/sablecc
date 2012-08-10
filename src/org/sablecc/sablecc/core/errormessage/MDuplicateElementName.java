@@ -4,160 +4,116 @@ package org.sablecc.sablecc.core.errormessage;
 
 public class MDuplicateElementName {
 
-    private final String pName;
+  private final String pName;
+  private final String pProdName;
+  private final String pAltName;
+  private final String pLine;
+  private final String pChar;
+  private final String pRefLine;
+  private final String pRefChar;
+  private final MDuplicateElementName mDuplicateElementName = this;
 
-    private final String pProdName;
+  public MDuplicateElementName(String pName, String pProdName, String pAltName, String pLine, String pChar, String pRefLine, String pRefChar) {
+    if(pName == null) throw new NullPointerException();
+    this.pName = pName;
+    if(pProdName == null) throw new NullPointerException();
+    this.pProdName = pProdName;
+    if(pAltName == null) throw new NullPointerException();
+    this.pAltName = pAltName;
+    if(pLine == null) throw new NullPointerException();
+    this.pLine = pLine;
+    if(pChar == null) throw new NullPointerException();
+    this.pChar = pChar;
+    if(pRefLine == null) throw new NullPointerException();
+    this.pRefLine = pRefLine;
+    if(pRefChar == null) throw new NullPointerException();
+    this.pRefChar = pRefChar;
+  }
 
-    private final String pAltName;
+  String pName() {
+    return this.pName;
+  }
 
-    private final String pLine;
+  String pProdName() {
+    return this.pProdName;
+  }
 
-    private final String pChar;
+  String pAltName() {
+    return this.pAltName;
+  }
 
-    private final String pRefLine;
+  String pLine() {
+    return this.pLine;
+  }
 
-    private final String pRefChar;
+  String pChar() {
+    return this.pChar;
+  }
 
-    private final MDuplicateElementName mDuplicateElementName = this;
+  String pRefLine() {
+    return this.pRefLine;
+  }
 
-    public MDuplicateElementName(
-            String pName,
-            String pProdName,
-            String pAltName,
-            String pLine,
-            String pChar,
-            String pRefLine,
-            String pRefChar) {
+  String pRefChar() {
+    return this.pRefChar;
+  }
 
-        if (pName == null) {
-            throw new NullPointerException();
-        }
-        this.pName = pName;
-        if (pProdName == null) {
-            throw new NullPointerException();
-        }
-        this.pProdName = pProdName;
-        if (pAltName == null) {
-            throw new NullPointerException();
-        }
-        this.pAltName = pAltName;
-        if (pLine == null) {
-            throw new NullPointerException();
-        }
-        this.pLine = pLine;
-        if (pChar == null) {
-            throw new NullPointerException();
-        }
-        this.pChar = pChar;
-        if (pRefLine == null) {
-            throw new NullPointerException();
-        }
-        this.pRefLine = pRefLine;
-        if (pRefChar == null) {
-            throw new NullPointerException();
-        }
-        this.pRefChar = pRefChar;
-    }
+  private String rLine() {
+    return this.mDuplicateElementName.pLine();
+  }
 
-    String pName() {
+  private String rChar() {
+    return this.mDuplicateElementName.pChar();
+  }
 
-        return this.pName;
-    }
+  private String rName() {
+    return this.mDuplicateElementName.pName();
+  }
 
-    String pProdName() {
+  private String rAltName() {
+    return this.mDuplicateElementName.pAltName();
+  }
 
-        return this.pProdName;
-    }
+  private String rProdName() {
+    return this.mDuplicateElementName.pProdName();
+  }
 
-    String pAltName() {
+  private String rRefLine() {
+    return this.mDuplicateElementName.pRefLine();
+  }
 
-        return this.pAltName;
-    }
+  private String rRefChar() {
+    return this.mDuplicateElementName.pRefChar();
+  }
 
-    String pLine() {
-
-        return this.pLine;
-    }
-
-    String pChar() {
-
-        return this.pChar;
-    }
-
-    String pRefLine() {
-
-        return this.pRefLine;
-    }
-
-    String pRefChar() {
-
-        return this.pRefChar;
-    }
-
-    private String rLine() {
-
-        return this.mDuplicateElementName.pLine();
-    }
-
-    private String rChar() {
-
-        return this.mDuplicateElementName.pChar();
-    }
-
-    private String rName() {
-
-        return this.mDuplicateElementName.pName();
-    }
-
-    private String rAltName() {
-
-        return this.mDuplicateElementName.pAltName();
-    }
-
-    private String rProdName() {
-
-        return this.mDuplicateElementName.pProdName();
-    }
-
-    private String rRefLine() {
-
-        return this.mDuplicateElementName.pRefLine();
-    }
-
-    private String rRefChar() {
-
-        return this.mDuplicateElementName.pRefChar();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append(new MSemanticErrorHead().toString());
-        sb.append(System.getProperty("line.separator"));
-        sb.append("Line: ");
-        sb.append(rLine());
-        sb.append(System.getProperty("line.separator"));
-        sb.append("Char: ");
-        sb.append(rChar());
-        sb.append(System.getProperty("line.separator"));
-        sb.append("The \"");
-        sb.append(rName());
-        sb.append("\" element reuses an existing name in alternative \"");
-        sb.append(rAltName());
-        sb.append("\" of production \"");
-        sb.append(rProdName());
-        sb.append("\".");
-        sb.append(System.getProperty("line.separator"));
-        sb.append("A \"");
-        sb.append(rName());
-        sb.append("\" element is already declared at line ");
-        sb.append(rRefLine());
-        sb.append(", char ");
-        sb.append(rRefChar());
-        sb.append(".");
-        sb.append(System.getProperty("line.separator"));
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append(new MSemanticErrorHead().toString());
+    sb.append(System.getProperty("line.separator"));
+    sb.append("Line: ");
+    sb.append(rLine());
+    sb.append(System.getProperty("line.separator"));
+    sb.append("Char: ");
+    sb.append(rChar());
+    sb.append(System.getProperty("line.separator"));
+    sb.append("The \"");
+    sb.append(rName());
+    sb.append("\" element reuses an existing name in alternative \"");
+    sb.append(rAltName());
+    sb.append("\" of production \"");
+    sb.append(rProdName());
+    sb.append("\".");
+    sb.append(System.getProperty("line.separator"));
+    sb.append("A \"");
+    sb.append(rName());
+    sb.append("\" element is already declared at line ");
+    sb.append(rRefLine());
+    sb.append(", char ");
+    sb.append(rRefChar());
+    sb.append(".");
+    sb.append(System.getProperty("line.separator"));
+    return sb.toString();
+  }
 
 }

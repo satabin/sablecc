@@ -6,50 +6,40 @@ import java.util.*;
 
 public class MDistance {
 
-    private final String pDistance;
+  private final String pDistance;
+  private final MDistance mDistance = this;
+  private final List<Object> eAction = new LinkedList<Object>();
 
-    private final MDistance mDistance = this;
+  MDistance(String pDistance) {
+    if(pDistance == null) throw new NullPointerException();
+    this.pDistance = pDistance;
+  }
 
-    private final List<Object> eAction = new LinkedList<Object>();
+  public MAction newAction() {
+    MAction lAction = new MAction();
+    this.eAction.add(lAction);
+    return lAction;
+  }
 
-    MDistance(
-            String pDistance) {
+  String pDistance() {
+    return this.pDistance;
+  }
 
-        if (pDistance == null) {
-            throw new NullPointerException();
-        }
-        this.pDistance = pDistance;
+  private String rDistance() {
+    return this.mDistance.pDistance();
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("    // LR(");
+    sb.append(rDistance());
+    sb.append(") decisions");
+    sb.append(System.getProperty("line.separator"));
+    for(Object oAction : this.eAction) {
+      sb.append(oAction.toString());
     }
-
-    public MAction newAction() {
-
-        MAction lAction = new MAction();
-        this.eAction.add(lAction);
-        return lAction;
-    }
-
-    String pDistance() {
-
-        return this.pDistance;
-    }
-
-    private String rDistance() {
-
-        return this.mDistance.pDistance();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("    // LR(");
-        sb.append(rDistance());
-        sb.append(") decisions");
-        sb.append(System.getProperty("line.separator"));
-        for (Object oAction : this.eAction) {
-            sb.append(oAction.toString());
-        }
-        return sb.toString();
-    }
+    return sb.toString();
+  }
 
 }

@@ -6,44 +6,34 @@ import java.util.*;
 
 public class MIntermediateRepresentation {
 
-    private final List<Object> eText = new LinkedList<Object>();
+  private final List<Object> eText = new LinkedList<Object>();
+  private final List<Object> eMacro = new LinkedList<Object>();
 
-    private final List<Object> eMacro = new LinkedList<Object>();
+  public MIntermediateRepresentation() {
+  }
 
-    public MIntermediateRepresentation() {
+  public MText newText(String pName, String pSelfRef) {
+    MText lText = new MText(pName, pSelfRef);
+    this.eText.add(lText);
+    return lText;
+  }
 
+  public MMacro newMacro(String pName, String pIsPublic, String pSelfRef) {
+    MMacro lMacro = new MMacro(pName, pIsPublic, pSelfRef);
+    this.eMacro.add(lMacro);
+    return lMacro;
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    for(Object oText : this.eText) {
+      sb.append(oText.toString());
     }
-
-    public MText newText(
-            String pName,
-            String pSelfRef) {
-
-        MText lText = new MText(pName, pSelfRef);
-        this.eText.add(lText);
-        return lText;
+    for(Object oMacro : this.eMacro) {
+      sb.append(oMacro.toString());
     }
-
-    public MMacro newMacro(
-            String pName,
-            String pIsPublic,
-            String pSelfRef) {
-
-        MMacro lMacro = new MMacro(pName, pIsPublic, pSelfRef);
-        this.eMacro.add(lMacro);
-        return lMacro;
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        for (Object oText : this.eText) {
-            sb.append(oText.toString());
-        }
-        for (Object oMacro : this.eMacro) {
-            sb.append(oMacro.toString());
-        }
-        return sb.toString();
-    }
+    return sb.toString();
+  }
 
 }

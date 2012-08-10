@@ -4,59 +4,45 @@ package org.sablecc.sablecc.codegeneration.java.macro;
 
 public class MTransitionTarget {
 
-    private final String pSymbol;
+  private final String pSymbol;
+  private final String pTarget;
+  private final MTransitionTarget mTransitionTarget = this;
 
-    private final String pTarget;
+  MTransitionTarget(String pSymbol, String pTarget) {
+    if(pSymbol == null) throw new NullPointerException();
+    this.pSymbol = pSymbol;
+    if(pTarget == null) throw new NullPointerException();
+    this.pTarget = pTarget;
+  }
 
-    private final MTransitionTarget mTransitionTarget = this;
+  String pSymbol() {
+    return this.pSymbol;
+  }
 
-    MTransitionTarget(
-            String pSymbol,
-            String pTarget) {
+  String pTarget() {
+    return this.pTarget;
+  }
 
-        if (pSymbol == null) {
-            throw new NullPointerException();
-        }
-        this.pSymbol = pSymbol;
-        if (pTarget == null) {
-            throw new NullPointerException();
-        }
-        this.pTarget = pTarget;
-    }
+  private String rSymbol() {
+    return this.mTransitionTarget.pSymbol();
+  }
 
-    String pSymbol() {
+  private String rTarget() {
+    return this.mTransitionTarget.pTarget();
+  }
 
-        return this.pSymbol;
-    }
-
-    String pTarget() {
-
-        return this.pTarget;
-    }
-
-    private String rSymbol() {
-
-        return this.mTransitionTarget.pSymbol();
-    }
-
-    private String rTarget() {
-
-        return this.mTransitionTarget.pTarget();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("    case Symbol_");
-        sb.append(rSymbol());
-        sb.append(":");
-        sb.append(System.getProperty("line.separator"));
-        sb.append("      return S_");
-        sb.append(rTarget());
-        sb.append(".instance;");
-        sb.append(System.getProperty("line.separator"));
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("    case Symbol_");
+    sb.append(rSymbol());
+    sb.append(":");
+    sb.append(System.getProperty("line.separator"));
+    sb.append("      return S_");
+    sb.append(rTarget());
+    sb.append(".instance;");
+    sb.append(System.getProperty("line.separator"));
+    return sb.toString();
+  }
 
 }

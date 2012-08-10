@@ -4,16 +4,14 @@ package org.sablecc.objectmacro.codegeneration.scala.macro;
 
 public class MInlineEol {
 
-    public MInlineEol() {
+  public MInlineEol() {
+  }
 
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("(System getProperty \"line.separator\")");
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("(System getProperty \"line.separator\")");
+    return sb.toString();
+  }
 
 }

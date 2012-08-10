@@ -4,35 +4,29 @@ package org.sablecc.objectmacro.codegeneration.c.macro;
 
 public class MSelfRefC {
 
-    private final MFile mFile;
+  private final MFile mFile;
 
-    MSelfRefC(
-            MFile mFile) {
+  MSelfRefC(MFile mFile) {
+    if(mFile == null) throw new NullPointerException();
+    this.mFile = mFile;
+  }
 
-        if (mFile == null) {
-            throw new NullPointerException();
-        }
-        this.mFile = mFile;
-    }
+  private String rFileName() {
+    return this.mFile.pFileName();
+  }
 
-    private String rFileName() {
-
-        return this.mFile.pFileName();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("  m");
-        sb.append(rFileName());
-        sb.append("->_m");
-        sb.append(rFileName());
-        sb.append("_ = m");
-        sb.append(rFileName());
-        sb.append(";");
-        sb.append(System.getProperty("line.separator"));
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("  m");
+    sb.append(rFileName());
+    sb.append("->_m");
+    sb.append(rFileName());
+    sb.append("_ = m");
+    sb.append(rFileName());
+    sb.append(";");
+    sb.append(System.getProperty("line.separator"));
+    return sb.toString();
+  }
 
 }

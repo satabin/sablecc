@@ -4,40 +4,32 @@ package org.sablecc.sablecc.codegeneration.java.macro;
 
 public class MNormalContructorInitialization {
 
-    private final String pElementName;
+  private final String pElementName;
+  private final MNormalContructorInitialization mNormalContructorInitialization = this;
 
-    private final MNormalContructorInitialization mNormalContructorInitialization = this;
+  MNormalContructorInitialization(String pElementName) {
+    if(pElementName == null) throw new NullPointerException();
+    this.pElementName = pElementName;
+  }
 
-    MNormalContructorInitialization(
-            String pElementName) {
+  String pElementName() {
+    return this.pElementName;
+  }
 
-        if (pElementName == null) {
-            throw new NullPointerException();
-        }
-        this.pElementName = pElementName;
-    }
+  private String rElementName() {
+    return this.mNormalContructorInitialization.pElementName();
+  }
 
-    String pElementName() {
-
-        return this.pElementName;
-    }
-
-    private String rElementName() {
-
-        return this.mNormalContructorInitialization.pElementName();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("    this.e");
-        sb.append(rElementName());
-        sb.append(" = p");
-        sb.append(rElementName());
-        sb.append(";");
-        sb.append(System.getProperty("line.separator"));
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("    this.e");
+    sb.append(rElementName());
+    sb.append(" = p");
+    sb.append(rElementName());
+    sb.append(";");
+    sb.append(System.getProperty("line.separator"));
+    return sb.toString();
+  }
 
 }

@@ -4,80 +4,60 @@ package org.sablecc.sablecc.core.errormessage;
 
 public class MListExpansionMissing {
 
-    private final String pElemName;
+  private final String pElemName;
+  private final String pLine;
+  private final String pChar;
+  private final MListExpansionMissing mListExpansionMissing = this;
 
-    private final String pLine;
+  public MListExpansionMissing(String pElemName, String pLine, String pChar) {
+    if(pElemName == null) throw new NullPointerException();
+    this.pElemName = pElemName;
+    if(pLine == null) throw new NullPointerException();
+    this.pLine = pLine;
+    if(pChar == null) throw new NullPointerException();
+    this.pChar = pChar;
+  }
 
-    private final String pChar;
+  String pElemName() {
+    return this.pElemName;
+  }
 
-    private final MListExpansionMissing mListExpansionMissing = this;
+  String pLine() {
+    return this.pLine;
+  }
 
-    public MListExpansionMissing(
-            String pElemName,
-            String pLine,
-            String pChar) {
+  String pChar() {
+    return this.pChar;
+  }
 
-        if (pElemName == null) {
-            throw new NullPointerException();
-        }
-        this.pElemName = pElemName;
-        if (pLine == null) {
-            throw new NullPointerException();
-        }
-        this.pLine = pLine;
-        if (pChar == null) {
-            throw new NullPointerException();
-        }
-        this.pChar = pChar;
-    }
+  private String rLine() {
+    return this.mListExpansionMissing.pLine();
+  }
 
-    String pElemName() {
+  private String rChar() {
+    return this.mListExpansionMissing.pChar();
+  }
 
-        return this.pElemName;
-    }
+  private String rElemName() {
+    return this.mListExpansionMissing.pElemName();
+  }
 
-    String pLine() {
-
-        return this.pLine;
-    }
-
-    String pChar() {
-
-        return this.pChar;
-    }
-
-    private String rLine() {
-
-        return this.mListExpansionMissing.pLine();
-    }
-
-    private String rChar() {
-
-        return this.mListExpansionMissing.pChar();
-    }
-
-    private String rElemName() {
-
-        return this.mListExpansionMissing.pElemName();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append(new MSemanticErrorHead().toString());
-        sb.append(System.getProperty("line.separator"));
-        sb.append("Line: ");
-        sb.append(rLine());
-        sb.append(System.getProperty("line.separator"));
-        sb.append("Char: ");
-        sb.append(rChar());
-        sb.append(System.getProperty("line.separator"));
-        sb.append("The element \"");
-        sb.append(rElemName());
-        sb.append("\" is a list and have to appear with an expansion.");
-        sb.append(System.getProperty("line.separator"));
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append(new MSemanticErrorHead().toString());
+    sb.append(System.getProperty("line.separator"));
+    sb.append("Line: ");
+    sb.append(rLine());
+    sb.append(System.getProperty("line.separator"));
+    sb.append("Char: ");
+    sb.append(rChar());
+    sb.append(System.getProperty("line.separator"));
+    sb.append("The element \"");
+    sb.append(rElemName());
+    sb.append("\" is a list and have to appear with an expansion.");
+    sb.append(System.getProperty("line.separator"));
+    return sb.toString();
+  }
 
 }

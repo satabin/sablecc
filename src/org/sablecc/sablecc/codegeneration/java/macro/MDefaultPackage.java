@@ -4,38 +4,30 @@ package org.sablecc.sablecc.codegeneration.java.macro;
 
 public class MDefaultPackage {
 
-    private final String pLanguageName;
+  private final String pLanguageName;
+  private final MDefaultPackage mDefaultPackage = this;
 
-    private final MDefaultPackage mDefaultPackage = this;
+  public MDefaultPackage(String pLanguageName) {
+    if(pLanguageName == null) throw new NullPointerException();
+    this.pLanguageName = pLanguageName;
+  }
 
-    public MDefaultPackage(
-            String pLanguageName) {
+  String pLanguageName() {
+    return this.pLanguageName;
+  }
 
-        if (pLanguageName == null) {
-            throw new NullPointerException();
-        }
-        this.pLanguageName = pLanguageName;
-    }
+  private String rLanguageName() {
+    return this.mDefaultPackage.pLanguageName();
+  }
 
-    String pLanguageName() {
-
-        return this.pLanguageName;
-    }
-
-    private String rLanguageName() {
-
-        return this.mDefaultPackage.pLanguageName();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("package ");
-        sb.append(rLanguageName());
-        sb.append(";");
-        sb.append(System.getProperty("line.separator"));
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("package ");
+    sb.append(rLanguageName());
+    sb.append(";");
+    sb.append(System.getProperty("line.separator"));
+    return sb.toString();
+  }
 
 }

@@ -4,37 +4,29 @@ package org.sablecc.objectmacro.codegeneration.scala.macro;
 
 public class MParamInsert {
 
-    private final String pName;
+  private final String pName;
+  private final MParamInsert mParamInsert = this;
 
-    private final MParamInsert mParamInsert = this;
+  public MParamInsert(String pName) {
+    if(pName == null) throw new NullPointerException();
+    this.pName = pName;
+  }
 
-    public MParamInsert(
-            String pName) {
+  String pName() {
+    return this.pName;
+  }
 
-        if (pName == null) {
-            throw new NullPointerException();
-        }
-        this.pName = pName;
-    }
+  private String rName() {
+    return this.mParamInsert.pName();
+  }
 
-    String pName() {
-
-        return this.pName;
-    }
-
-    private String rName() {
-
-        return this.mParamInsert.pName();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("r");
-        sb.append(rName());
-        sb.append(" ");
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("r");
+    sb.append(rName());
+    sb.append(" ");
+    return sb.toString();
+  }
 
 }

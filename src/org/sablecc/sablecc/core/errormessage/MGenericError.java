@@ -4,38 +4,30 @@ package org.sablecc.sablecc.core.errormessage;
 
 public class MGenericError {
 
-    private final String pText;
+  private final String pText;
+  private final MGenericError mGenericError = this;
 
-    private final MGenericError mGenericError = this;
+  public MGenericError(String pText) {
+    if(pText == null) throw new NullPointerException();
+    this.pText = pText;
+  }
 
-    public MGenericError(
-            String pText) {
+  String pText() {
+    return this.pText;
+  }
 
-        if (pText == null) {
-            throw new NullPointerException();
-        }
-        this.pText = pText;
-    }
+  private String rText() {
+    return this.mGenericError.pText();
+  }
 
-    String pText() {
-
-        return this.pText;
-    }
-
-    private String rText() {
-
-        return this.mGenericError.pText();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append(new MSemanticErrorHead().toString());
-        sb.append(System.getProperty("line.separator"));
-        sb.append(rText());
-        sb.append(System.getProperty("line.separator"));
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append(new MSemanticErrorHead().toString());
+    sb.append(System.getProperty("line.separator"));
+    sb.append(rText());
+    sb.append(System.getProperty("line.separator"));
+    return sb.toString();
+  }
 
 }

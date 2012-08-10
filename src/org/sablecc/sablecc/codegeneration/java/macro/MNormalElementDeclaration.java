@@ -4,57 +4,43 @@ package org.sablecc.sablecc.codegeneration.java.macro;
 
 public class MNormalElementDeclaration {
 
-    private final String pElementType;
+  private final String pElementType;
+  private final String pElementName;
+  private final MNormalElementDeclaration mNormalElementDeclaration = this;
 
-    private final String pElementName;
+  MNormalElementDeclaration(String pElementType, String pElementName) {
+    if(pElementType == null) throw new NullPointerException();
+    this.pElementType = pElementType;
+    if(pElementName == null) throw new NullPointerException();
+    this.pElementName = pElementName;
+  }
 
-    private final MNormalElementDeclaration mNormalElementDeclaration = this;
+  String pElementType() {
+    return this.pElementType;
+  }
 
-    MNormalElementDeclaration(
-            String pElementType,
-            String pElementName) {
+  String pElementName() {
+    return this.pElementName;
+  }
 
-        if (pElementType == null) {
-            throw new NullPointerException();
-        }
-        this.pElementType = pElementType;
-        if (pElementName == null) {
-            throw new NullPointerException();
-        }
-        this.pElementName = pElementName;
-    }
+  private String rElementType() {
+    return this.mNormalElementDeclaration.pElementType();
+  }
 
-    String pElementType() {
+  private String rElementName() {
+    return this.mNormalElementDeclaration.pElementName();
+  }
 
-        return this.pElementType;
-    }
-
-    String pElementName() {
-
-        return this.pElementName;
-    }
-
-    private String rElementType() {
-
-        return this.mNormalElementDeclaration.pElementType();
-    }
-
-    private String rElementName() {
-
-        return this.mNormalElementDeclaration.pElementName();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("  private final N");
-        sb.append(rElementType());
-        sb.append(" e");
-        sb.append(rElementName());
-        sb.append(";");
-        sb.append(System.getProperty("line.separator"));
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("  private final N");
+    sb.append(rElementType());
+    sb.append(" e");
+    sb.append(rElementName());
+    sb.append(";");
+    sb.append(System.getProperty("line.separator"));
+    return sb.toString();
+  }
 
 }

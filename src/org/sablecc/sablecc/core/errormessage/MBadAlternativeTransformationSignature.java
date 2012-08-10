@@ -4,162 +4,118 @@ package org.sablecc.sablecc.core.errormessage;
 
 public class MBadAlternativeTransformationSignature {
 
-    private final String pAltName;
+  private final String pAltName;
+  private final String pNbAltTransfElem;
+  private final String pNbProdTransfElem;
+  private final String pAltTransfLine;
+  private final String pAltTransfChar;
+  private final String pProdTransfLine;
+  private final String pProdTransfChar;
+  private final MBadAlternativeTransformationSignature mBadAlternativeTransformationSignature = this;
 
-    private final String pNbAltTransfElem;
+  public MBadAlternativeTransformationSignature(String pAltName, String pNbAltTransfElem, String pNbProdTransfElem, String pAltTransfLine, String pAltTransfChar, String pProdTransfLine, String pProdTransfChar) {
+    if(pAltName == null) throw new NullPointerException();
+    this.pAltName = pAltName;
+    if(pNbAltTransfElem == null) throw new NullPointerException();
+    this.pNbAltTransfElem = pNbAltTransfElem;
+    if(pNbProdTransfElem == null) throw new NullPointerException();
+    this.pNbProdTransfElem = pNbProdTransfElem;
+    if(pAltTransfLine == null) throw new NullPointerException();
+    this.pAltTransfLine = pAltTransfLine;
+    if(pAltTransfChar == null) throw new NullPointerException();
+    this.pAltTransfChar = pAltTransfChar;
+    if(pProdTransfLine == null) throw new NullPointerException();
+    this.pProdTransfLine = pProdTransfLine;
+    if(pProdTransfChar == null) throw new NullPointerException();
+    this.pProdTransfChar = pProdTransfChar;
+  }
 
-    private final String pNbProdTransfElem;
+  String pAltName() {
+    return this.pAltName;
+  }
 
-    private final String pAltTransfLine;
+  String pNbAltTransfElem() {
+    return this.pNbAltTransfElem;
+  }
 
-    private final String pAltTransfChar;
+  String pNbProdTransfElem() {
+    return this.pNbProdTransfElem;
+  }
 
-    private final String pProdTransfLine;
+  String pAltTransfLine() {
+    return this.pAltTransfLine;
+  }
 
-    private final String pProdTransfChar;
+  String pAltTransfChar() {
+    return this.pAltTransfChar;
+  }
 
-    private final MBadAlternativeTransformationSignature mBadAlternativeTransformationSignature = this;
+  String pProdTransfLine() {
+    return this.pProdTransfLine;
+  }
 
-    public MBadAlternativeTransformationSignature(
-            String pAltName,
-            String pNbAltTransfElem,
-            String pNbProdTransfElem,
-            String pAltTransfLine,
-            String pAltTransfChar,
-            String pProdTransfLine,
-            String pProdTransfChar) {
+  String pProdTransfChar() {
+    return this.pProdTransfChar;
+  }
 
-        if (pAltName == null) {
-            throw new NullPointerException();
-        }
-        this.pAltName = pAltName;
-        if (pNbAltTransfElem == null) {
-            throw new NullPointerException();
-        }
-        this.pNbAltTransfElem = pNbAltTransfElem;
-        if (pNbProdTransfElem == null) {
-            throw new NullPointerException();
-        }
-        this.pNbProdTransfElem = pNbProdTransfElem;
-        if (pAltTransfLine == null) {
-            throw new NullPointerException();
-        }
-        this.pAltTransfLine = pAltTransfLine;
-        if (pAltTransfChar == null) {
-            throw new NullPointerException();
-        }
-        this.pAltTransfChar = pAltTransfChar;
-        if (pProdTransfLine == null) {
-            throw new NullPointerException();
-        }
-        this.pProdTransfLine = pProdTransfLine;
-        if (pProdTransfChar == null) {
-            throw new NullPointerException();
-        }
-        this.pProdTransfChar = pProdTransfChar;
-    }
+  private String rAltTransfLine() {
+    return this.mBadAlternativeTransformationSignature.pAltTransfLine();
+  }
 
-    String pAltName() {
+  private String rAltTransfChar() {
+    return this.mBadAlternativeTransformationSignature.pAltTransfChar();
+  }
 
-        return this.pAltName;
-    }
+  private String rAltName() {
+    return this.mBadAlternativeTransformationSignature.pAltName();
+  }
 
-    String pNbAltTransfElem() {
+  private String rNbAltTransfElem() {
+    return this.mBadAlternativeTransformationSignature.pNbAltTransfElem();
+  }
 
-        return this.pNbAltTransfElem;
-    }
+  private String rProdTransfLine() {
+    return this.mBadAlternativeTransformationSignature.pProdTransfLine();
+  }
 
-    String pNbProdTransfElem() {
+  private String rProdTransfChar() {
+    return this.mBadAlternativeTransformationSignature.pProdTransfChar();
+  }
 
-        return this.pNbProdTransfElem;
-    }
+  private String rNbProdTransfElem() {
+    return this.mBadAlternativeTransformationSignature.pNbProdTransfElem();
+  }
 
-    String pAltTransfLine() {
-
-        return this.pAltTransfLine;
-    }
-
-    String pAltTransfChar() {
-
-        return this.pAltTransfChar;
-    }
-
-    String pProdTransfLine() {
-
-        return this.pProdTransfLine;
-    }
-
-    String pProdTransfChar() {
-
-        return this.pProdTransfChar;
-    }
-
-    private String rAltTransfLine() {
-
-        return this.mBadAlternativeTransformationSignature.pAltTransfLine();
-    }
-
-    private String rAltTransfChar() {
-
-        return this.mBadAlternativeTransformationSignature.pAltTransfChar();
-    }
-
-    private String rAltName() {
-
-        return this.mBadAlternativeTransformationSignature.pAltName();
-    }
-
-    private String rNbAltTransfElem() {
-
-        return this.mBadAlternativeTransformationSignature.pNbAltTransfElem();
-    }
-
-    private String rProdTransfLine() {
-
-        return this.mBadAlternativeTransformationSignature.pProdTransfLine();
-    }
-
-    private String rProdTransfChar() {
-
-        return this.mBadAlternativeTransformationSignature.pProdTransfChar();
-    }
-
-    private String rNbProdTransfElem() {
-
-        return this.mBadAlternativeTransformationSignature.pNbProdTransfElem();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append(new MSemanticErrorHead().toString());
-        sb.append(System.getProperty("line.separator"));
-        sb.append("Line: ");
-        sb.append(rAltTransfLine());
-        sb.append(System.getProperty("line.separator"));
-        sb.append("Char: ");
-        sb.append(rAltTransfChar());
-        sb.append(System.getProperty("line.separator"));
-        sb.append("The transformation for alternative \"");
-        sb.append(rAltName());
-        sb.append("\" defined at line ");
-        sb.append(rAltTransfLine());
-        sb.append(", char ");
-        sb.append(rAltTransfChar());
-        sb.append(" has ");
-        sb.append(rNbAltTransfElem());
-        sb.append(" element(s)");
-        sb.append(System.getProperty("line.separator"));
-        sb.append("whereas the production transformation defined at line ");
-        sb.append(rProdTransfLine());
-        sb.append(", char ");
-        sb.append(rProdTransfChar());
-        sb.append(" specify ");
-        sb.append(rNbProdTransfElem());
-        sb.append(" element(s).");
-        sb.append(System.getProperty("line.separator"));
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append(new MSemanticErrorHead().toString());
+    sb.append(System.getProperty("line.separator"));
+    sb.append("Line: ");
+    sb.append(rAltTransfLine());
+    sb.append(System.getProperty("line.separator"));
+    sb.append("Char: ");
+    sb.append(rAltTransfChar());
+    sb.append(System.getProperty("line.separator"));
+    sb.append("The transformation for alternative \"");
+    sb.append(rAltName());
+    sb.append("\" defined at line ");
+    sb.append(rAltTransfLine());
+    sb.append(", char ");
+    sb.append(rAltTransfChar());
+    sb.append(" has ");
+    sb.append(rNbAltTransfElem());
+    sb.append(" element(s)");
+    sb.append(System.getProperty("line.separator"));
+    sb.append("whereas the production transformation defined at line ");
+    sb.append(rProdTransfLine());
+    sb.append(", char ");
+    sb.append(rProdTransfChar());
+    sb.append(" specify ");
+    sb.append(rNbProdTransfElem());
+    sb.append(" element(s).");
+    sb.append(System.getProperty("line.separator"));
+    return sb.toString();
+  }
 
 }

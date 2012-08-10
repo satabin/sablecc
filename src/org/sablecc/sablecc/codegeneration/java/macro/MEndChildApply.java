@@ -4,17 +4,15 @@ package org.sablecc.sablecc.codegeneration.java.macro;
 
 public class MEndChildApply {
 
-    MEndChildApply() {
+  MEndChildApply() {
+  }
 
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("    this.e$end.apply(walker);");
-        sb.append(System.getProperty("line.separator"));
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("    this.e$end.apply(walker);");
+    sb.append(System.getProperty("line.separator"));
+    return sb.toString();
+  }
 
 }

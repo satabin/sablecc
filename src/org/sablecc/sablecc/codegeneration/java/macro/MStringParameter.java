@@ -4,35 +4,27 @@ package org.sablecc.sablecc.codegeneration.java.macro;
 
 public class MStringParameter {
 
-    private final String pString;
+  private final String pString;
+  private final MStringParameter mStringParameter = this;
 
-    private final MStringParameter mStringParameter = this;
+  MStringParameter(String pString) {
+    if(pString == null) throw new NullPointerException();
+    this.pString = pString;
+  }
 
-    MStringParameter(
-            String pString) {
+  String pString() {
+    return this.pString;
+  }
 
-        if (pString == null) {
-            throw new NullPointerException();
-        }
-        this.pString = pString;
-    }
+  private String rString() {
+    return this.mStringParameter.pString();
+  }
 
-    String pString() {
-
-        return this.pString;
-    }
-
-    private String rString() {
-
-        return this.mStringParameter.pString();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append(rString());
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append(rString());
+    return sb.toString();
+  }
 
 }

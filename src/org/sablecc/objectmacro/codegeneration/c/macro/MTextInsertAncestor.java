@@ -4,51 +4,38 @@ package org.sablecc.objectmacro.codegeneration.c.macro;
 
 public class MTextInsertAncestor {
 
-    private final String pName;
+  private final String pName;
+  private final MTextInsertAncestor mTextInsertAncestor = this;
+  private final MFile mFile;
 
-    private final MTextInsertAncestor mTextInsertAncestor = this;
+  MTextInsertAncestor(String pName, MFile mFile) {
+    if(pName == null) throw new NullPointerException();
+    this.pName = pName;
+    if(mFile == null) throw new NullPointerException();
+    this.mFile = mFile;
+  }
 
-    private final MFile mFile;
+  String pName() {
+    return this.pName;
+  }
 
-    MTextInsertAncestor(
-            String pName,
-            MFile mFile) {
+  private String rFileName() {
+    return this.mFile.pFileName();
+  }
 
-        if (pName == null) {
-            throw new NullPointerException();
-        }
-        this.pName = pName;
-        if (mFile == null) {
-            throw new NullPointerException();
-        }
-        this.mFile = mFile;
-    }
+  private String rName() {
+    return this.mTextInsertAncestor.pName();
+  }
 
-    String pName() {
-
-        return this.pName;
-    }
-
-    private String rFileName() {
-
-        return this.mFile.pFileName();
-    }
-
-    private String rName() {
-
-        return this.mTextInsertAncestor.pName();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("M");
-        sb.append(rFileName());
-        sb.append("->_m");
-        sb.append(rName());
-        sb.append("_");
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("M");
+    sb.append(rFileName());
+    sb.append("->_m");
+    sb.append(rName());
+    sb.append("_");
+    return sb.toString();
+  }
 
 }

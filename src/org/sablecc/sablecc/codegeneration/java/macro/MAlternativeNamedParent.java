@@ -4,36 +4,28 @@ package org.sablecc.sablecc.codegeneration.java.macro;
 
 public class MAlternativeNamedParent {
 
-    private final String pParent;
+  private final String pParent;
+  private final MAlternativeNamedParent mAlternativeNamedParent = this;
 
-    private final MAlternativeNamedParent mAlternativeNamedParent = this;
+  MAlternativeNamedParent(String pParent) {
+    if(pParent == null) throw new NullPointerException();
+    this.pParent = pParent;
+  }
 
-    MAlternativeNamedParent(
-            String pParent) {
+  String pParent() {
+    return this.pParent;
+  }
 
-        if (pParent == null) {
-            throw new NullPointerException();
-        }
-        this.pParent = pParent;
-    }
+  private String rParent() {
+    return this.mAlternativeNamedParent.pParent();
+  }
 
-    String pParent() {
-
-        return this.pParent;
-    }
-
-    private String rParent() {
-
-        return this.mAlternativeNamedParent.pParent();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("N");
-        sb.append(rParent());
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("N");
+    sb.append(rParent());
+    return sb.toString();
+  }
 
 }

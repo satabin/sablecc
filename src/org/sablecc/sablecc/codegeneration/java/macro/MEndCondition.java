@@ -4,37 +4,29 @@ package org.sablecc.sablecc.codegeneration.java.macro;
 
 public class MEndCondition {
 
-    private final String pAhead;
+  private final String pAhead;
+  private final MEndCondition mEndCondition = this;
 
-    private final MEndCondition mEndCondition = this;
+  MEndCondition(String pAhead) {
+    if(pAhead == null) throw new NullPointerException();
+    this.pAhead = pAhead;
+  }
 
-    MEndCondition(
-            String pAhead) {
+  String pAhead() {
+    return this.pAhead;
+  }
 
-        if (pAhead == null) {
-            throw new NullPointerException();
-        }
-        this.pAhead = pAhead;
-    }
+  private String rAhead() {
+    return this.mEndCondition.pAhead();
+  }
 
-    String pAhead() {
-
-        return this.pAhead;
-    }
-
-    private String rAhead() {
-
-        return this.mEndCondition.pAhead();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("parser.look(");
-        sb.append(rAhead());
-        sb.append(").getInternalType() == Token.InternalType.TEnd");
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("parser.look(");
+    sb.append(rAhead());
+    sb.append(").getInternalType() == Token.InternalType.TEnd");
+    return sb.toString();
+  }
 
 }

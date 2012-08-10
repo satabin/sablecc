@@ -4,38 +4,30 @@ package org.sablecc.sablecc.codegeneration.java.macro;
 
 public class MAcceptNormalToken {
 
-    private final String pTokenName;
+  private final String pTokenName;
+  private final MAcceptNormalToken mAcceptNormalToken = this;
 
-    private final MAcceptNormalToken mAcceptNormalToken = this;
+  MAcceptNormalToken(String pTokenName) {
+    if(pTokenName == null) throw new NullPointerException();
+    this.pTokenName = pTokenName;
+  }
 
-    MAcceptNormalToken(
-            String pTokenName) {
+  String pTokenName() {
+    return this.pTokenName;
+  }
 
-        if (pTokenName == null) {
-            throw new NullPointerException();
-        }
-        this.pTokenName = pTokenName;
-    }
+  private String rTokenName() {
+    return this.mAcceptNormalToken.pTokenName();
+  }
 
-    String pTokenName() {
-
-        return this.pTokenName;
-    }
-
-    private String rTokenName() {
-
-        return this.mAcceptNormalToken.pTokenName();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("    return new N");
-        sb.append(rTokenName());
-        sb.append("(text, line, pos);");
-        sb.append(System.getProperty("line.separator"));
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("    return new N");
+    sb.append(rTokenName());
+    sb.append("(text, line, pos);");
+    sb.append(System.getProperty("line.separator"));
+    return sb.toString();
+  }
 
 }

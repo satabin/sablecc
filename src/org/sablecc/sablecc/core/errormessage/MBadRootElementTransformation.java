@@ -4,80 +4,60 @@ package org.sablecc.sablecc.core.errormessage;
 
 public class MBadRootElementTransformation {
 
-    private final String pProdName;
+  private final String pProdName;
+  private final String pLine;
+  private final String pChar;
+  private final MBadRootElementTransformation mBadRootElementTransformation = this;
 
-    private final String pLine;
+  public MBadRootElementTransformation(String pProdName, String pLine, String pChar) {
+    if(pProdName == null) throw new NullPointerException();
+    this.pProdName = pProdName;
+    if(pLine == null) throw new NullPointerException();
+    this.pLine = pLine;
+    if(pChar == null) throw new NullPointerException();
+    this.pChar = pChar;
+  }
 
-    private final String pChar;
+  String pProdName() {
+    return this.pProdName;
+  }
 
-    private final MBadRootElementTransformation mBadRootElementTransformation = this;
+  String pLine() {
+    return this.pLine;
+  }
 
-    public MBadRootElementTransformation(
-            String pProdName,
-            String pLine,
-            String pChar) {
+  String pChar() {
+    return this.pChar;
+  }
 
-        if (pProdName == null) {
-            throw new NullPointerException();
-        }
-        this.pProdName = pProdName;
-        if (pLine == null) {
-            throw new NullPointerException();
-        }
-        this.pLine = pLine;
-        if (pChar == null) {
-            throw new NullPointerException();
-        }
-        this.pChar = pChar;
-    }
+  private String rLine() {
+    return this.mBadRootElementTransformation.pLine();
+  }
 
-    String pProdName() {
+  private String rChar() {
+    return this.mBadRootElementTransformation.pChar();
+  }
 
-        return this.pProdName;
-    }
+  private String rProdName() {
+    return this.mBadRootElementTransformation.pProdName();
+  }
 
-    String pLine() {
-
-        return this.pLine;
-    }
-
-    String pChar() {
-
-        return this.pChar;
-    }
-
-    private String rLine() {
-
-        return this.mBadRootElementTransformation.pLine();
-    }
-
-    private String rChar() {
-
-        return this.mBadRootElementTransformation.pChar();
-    }
-
-    private String rProdName() {
-
-        return this.mBadRootElementTransformation.pProdName();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append(new MSemanticErrorHead().toString());
-        sb.append(System.getProperty("line.separator"));
-        sb.append("Line: ");
-        sb.append(rLine());
-        sb.append(System.getProperty("line.separator"));
-        sb.append("Char: ");
-        sb.append(rChar());
-        sb.append(System.getProperty("line.separator"));
-        sb.append("Root element \"");
-        sb.append(rProdName());
-        sb.append("\" must have a simple transformation p -> q or p -> p.");
-        sb.append(System.getProperty("line.separator"));
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append(new MSemanticErrorHead().toString());
+    sb.append(System.getProperty("line.separator"));
+    sb.append("Line: ");
+    sb.append(rLine());
+    sb.append(System.getProperty("line.separator"));
+    sb.append("Char: ");
+    sb.append(rChar());
+    sb.append(System.getProperty("line.separator"));
+    sb.append("Root element \"");
+    sb.append(rProdName());
+    sb.append("\" must have a simple transformation p -> q or p -> p.");
+    sb.append(System.getProperty("line.separator"));
+    return sb.toString();
+  }
 
 }

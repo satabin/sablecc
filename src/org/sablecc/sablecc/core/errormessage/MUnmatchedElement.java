@@ -4,164 +4,120 @@ package org.sablecc.sablecc.core.errormessage;
 
 public class MUnmatchedElement {
 
-    private final String pElemName;
+  private final String pElemName;
+  private final String pTreeAltName;
+  private final String pTreeProdName;
+  private final String pParserAltName;
+  private final String pParserProdName;
+  private final String pLine;
+  private final String pChar;
+  private final MUnmatchedElement mUnmatchedElement = this;
 
-    private final String pTreeAltName;
+  public MUnmatchedElement(String pElemName, String pTreeAltName, String pTreeProdName, String pParserAltName, String pParserProdName, String pLine, String pChar) {
+    if(pElemName == null) throw new NullPointerException();
+    this.pElemName = pElemName;
+    if(pTreeAltName == null) throw new NullPointerException();
+    this.pTreeAltName = pTreeAltName;
+    if(pTreeProdName == null) throw new NullPointerException();
+    this.pTreeProdName = pTreeProdName;
+    if(pParserAltName == null) throw new NullPointerException();
+    this.pParserAltName = pParserAltName;
+    if(pParserProdName == null) throw new NullPointerException();
+    this.pParserProdName = pParserProdName;
+    if(pLine == null) throw new NullPointerException();
+    this.pLine = pLine;
+    if(pChar == null) throw new NullPointerException();
+    this.pChar = pChar;
+  }
 
-    private final String pTreeProdName;
+  String pElemName() {
+    return this.pElemName;
+  }
 
-    private final String pParserAltName;
+  String pTreeAltName() {
+    return this.pTreeAltName;
+  }
 
-    private final String pParserProdName;
+  String pTreeProdName() {
+    return this.pTreeProdName;
+  }
 
-    private final String pLine;
+  String pParserAltName() {
+    return this.pParserAltName;
+  }
 
-    private final String pChar;
+  String pParserProdName() {
+    return this.pParserProdName;
+  }
 
-    private final MUnmatchedElement mUnmatchedElement = this;
+  String pLine() {
+    return this.pLine;
+  }
 
-    public MUnmatchedElement(
-            String pElemName,
-            String pTreeAltName,
-            String pTreeProdName,
-            String pParserAltName,
-            String pParserProdName,
-            String pLine,
-            String pChar) {
+  String pChar() {
+    return this.pChar;
+  }
 
-        if (pElemName == null) {
-            throw new NullPointerException();
-        }
-        this.pElemName = pElemName;
-        if (pTreeAltName == null) {
-            throw new NullPointerException();
-        }
-        this.pTreeAltName = pTreeAltName;
-        if (pTreeProdName == null) {
-            throw new NullPointerException();
-        }
-        this.pTreeProdName = pTreeProdName;
-        if (pParserAltName == null) {
-            throw new NullPointerException();
-        }
-        this.pParserAltName = pParserAltName;
-        if (pParserProdName == null) {
-            throw new NullPointerException();
-        }
-        this.pParserProdName = pParserProdName;
-        if (pLine == null) {
-            throw new NullPointerException();
-        }
-        this.pLine = pLine;
-        if (pChar == null) {
-            throw new NullPointerException();
-        }
-        this.pChar = pChar;
-    }
+  private String rLine() {
+    return this.mUnmatchedElement.pLine();
+  }
 
-    String pElemName() {
+  private String rChar() {
+    return this.mUnmatchedElement.pChar();
+  }
 
-        return this.pElemName;
-    }
+  private String rElemName() {
+    return this.mUnmatchedElement.pElemName();
+  }
 
-    String pTreeAltName() {
+  private String rTreeAltName() {
+    return this.mUnmatchedElement.pTreeAltName();
+  }
 
-        return this.pTreeAltName;
-    }
+  private String rTreeProdName() {
+    return this.mUnmatchedElement.pTreeProdName();
+  }
 
-    String pTreeProdName() {
+  private String rParserAltName() {
+    return this.mUnmatchedElement.pParserAltName();
+  }
 
-        return this.pTreeProdName;
-    }
+  private String rParserProdName() {
+    return this.mUnmatchedElement.pParserProdName();
+  }
 
-    String pParserAltName() {
-
-        return this.pParserAltName;
-    }
-
-    String pParserProdName() {
-
-        return this.pParserProdName;
-    }
-
-    String pLine() {
-
-        return this.pLine;
-    }
-
-    String pChar() {
-
-        return this.pChar;
-    }
-
-    private String rLine() {
-
-        return this.mUnmatchedElement.pLine();
-    }
-
-    private String rChar() {
-
-        return this.mUnmatchedElement.pChar();
-    }
-
-    private String rElemName() {
-
-        return this.mUnmatchedElement.pElemName();
-    }
-
-    private String rTreeAltName() {
-
-        return this.mUnmatchedElement.pTreeAltName();
-    }
-
-    private String rTreeProdName() {
-
-        return this.mUnmatchedElement.pTreeProdName();
-    }
-
-    private String rParserAltName() {
-
-        return this.mUnmatchedElement.pParserAltName();
-    }
-
-    private String rParserProdName() {
-
-        return this.mUnmatchedElement.pParserProdName();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append(new MSemanticErrorHead().toString());
-        sb.append(System.getProperty("line.separator"));
-        sb.append("Line: ");
-        sb.append(rLine());
-        sb.append(System.getProperty("line.separator"));
-        sb.append("Char: ");
-        sb.append(rChar());
-        sb.append(System.getProperty("line.separator"));
-        sb.append("The element \"");
-        sb.append(rElemName());
-        sb.append("\" of alternative \"");
-        sb.append(rTreeAltName());
-        sb.append("\" of tree production \"");
-        sb.append(rTreeProdName());
-        sb.append("\"");
-        sb.append(System.getProperty("line.separator"));
-        sb.append("cannot be matched to any element of the alternative \"");
-        sb.append(rParserAltName());
-        sb.append("\" of parser production \"");
-        sb.append(rParserProdName());
-        sb.append("\".");
-        sb.append(System.getProperty("line.separator"));
-        sb.append("You must define an alternative transformation for alternative \"");
-        sb.append(rParserAltName());
-        sb.append("\" of production \"");
-        sb.append(rParserProdName());
-        sb.append("\".");
-        sb.append(System.getProperty("line.separator"));
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append(new MSemanticErrorHead().toString());
+    sb.append(System.getProperty("line.separator"));
+    sb.append("Line: ");
+    sb.append(rLine());
+    sb.append(System.getProperty("line.separator"));
+    sb.append("Char: ");
+    sb.append(rChar());
+    sb.append(System.getProperty("line.separator"));
+    sb.append("The element \"");
+    sb.append(rElemName());
+    sb.append("\" of alternative \"");
+    sb.append(rTreeAltName());
+    sb.append("\" of tree production \"");
+    sb.append(rTreeProdName());
+    sb.append("\"");
+    sb.append(System.getProperty("line.separator"));
+    sb.append("cannot be matched to any element of the alternative \"");
+    sb.append(rParserAltName());
+    sb.append("\" of parser production \"");
+    sb.append(rParserProdName());
+    sb.append("\".");
+    sb.append(System.getProperty("line.separator"));
+    sb.append("You must define an alternative transformation for alternative \"");
+    sb.append(rParserAltName());
+    sb.append("\" of production \"");
+    sb.append(rParserProdName());
+    sb.append("\".");
+    sb.append(System.getProperty("line.separator"));
+    return sb.toString();
+  }
 
 }

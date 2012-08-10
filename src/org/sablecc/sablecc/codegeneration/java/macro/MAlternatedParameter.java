@@ -4,94 +4,68 @@ package org.sablecc.sablecc.codegeneration.java.macro;
 
 public class MAlternatedParameter {
 
-    private final String pLeftElementType;
+  private final String pLeftElementType;
+  private final String pRightElementType;
+  private final String pElementName;
+  private final String pIndex;
+  private final MAlternatedParameter mAlternatedParameter = this;
 
-    private final String pRightElementType;
+  MAlternatedParameter(String pLeftElementType, String pRightElementType, String pElementName, String pIndex) {
+    if(pLeftElementType == null) throw new NullPointerException();
+    this.pLeftElementType = pLeftElementType;
+    if(pRightElementType == null) throw new NullPointerException();
+    this.pRightElementType = pRightElementType;
+    if(pElementName == null) throw new NullPointerException();
+    this.pElementName = pElementName;
+    if(pIndex == null) throw new NullPointerException();
+    this.pIndex = pIndex;
+  }
 
-    private final String pElementName;
+  String pLeftElementType() {
+    return this.pLeftElementType;
+  }
 
-    private final String pIndex;
+  String pRightElementType() {
+    return this.pRightElementType;
+  }
 
-    private final MAlternatedParameter mAlternatedParameter = this;
+  String pElementName() {
+    return this.pElementName;
+  }
 
-    MAlternatedParameter(
-            String pLeftElementType,
-            String pRightElementType,
-            String pElementName,
-            String pIndex) {
+  String pIndex() {
+    return this.pIndex;
+  }
 
-        if (pLeftElementType == null) {
-            throw new NullPointerException();
-        }
-        this.pLeftElementType = pLeftElementType;
-        if (pRightElementType == null) {
-            throw new NullPointerException();
-        }
-        this.pRightElementType = pRightElementType;
-        if (pElementName == null) {
-            throw new NullPointerException();
-        }
-        this.pElementName = pElementName;
-        if (pIndex == null) {
-            throw new NullPointerException();
-        }
-        this.pIndex = pIndex;
-    }
+  private String rLeftElementType() {
+    return this.mAlternatedParameter.pLeftElementType();
+  }
 
-    String pLeftElementType() {
+  private String rRightElementType() {
+    return this.mAlternatedParameter.pRightElementType();
+  }
 
-        return this.pLeftElementType;
-    }
+  private String rElementName() {
+    return this.mAlternatedParameter.pElementName();
+  }
 
-    String pRightElementType() {
+  private String rIndex() {
+    return this.mAlternatedParameter.pIndex();
+  }
 
-        return this.pRightElementType;
-    }
-
-    String pElementName() {
-
-        return this.pElementName;
-    }
-
-    String pIndex() {
-
-        return this.pIndex;
-    }
-
-    private String rLeftElementType() {
-
-        return this.mAlternatedParameter.pLeftElementType();
-    }
-
-    private String rRightElementType() {
-
-        return this.mAlternatedParameter.pRightElementType();
-    }
-
-    private String rElementName() {
-
-        return this.mAlternatedParameter.pElementName();
-    }
-
-    private String rIndex() {
-
-        return this.mAlternatedParameter.pIndex();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("(PairNodeList<N");
-        sb.append(rLeftElementType());
-        sb.append(",N");
-        sb.append(rRightElementType());
-        sb.append(">) l");
-        sb.append(rElementName());
-        sb.append(".getNodes().get(");
-        sb.append(rIndex());
-        sb.append(")");
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("(PairNodeList<N");
+    sb.append(rLeftElementType());
+    sb.append(",N");
+    sb.append(rRightElementType());
+    sb.append(">) l");
+    sb.append(rElementName());
+    sb.append(".getNodes().get(");
+    sb.append(rIndex());
+    sb.append(")");
+    return sb.toString();
+  }
 
 }

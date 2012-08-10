@@ -4,38 +4,30 @@ package org.sablecc.sablecc.codegeneration.java.macro;
 
 public class MNodeProductionTypeEnumEntry {
 
-    private final String pName;
+  private final String pName;
+  private final MNodeProductionTypeEnumEntry mNodeProductionTypeEnumEntry = this;
 
-    private final MNodeProductionTypeEnumEntry mNodeProductionTypeEnumEntry = this;
+  MNodeProductionTypeEnumEntry(String pName) {
+    if(pName == null) throw new NullPointerException();
+    this.pName = pName;
+  }
 
-    MNodeProductionTypeEnumEntry(
-            String pName) {
+  String pName() {
+    return this.pName;
+  }
 
-        if (pName == null) {
-            throw new NullPointerException();
-        }
-        this.pName = pName;
-    }
+  private String rName() {
+    return this.mNodeProductionTypeEnumEntry.pName();
+  }
 
-    String pName() {
-
-        return this.pName;
-    }
-
-    private String rName() {
-
-        return this.mNodeProductionTypeEnumEntry.pName();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("    T_");
-        sb.append(rName());
-        sb.append(",");
-        sb.append(System.getProperty("line.separator"));
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("    T_");
+    sb.append(rName());
+    sb.append(",");
+    sb.append(System.getProperty("line.separator"));
+    return sb.toString();
+  }
 
 }

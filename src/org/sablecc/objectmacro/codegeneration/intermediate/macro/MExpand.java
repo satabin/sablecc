@@ -4,56 +4,42 @@ package org.sablecc.objectmacro.codegeneration.intermediate.macro;
 
 public class MExpand {
 
-    private final String pName;
+  private final String pName;
+  private final String pIndent;
+  private final MExpand mExpand = this;
 
-    private final String pIndent;
+  public MExpand(String pName, String pIndent) {
+    if(pName == null) throw new NullPointerException();
+    this.pName = pName;
+    if(pIndent == null) throw new NullPointerException();
+    this.pIndent = pIndent;
+  }
 
-    private final MExpand mExpand = this;
+  String pName() {
+    return this.pName;
+  }
 
-    public MExpand(
-            String pName,
-            String pIndent) {
+  String pIndent() {
+    return this.pIndent;
+  }
 
-        if (pName == null) {
-            throw new NullPointerException();
-        }
-        this.pName = pName;
-        if (pIndent == null) {
-            throw new NullPointerException();
-        }
-        this.pIndent = pIndent;
-    }
+  private String rIndent() {
+    return this.mExpand.pIndent();
+  }
 
-    String pName() {
+  private String rName() {
+    return this.mExpand.pName();
+  }
 
-        return this.pName;
-    }
-
-    String pIndent() {
-
-        return this.pIndent;
-    }
-
-    private String rIndent() {
-
-        return this.mExpand.pIndent();
-    }
-
-    private String rName() {
-
-        return this.mExpand.pName();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append(rIndent());
-        sb.append("  expand = ");
-        sb.append(rName());
-        sb.append(";");
-        sb.append(System.getProperty("line.separator"));
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append(rIndent());
+    sb.append("  expand = ");
+    sb.append(rName());
+    sb.append(";");
+    sb.append(System.getProperty("line.separator"));
+    return sb.toString();
+  }
 
 }

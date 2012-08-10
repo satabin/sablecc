@@ -4,17 +4,15 @@ package org.sablecc.sablecc.codegeneration.java.macro;
 
 public class MReduceEndPop {
 
-    MReduceEndPop() {
+  MReduceEndPop() {
+  }
 
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("      End l$end = (End) stack.pop().getNodes().get(0);");
-        sb.append(System.getProperty("line.separator"));
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("      End l$end = (End) stack.pop().getNodes().get(0);");
+    sb.append(System.getProperty("line.separator"));
+    return sb.toString();
+  }
 
 }

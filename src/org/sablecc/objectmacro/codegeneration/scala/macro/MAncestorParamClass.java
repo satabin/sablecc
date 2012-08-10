@@ -4,38 +4,30 @@ package org.sablecc.objectmacro.codegeneration.scala.macro;
 
 public class MAncestorParamClass {
 
-    private final String pName;
+  private final String pName;
+  private final MAncestorParamClass mAncestorParamClass = this;
 
-    private final MAncestorParamClass mAncestorParamClass = this;
+  public MAncestorParamClass(String pName) {
+    if(pName == null) throw new NullPointerException();
+    this.pName = pName;
+  }
 
-    public MAncestorParamClass(
-            String pName) {
+  String pName() {
+    return this.pName;
+  }
 
-        if (pName == null) {
-            throw new NullPointerException();
-        }
-        this.pName = pName;
-    }
+  private String rName() {
+    return this.mAncestorParamClass.pName();
+  }
 
-    String pName() {
-
-        return this.pName;
-    }
-
-    private String rName() {
-
-        return this.mAncestorParamClass.pName();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("private val m");
-        sb.append(rName());
-        sb.append(": M");
-        sb.append(rName());
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("private val m");
+    sb.append(rName());
+    sb.append(": M");
+    sb.append(rName());
+    return sb.toString();
+  }
 
 }

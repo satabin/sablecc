@@ -4,82 +4,62 @@ package org.sablecc.sablecc.codegeneration.java.macro;
 
 public class MSeparatedListElementAccessor {
 
-    private final String pLeftListType;
+  private final String pLeftListType;
+  private final String pRightListType;
+  private final String pElementName;
+  private final MSeparatedListElementAccessor mSeparatedListElementAccessor = this;
 
-    private final String pRightListType;
+  MSeparatedListElementAccessor(String pLeftListType, String pRightListType, String pElementName) {
+    if(pLeftListType == null) throw new NullPointerException();
+    this.pLeftListType = pLeftListType;
+    if(pRightListType == null) throw new NullPointerException();
+    this.pRightListType = pRightListType;
+    if(pElementName == null) throw new NullPointerException();
+    this.pElementName = pElementName;
+  }
 
-    private final String pElementName;
+  String pLeftListType() {
+    return this.pLeftListType;
+  }
 
-    private final MSeparatedListElementAccessor mSeparatedListElementAccessor = this;
+  String pRightListType() {
+    return this.pRightListType;
+  }
 
-    MSeparatedListElementAccessor(
-            String pLeftListType,
-            String pRightListType,
-            String pElementName) {
+  String pElementName() {
+    return this.pElementName;
+  }
 
-        if (pLeftListType == null) {
-            throw new NullPointerException();
-        }
-        this.pLeftListType = pLeftListType;
-        if (pRightListType == null) {
-            throw new NullPointerException();
-        }
-        this.pRightListType = pRightListType;
-        if (pElementName == null) {
-            throw new NullPointerException();
-        }
-        this.pElementName = pElementName;
-    }
+  private String rLeftListType() {
+    return this.mSeparatedListElementAccessor.pLeftListType();
+  }
 
-    String pLeftListType() {
+  private String rRightListType() {
+    return this.mSeparatedListElementAccessor.pRightListType();
+  }
 
-        return this.pLeftListType;
-    }
+  private String rElementName() {
+    return this.mSeparatedListElementAccessor.pElementName();
+  }
 
-    String pRightListType() {
-
-        return this.pRightListType;
-    }
-
-    String pElementName() {
-
-        return this.pElementName;
-    }
-
-    private String rLeftListType() {
-
-        return this.mSeparatedListElementAccessor.pLeftListType();
-    }
-
-    private String rRightListType() {
-
-        return this.mSeparatedListElementAccessor.pRightListType();
-    }
-
-    private String rElementName() {
-
-        return this.mSeparatedListElementAccessor.pElementName();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("  SeparatedNodeList<N");
-        sb.append(rLeftListType());
-        sb.append(",N");
-        sb.append(rRightListType());
-        sb.append("> internalGet");
-        sb.append(rElementName());
-        sb.append("() {");
-        sb.append(System.getProperty("line.separator"));
-        sb.append("    return this.e");
-        sb.append(rElementName());
-        sb.append(";");
-        sb.append(System.getProperty("line.separator"));
-        sb.append("  }");
-        sb.append(System.getProperty("line.separator"));
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("  SeparatedNodeList<N");
+    sb.append(rLeftListType());
+    sb.append(",N");
+    sb.append(rRightListType());
+    sb.append("> internalGet");
+    sb.append(rElementName());
+    sb.append("() {");
+    sb.append(System.getProperty("line.separator"));
+    sb.append("    return this.e");
+    sb.append(rElementName());
+    sb.append(";");
+    sb.append(System.getProperty("line.separator"));
+    sb.append("  }");
+    sb.append(System.getProperty("line.separator"));
+    return sb.toString();
+  }
 
 }

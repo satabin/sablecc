@@ -4,84 +4,64 @@ package org.sablecc.sablecc.core.errormessage;
 
 public class MNonTrivialProductionTransformation {
 
-    private final String pProdName;
+  private final String pProdName;
+  private final String pLine;
+  private final String pChar;
+  private final MNonTrivialProductionTransformation mNonTrivialProductionTransformation = this;
 
-    private final String pLine;
+  public MNonTrivialProductionTransformation(String pProdName, String pLine, String pChar) {
+    if(pProdName == null) throw new NullPointerException();
+    this.pProdName = pProdName;
+    if(pLine == null) throw new NullPointerException();
+    this.pLine = pLine;
+    if(pChar == null) throw new NullPointerException();
+    this.pChar = pChar;
+  }
 
-    private final String pChar;
+  String pProdName() {
+    return this.pProdName;
+  }
 
-    private final MNonTrivialProductionTransformation mNonTrivialProductionTransformation = this;
+  String pLine() {
+    return this.pLine;
+  }
 
-    public MNonTrivialProductionTransformation(
-            String pProdName,
-            String pLine,
-            String pChar) {
+  String pChar() {
+    return this.pChar;
+  }
 
-        if (pProdName == null) {
-            throw new NullPointerException();
-        }
-        this.pProdName = pProdName;
-        if (pLine == null) {
-            throw new NullPointerException();
-        }
-        this.pLine = pLine;
-        if (pChar == null) {
-            throw new NullPointerException();
-        }
-        this.pChar = pChar;
-    }
+  private String rLine() {
+    return this.mNonTrivialProductionTransformation.pLine();
+  }
 
-    String pProdName() {
+  private String rChar() {
+    return this.mNonTrivialProductionTransformation.pChar();
+  }
 
-        return this.pProdName;
-    }
+  private String rProdName() {
+    return this.mNonTrivialProductionTransformation.pProdName();
+  }
 
-    String pLine() {
-
-        return this.pLine;
-    }
-
-    String pChar() {
-
-        return this.pChar;
-    }
-
-    private String rLine() {
-
-        return this.mNonTrivialProductionTransformation.pLine();
-    }
-
-    private String rChar() {
-
-        return this.mNonTrivialProductionTransformation.pChar();
-    }
-
-    private String rProdName() {
-
-        return this.mNonTrivialProductionTransformation.pProdName();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append(new MSemanticErrorHead().toString());
-        sb.append(System.getProperty("line.separator"));
-        sb.append("Line: ");
-        sb.append(rLine());
-        sb.append(System.getProperty("line.separator"));
-        sb.append("Char: ");
-        sb.append(rChar());
-        sb.append(System.getProperty("line.separator"));
-        sb.append("The production transformation for \"");
-        sb.append(rProdName());
-        sb.append("\" is not trivial.");
-        sb.append(System.getProperty("line.separator"));
-        sb.append("You must define an alternative transformation for each alternative of \"");
-        sb.append(rProdName());
-        sb.append("\".");
-        sb.append(System.getProperty("line.separator"));
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append(new MSemanticErrorHead().toString());
+    sb.append(System.getProperty("line.separator"));
+    sb.append("Line: ");
+    sb.append(rLine());
+    sb.append(System.getProperty("line.separator"));
+    sb.append("Char: ");
+    sb.append(rChar());
+    sb.append(System.getProperty("line.separator"));
+    sb.append("The production transformation for \"");
+    sb.append(rProdName());
+    sb.append("\" is not trivial.");
+    sb.append(System.getProperty("line.separator"));
+    sb.append("You must define an alternative transformation for each alternative of \"");
+    sb.append(rProdName());
+    sb.append("\".");
+    sb.append(System.getProperty("line.separator"));
+    return sb.toString();
+  }
 
 }

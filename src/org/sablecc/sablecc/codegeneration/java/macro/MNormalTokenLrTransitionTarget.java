@@ -4,59 +4,45 @@ package org.sablecc.sablecc.codegeneration.java.macro;
 
 public class MNormalTokenLrTransitionTarget {
 
-    private final String pNodeType;
+  private final String pNodeType;
+  private final String pTarget;
+  private final MNormalTokenLrTransitionTarget mNormalTokenLrTransitionTarget = this;
 
-    private final String pTarget;
+  MNormalTokenLrTransitionTarget(String pNodeType, String pTarget) {
+    if(pNodeType == null) throw new NullPointerException();
+    this.pNodeType = pNodeType;
+    if(pTarget == null) throw new NullPointerException();
+    this.pTarget = pTarget;
+  }
 
-    private final MNormalTokenLrTransitionTarget mNormalTokenLrTransitionTarget = this;
+  String pNodeType() {
+    return this.pNodeType;
+  }
 
-    MNormalTokenLrTransitionTarget(
-            String pNodeType,
-            String pTarget) {
+  String pTarget() {
+    return this.pTarget;
+  }
 
-        if (pNodeType == null) {
-            throw new NullPointerException();
-        }
-        this.pNodeType = pNodeType;
-        if (pTarget == null) {
-            throw new NullPointerException();
-        }
-        this.pTarget = pTarget;
-    }
+  private String rNodeType() {
+    return this.mNormalTokenLrTransitionTarget.pNodeType();
+  }
 
-    String pNodeType() {
+  private String rTarget() {
+    return this.mNormalTokenLrTransitionTarget.pTarget();
+  }
 
-        return this.pNodeType;
-    }
-
-    String pTarget() {
-
-        return this.pTarget;
-    }
-
-    private String rNodeType() {
-
-        return this.mNormalTokenLrTransitionTarget.pNodeType();
-    }
-
-    private String rTarget() {
-
-        return this.mNormalTokenLrTransitionTarget.pTarget();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("    case T_");
-        sb.append(rNodeType());
-        sb.append(":");
-        sb.append(System.getProperty("line.separator"));
-        sb.append("      return L_");
-        sb.append(rTarget());
-        sb.append(".instance;");
-        sb.append(System.getProperty("line.separator"));
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("    case T_");
+    sb.append(rNodeType());
+    sb.append(":");
+    sb.append(System.getProperty("line.separator"));
+    sb.append("      return L_");
+    sb.append(rTarget());
+    sb.append(".instance;");
+    sb.append(System.getProperty("line.separator"));
+    return sb.toString();
+  }
 
 }

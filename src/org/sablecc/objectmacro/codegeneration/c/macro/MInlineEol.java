@@ -4,16 +4,14 @@ package org.sablecc.objectmacro.codegeneration.c.macro;
 
 public class MInlineEol {
 
-    MInlineEol() {
+  MInlineEol() {
+  }
 
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("\"\\n\"");
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("\"\\n\"");
+    return sb.toString();
+  }
 
 }

@@ -4,103 +4,77 @@ package org.sablecc.sablecc.core.errormessage;
 
 public class MElementReordered {
 
-    private final String pAltName;
+  private final String pAltName;
+  private final String pProdName;
+  private final String pLine;
+  private final String pChar;
+  private final MElementReordered mElementReordered = this;
 
-    private final String pProdName;
+  public MElementReordered(String pAltName, String pProdName, String pLine, String pChar) {
+    if(pAltName == null) throw new NullPointerException();
+    this.pAltName = pAltName;
+    if(pProdName == null) throw new NullPointerException();
+    this.pProdName = pProdName;
+    if(pLine == null) throw new NullPointerException();
+    this.pLine = pLine;
+    if(pChar == null) throw new NullPointerException();
+    this.pChar = pChar;
+  }
 
-    private final String pLine;
+  String pAltName() {
+    return this.pAltName;
+  }
 
-    private final String pChar;
+  String pProdName() {
+    return this.pProdName;
+  }
 
-    private final MElementReordered mElementReordered = this;
+  String pLine() {
+    return this.pLine;
+  }
 
-    public MElementReordered(
-            String pAltName,
-            String pProdName,
-            String pLine,
-            String pChar) {
+  String pChar() {
+    return this.pChar;
+  }
 
-        if (pAltName == null) {
-            throw new NullPointerException();
-        }
-        this.pAltName = pAltName;
-        if (pProdName == null) {
-            throw new NullPointerException();
-        }
-        this.pProdName = pProdName;
-        if (pLine == null) {
-            throw new NullPointerException();
-        }
-        this.pLine = pLine;
-        if (pChar == null) {
-            throw new NullPointerException();
-        }
-        this.pChar = pChar;
-    }
+  private String rLine() {
+    return this.mElementReordered.pLine();
+  }
 
-    String pAltName() {
+  private String rChar() {
+    return this.mElementReordered.pChar();
+  }
 
-        return this.pAltName;
-    }
+  private String rAltName() {
+    return this.mElementReordered.pAltName();
+  }
 
-    String pProdName() {
+  private String rProdName() {
+    return this.mElementReordered.pProdName();
+  }
 
-        return this.pProdName;
-    }
-
-    String pLine() {
-
-        return this.pLine;
-    }
-
-    String pChar() {
-
-        return this.pChar;
-    }
-
-    private String rLine() {
-
-        return this.mElementReordered.pLine();
-    }
-
-    private String rChar() {
-
-        return this.mElementReordered.pChar();
-    }
-
-    private String rAltName() {
-
-        return this.mElementReordered.pAltName();
-    }
-
-    private String rProdName() {
-
-        return this.mElementReordered.pProdName();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append(new MSemanticErrorHead().toString());
-        sb.append(System.getProperty("line.separator"));
-        sb.append("Line: ");
-        sb.append(rLine());
-        sb.append(System.getProperty("line.separator"));
-        sb.append("Char: ");
-        sb.append(rChar());
-        sb.append(System.getProperty("line.separator"));
-        sb.append("Element of alternative \"");
-        sb.append(rAltName());
-        sb.append("\" of production \"");
-        sb.append(rProdName());
-        sb.append("\" have been reordered in its target tree definition at line ");
-        sb.append(rLine());
-        sb.append(", char ");
-        sb.append(rChar());
-        sb.append(".");
-        sb.append(System.getProperty("line.separator"));
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append(new MSemanticErrorHead().toString());
+    sb.append(System.getProperty("line.separator"));
+    sb.append("Line: ");
+    sb.append(rLine());
+    sb.append(System.getProperty("line.separator"));
+    sb.append("Char: ");
+    sb.append(rChar());
+    sb.append(System.getProperty("line.separator"));
+    sb.append("Element of alternative \"");
+    sb.append(rAltName());
+    sb.append("\" of production \"");
+    sb.append(rProdName());
+    sb.append("\" have been reordered in its target tree definition at line ");
+    sb.append(rLine());
+    sb.append(", char ");
+    sb.append(rChar());
+    sb.append(".");
+    sb.append(System.getProperty("line.separator"));
+    return sb.toString();
+  }
 
 }

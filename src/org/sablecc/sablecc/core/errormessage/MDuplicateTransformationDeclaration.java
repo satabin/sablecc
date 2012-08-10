@@ -4,122 +4,90 @@ package org.sablecc.sablecc.core.errormessage;
 
 public class MDuplicateTransformationDeclaration {
 
-    private final String pTransfName;
+  private final String pTransfName;
+  private final String pLine;
+  private final String pChar;
+  private final String pRefLine;
+  private final String pRefChar;
+  private final MDuplicateTransformationDeclaration mDuplicateTransformationDeclaration = this;
 
-    private final String pLine;
+  public MDuplicateTransformationDeclaration(String pTransfName, String pLine, String pChar, String pRefLine, String pRefChar) {
+    if(pTransfName == null) throw new NullPointerException();
+    this.pTransfName = pTransfName;
+    if(pLine == null) throw new NullPointerException();
+    this.pLine = pLine;
+    if(pChar == null) throw new NullPointerException();
+    this.pChar = pChar;
+    if(pRefLine == null) throw new NullPointerException();
+    this.pRefLine = pRefLine;
+    if(pRefChar == null) throw new NullPointerException();
+    this.pRefChar = pRefChar;
+  }
 
-    private final String pChar;
+  String pTransfName() {
+    return this.pTransfName;
+  }
 
-    private final String pRefLine;
+  String pLine() {
+    return this.pLine;
+  }
 
-    private final String pRefChar;
+  String pChar() {
+    return this.pChar;
+  }
 
-    private final MDuplicateTransformationDeclaration mDuplicateTransformationDeclaration = this;
+  String pRefLine() {
+    return this.pRefLine;
+  }
 
-    public MDuplicateTransformationDeclaration(
-            String pTransfName,
-            String pLine,
-            String pChar,
-            String pRefLine,
-            String pRefChar) {
+  String pRefChar() {
+    return this.pRefChar;
+  }
 
-        if (pTransfName == null) {
-            throw new NullPointerException();
-        }
-        this.pTransfName = pTransfName;
-        if (pLine == null) {
-            throw new NullPointerException();
-        }
-        this.pLine = pLine;
-        if (pChar == null) {
-            throw new NullPointerException();
-        }
-        this.pChar = pChar;
-        if (pRefLine == null) {
-            throw new NullPointerException();
-        }
-        this.pRefLine = pRefLine;
-        if (pRefChar == null) {
-            throw new NullPointerException();
-        }
-        this.pRefChar = pRefChar;
-    }
+  private String rLine() {
+    return this.mDuplicateTransformationDeclaration.pLine();
+  }
 
-    String pTransfName() {
+  private String rChar() {
+    return this.mDuplicateTransformationDeclaration.pChar();
+  }
 
-        return this.pTransfName;
-    }
+  private String rTransfName() {
+    return this.mDuplicateTransformationDeclaration.pTransfName();
+  }
 
-    String pLine() {
+  private String rRefLine() {
+    return this.mDuplicateTransformationDeclaration.pRefLine();
+  }
 
-        return this.pLine;
-    }
+  private String rRefChar() {
+    return this.mDuplicateTransformationDeclaration.pRefChar();
+  }
 
-    String pChar() {
-
-        return this.pChar;
-    }
-
-    String pRefLine() {
-
-        return this.pRefLine;
-    }
-
-    String pRefChar() {
-
-        return this.pRefChar;
-    }
-
-    private String rLine() {
-
-        return this.mDuplicateTransformationDeclaration.pLine();
-    }
-
-    private String rChar() {
-
-        return this.mDuplicateTransformationDeclaration.pChar();
-    }
-
-    private String rTransfName() {
-
-        return this.mDuplicateTransformationDeclaration.pTransfName();
-    }
-
-    private String rRefLine() {
-
-        return this.mDuplicateTransformationDeclaration.pRefLine();
-    }
-
-    private String rRefChar() {
-
-        return this.mDuplicateTransformationDeclaration.pRefChar();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append(new MSemanticErrorHead().toString());
-        sb.append(System.getProperty("line.separator"));
-        sb.append("Line: ");
-        sb.append(rLine());
-        sb.append(System.getProperty("line.separator"));
-        sb.append("Char: ");
-        sb.append(rChar());
-        sb.append(System.getProperty("line.separator"));
-        sb.append("The transformation  for \"");
-        sb.append(rTransfName());
-        sb.append("\" has multiple declaration.");
-        sb.append(System.getProperty("line.separator"));
-        sb.append("A transformation for \"");
-        sb.append(rTransfName());
-        sb.append("\" is already declared at line ");
-        sb.append(rRefLine());
-        sb.append(", char ");
-        sb.append(rRefChar());
-        sb.append(".");
-        sb.append(System.getProperty("line.separator"));
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append(new MSemanticErrorHead().toString());
+    sb.append(System.getProperty("line.separator"));
+    sb.append("Line: ");
+    sb.append(rLine());
+    sb.append(System.getProperty("line.separator"));
+    sb.append("Char: ");
+    sb.append(rChar());
+    sb.append(System.getProperty("line.separator"));
+    sb.append("The transformation  for \"");
+    sb.append(rTransfName());
+    sb.append("\" has multiple declaration.");
+    sb.append(System.getProperty("line.separator"));
+    sb.append("A transformation for \"");
+    sb.append(rTransfName());
+    sb.append("\" is already declared at line ");
+    sb.append(rRefLine());
+    sb.append(", char ");
+    sb.append(rRefChar());
+    sb.append(".");
+    sb.append(System.getProperty("line.separator"));
+    return sb.toString();
+  }
 
 }

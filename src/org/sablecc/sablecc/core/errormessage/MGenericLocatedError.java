@@ -4,79 +4,59 @@ package org.sablecc.sablecc.core.errormessage;
 
 public class MGenericLocatedError {
 
-    private final String pText;
+  private final String pText;
+  private final String pLine;
+  private final String pChar;
+  private final MGenericLocatedError mGenericLocatedError = this;
 
-    private final String pLine;
+  public MGenericLocatedError(String pText, String pLine, String pChar) {
+    if(pText == null) throw new NullPointerException();
+    this.pText = pText;
+    if(pLine == null) throw new NullPointerException();
+    this.pLine = pLine;
+    if(pChar == null) throw new NullPointerException();
+    this.pChar = pChar;
+  }
 
-    private final String pChar;
+  String pText() {
+    return this.pText;
+  }
 
-    private final MGenericLocatedError mGenericLocatedError = this;
+  String pLine() {
+    return this.pLine;
+  }
 
-    public MGenericLocatedError(
-            String pText,
-            String pLine,
-            String pChar) {
+  String pChar() {
+    return this.pChar;
+  }
 
-        if (pText == null) {
-            throw new NullPointerException();
-        }
-        this.pText = pText;
-        if (pLine == null) {
-            throw new NullPointerException();
-        }
-        this.pLine = pLine;
-        if (pChar == null) {
-            throw new NullPointerException();
-        }
-        this.pChar = pChar;
-    }
+  private String rLine() {
+    return this.mGenericLocatedError.pLine();
+  }
 
-    String pText() {
+  private String rChar() {
+    return this.mGenericLocatedError.pChar();
+  }
 
-        return this.pText;
-    }
+  private String rText() {
+    return this.mGenericLocatedError.pText();
+  }
 
-    String pLine() {
-
-        return this.pLine;
-    }
-
-    String pChar() {
-
-        return this.pChar;
-    }
-
-    private String rLine() {
-
-        return this.mGenericLocatedError.pLine();
-    }
-
-    private String rChar() {
-
-        return this.mGenericLocatedError.pChar();
-    }
-
-    private String rText() {
-
-        return this.mGenericLocatedError.pText();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append(new MSemanticErrorHead().toString());
-        sb.append(System.getProperty("line.separator"));
-        sb.append("Line: ");
-        sb.append(rLine());
-        sb.append(System.getProperty("line.separator"));
-        sb.append("Char: ");
-        sb.append(rChar());
-        sb.append(System.getProperty("line.separator"));
-        sb.append(System.getProperty("line.separator"));
-        sb.append(rText());
-        sb.append(System.getProperty("line.separator"));
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append(new MSemanticErrorHead().toString());
+    sb.append(System.getProperty("line.separator"));
+    sb.append("Line: ");
+    sb.append(rLine());
+    sb.append(System.getProperty("line.separator"));
+    sb.append("Char: ");
+    sb.append(rChar());
+    sb.append(System.getProperty("line.separator"));
+    sb.append(System.getProperty("line.separator"));
+    sb.append(rText());
+    sb.append(System.getProperty("line.separator"));
+    return sb.toString();
+  }
 
 }

@@ -4,55 +4,41 @@ package org.sablecc.sablecc.codegeneration.java.macro;
 
 public class MNormalConstructorParameter {
 
-    private final String pElementType;
+  private final String pElementType;
+  private final String pElementName;
+  private final MNormalConstructorParameter mNormalConstructorParameter = this;
 
-    private final String pElementName;
+  MNormalConstructorParameter(String pElementType, String pElementName) {
+    if(pElementType == null) throw new NullPointerException();
+    this.pElementType = pElementType;
+    if(pElementName == null) throw new NullPointerException();
+    this.pElementName = pElementName;
+  }
 
-    private final MNormalConstructorParameter mNormalConstructorParameter = this;
+  String pElementType() {
+    return this.pElementType;
+  }
 
-    MNormalConstructorParameter(
-            String pElementType,
-            String pElementName) {
+  String pElementName() {
+    return this.pElementName;
+  }
 
-        if (pElementType == null) {
-            throw new NullPointerException();
-        }
-        this.pElementType = pElementType;
-        if (pElementName == null) {
-            throw new NullPointerException();
-        }
-        this.pElementName = pElementName;
-    }
+  private String rElementType() {
+    return this.mNormalConstructorParameter.pElementType();
+  }
 
-    String pElementType() {
+  private String rElementName() {
+    return this.mNormalConstructorParameter.pElementName();
+  }
 
-        return this.pElementType;
-    }
-
-    String pElementName() {
-
-        return this.pElementName;
-    }
-
-    private String rElementType() {
-
-        return this.mNormalConstructorParameter.pElementType();
-    }
-
-    private String rElementName() {
-
-        return this.mNormalConstructorParameter.pElementName();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("N");
-        sb.append(rElementType());
-        sb.append(" p");
-        sb.append(rElementName());
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("N");
+    sb.append(rElementType());
+    sb.append(" p");
+    sb.append(rElementName());
+    return sb.toString();
+  }
 
 }

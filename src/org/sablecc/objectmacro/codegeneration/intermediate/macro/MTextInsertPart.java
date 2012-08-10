@@ -6,29 +6,24 @@ import java.util.*;
 
 public class MTextInsertPart {
 
-    private final List<Object> eTextInsert = new LinkedList<Object>();
+  private final List<Object> eTextInsert = new LinkedList<Object>();
 
-    public MTextInsertPart() {
+  public MTextInsertPart() {
+  }
 
+  public MTextInsert newTextInsert(String pName, String pIndent) {
+    MTextInsert lTextInsert = new MTextInsert(pName, pIndent);
+    this.eTextInsert.add(lTextInsert);
+    return lTextInsert;
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    for(Object oTextInsert : this.eTextInsert) {
+      sb.append(oTextInsert.toString());
     }
-
-    public MTextInsert newTextInsert(
-            String pName,
-            String pIndent) {
-
-        MTextInsert lTextInsert = new MTextInsert(pName, pIndent);
-        this.eTextInsert.add(lTextInsert);
-        return lTextInsert;
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        for (Object oTextInsert : this.eTextInsert) {
-            sb.append(oTextInsert.toString());
-        }
-        return sb.toString();
-    }
+    return sb.toString();
+  }
 
 }

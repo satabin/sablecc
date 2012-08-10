@@ -4,61 +4,47 @@ package org.sablecc.sablecc.codegeneration.java.macro;
 
 public class MOpenLeftInterval {
 
-    private final String pUpperBound;
+  private final String pUpperBound;
+  private final String pName;
+  private final MOpenLeftInterval mOpenLeftInterval = this;
 
-    private final String pName;
+  MOpenLeftInterval(String pUpperBound, String pName) {
+    if(pUpperBound == null) throw new NullPointerException();
+    this.pUpperBound = pUpperBound;
+    if(pName == null) throw new NullPointerException();
+    this.pName = pName;
+  }
 
-    private final MOpenLeftInterval mOpenLeftInterval = this;
+  String pUpperBound() {
+    return this.pUpperBound;
+  }
 
-    MOpenLeftInterval(
-            String pUpperBound,
-            String pName) {
+  String pName() {
+    return this.pName;
+  }
 
-        if (pUpperBound == null) {
-            throw new NullPointerException();
-        }
-        this.pUpperBound = pUpperBound;
-        if (pName == null) {
-            throw new NullPointerException();
-        }
-        this.pName = pName;
-    }
+  private String rUpperBound() {
+    return this.mOpenLeftInterval.pUpperBound();
+  }
 
-    String pUpperBound() {
+  private String rName() {
+    return this.mOpenLeftInterval.pName();
+  }
 
-        return this.pUpperBound;
-    }
-
-    String pName() {
-
-        return this.pName;
-    }
-
-    private String rUpperBound() {
-
-        return this.mOpenLeftInterval.pUpperBound();
-    }
-
-    private String rName() {
-
-        return this.mOpenLeftInterval.pName();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("      if(c <= ");
-        sb.append(rUpperBound());
-        sb.append(") {");
-        sb.append(System.getProperty("line.separator"));
-        sb.append("        return Symbol_");
-        sb.append(rName());
-        sb.append(";");
-        sb.append(System.getProperty("line.separator"));
-        sb.append("      }");
-        sb.append(System.getProperty("line.separator"));
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("      if(c <= ");
+    sb.append(rUpperBound());
+    sb.append(") {");
+    sb.append(System.getProperty("line.separator"));
+    sb.append("        return Symbol_");
+    sb.append(rName());
+    sb.append(";");
+    sb.append(System.getProperty("line.separator"));
+    sb.append("      }");
+    sb.append(System.getProperty("line.separator"));
+    return sb.toString();
+  }
 
 }

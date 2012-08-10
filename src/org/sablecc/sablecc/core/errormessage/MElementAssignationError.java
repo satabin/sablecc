@@ -4,180 +4,130 @@ package org.sablecc.sablecc.core.errormessage;
 
 public class MElementAssignationError {
 
-    private final String pElemFrom;
+  private final String pElemFrom;
+  private final String pElemTo;
+  private final String pCardFrom;
+  private final String pCardTo;
+  private final String pFromLine;
+  private final String pFromChar;
+  private final String pToLine;
+  private final String pToChar;
+  private final MElementAssignationError mElementAssignationError = this;
 
-    private final String pElemTo;
+  public MElementAssignationError(String pElemFrom, String pElemTo, String pCardFrom, String pCardTo, String pFromLine, String pFromChar, String pToLine, String pToChar) {
+    if(pElemFrom == null) throw new NullPointerException();
+    this.pElemFrom = pElemFrom;
+    if(pElemTo == null) throw new NullPointerException();
+    this.pElemTo = pElemTo;
+    if(pCardFrom == null) throw new NullPointerException();
+    this.pCardFrom = pCardFrom;
+    if(pCardTo == null) throw new NullPointerException();
+    this.pCardTo = pCardTo;
+    if(pFromLine == null) throw new NullPointerException();
+    this.pFromLine = pFromLine;
+    if(pFromChar == null) throw new NullPointerException();
+    this.pFromChar = pFromChar;
+    if(pToLine == null) throw new NullPointerException();
+    this.pToLine = pToLine;
+    if(pToChar == null) throw new NullPointerException();
+    this.pToChar = pToChar;
+  }
 
-    private final String pCardFrom;
+  String pElemFrom() {
+    return this.pElemFrom;
+  }
 
-    private final String pCardTo;
+  String pElemTo() {
+    return this.pElemTo;
+  }
 
-    private final String pFromLine;
+  String pCardFrom() {
+    return this.pCardFrom;
+  }
 
-    private final String pFromChar;
+  String pCardTo() {
+    return this.pCardTo;
+  }
 
-    private final String pToLine;
+  String pFromLine() {
+    return this.pFromLine;
+  }
 
-    private final String pToChar;
+  String pFromChar() {
+    return this.pFromChar;
+  }
 
-    private final MElementAssignationError mElementAssignationError = this;
+  String pToLine() {
+    return this.pToLine;
+  }
 
-    public MElementAssignationError(
-            String pElemFrom,
-            String pElemTo,
-            String pCardFrom,
-            String pCardTo,
-            String pFromLine,
-            String pFromChar,
-            String pToLine,
-            String pToChar) {
+  String pToChar() {
+    return this.pToChar;
+  }
 
-        if (pElemFrom == null) {
-            throw new NullPointerException();
-        }
-        this.pElemFrom = pElemFrom;
-        if (pElemTo == null) {
-            throw new NullPointerException();
-        }
-        this.pElemTo = pElemTo;
-        if (pCardFrom == null) {
-            throw new NullPointerException();
-        }
-        this.pCardFrom = pCardFrom;
-        if (pCardTo == null) {
-            throw new NullPointerException();
-        }
-        this.pCardTo = pCardTo;
-        if (pFromLine == null) {
-            throw new NullPointerException();
-        }
-        this.pFromLine = pFromLine;
-        if (pFromChar == null) {
-            throw new NullPointerException();
-        }
-        this.pFromChar = pFromChar;
-        if (pToLine == null) {
-            throw new NullPointerException();
-        }
-        this.pToLine = pToLine;
-        if (pToChar == null) {
-            throw new NullPointerException();
-        }
-        this.pToChar = pToChar;
-    }
+  private String rToLine() {
+    return this.mElementAssignationError.pToLine();
+  }
 
-    String pElemFrom() {
+  private String rToChar() {
+    return this.mElementAssignationError.pToChar();
+  }
 
-        return this.pElemFrom;
-    }
+  private String rElemFrom() {
+    return this.mElementAssignationError.pElemFrom();
+  }
 
-    String pElemTo() {
+  private String rCardFrom() {
+    return this.mElementAssignationError.pCardFrom();
+  }
 
-        return this.pElemTo;
-    }
+  private String rFromLine() {
+    return this.mElementAssignationError.pFromLine();
+  }
 
-    String pCardFrom() {
+  private String rFromChar() {
+    return this.mElementAssignationError.pFromChar();
+  }
 
-        return this.pCardFrom;
-    }
+  private String rElemTo() {
+    return this.mElementAssignationError.pElemTo();
+  }
 
-    String pCardTo() {
+  private String rCardTo() {
+    return this.mElementAssignationError.pCardTo();
+  }
 
-        return this.pCardTo;
-    }
-
-    String pFromLine() {
-
-        return this.pFromLine;
-    }
-
-    String pFromChar() {
-
-        return this.pFromChar;
-    }
-
-    String pToLine() {
-
-        return this.pToLine;
-    }
-
-    String pToChar() {
-
-        return this.pToChar;
-    }
-
-    private String rToLine() {
-
-        return this.mElementAssignationError.pToLine();
-    }
-
-    private String rToChar() {
-
-        return this.mElementAssignationError.pToChar();
-    }
-
-    private String rElemFrom() {
-
-        return this.mElementAssignationError.pElemFrom();
-    }
-
-    private String rCardFrom() {
-
-        return this.mElementAssignationError.pCardFrom();
-    }
-
-    private String rFromLine() {
-
-        return this.mElementAssignationError.pFromLine();
-    }
-
-    private String rFromChar() {
-
-        return this.mElementAssignationError.pFromChar();
-    }
-
-    private String rElemTo() {
-
-        return this.mElementAssignationError.pElemTo();
-    }
-
-    private String rCardTo() {
-
-        return this.mElementAssignationError.pCardTo();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append(new MSemanticErrorHead().toString());
-        sb.append(System.getProperty("line.separator"));
-        sb.append("Line: ");
-        sb.append(rToLine());
-        sb.append(System.getProperty("line.separator"));
-        sb.append("Char: ");
-        sb.append(rToChar());
-        sb.append(System.getProperty("line.separator"));
-        sb.append("\"");
-        sb.append(rElemFrom());
-        sb.append("\" ");
-        sb.append(rCardFrom());
-        sb.append(" defined at line ");
-        sb.append(rFromLine());
-        sb.append(",char ");
-        sb.append(rFromChar());
-        sb.append(" canno't be assigned to \"");
-        sb.append(rElemTo());
-        sb.append("\" ");
-        sb.append(rCardTo());
-        sb.append(" defined at line ");
-        sb.append(rToLine());
-        sb.append(",char ");
-        sb.append(rToChar());
-        sb.append(".");
-        sb.append(System.getProperty("line.separator"));
-        sb.append(System.getProperty("line.separator"));
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append(new MSemanticErrorHead().toString());
+    sb.append(System.getProperty("line.separator"));
+    sb.append("Line: ");
+    sb.append(rToLine());
+    sb.append(System.getProperty("line.separator"));
+    sb.append("Char: ");
+    sb.append(rToChar());
+    sb.append(System.getProperty("line.separator"));
+    sb.append("\"");
+    sb.append(rElemFrom());
+    sb.append("\" ");
+    sb.append(rCardFrom());
+    sb.append(" defined at line ");
+    sb.append(rFromLine());
+    sb.append(",char ");
+    sb.append(rFromChar());
+    sb.append(" canno't be assigned to \"");
+    sb.append(rElemTo());
+    sb.append("\" ");
+    sb.append(rCardTo());
+    sb.append(" defined at line ");
+    sb.append(rToLine());
+    sb.append(",char ");
+    sb.append(rToChar());
+    sb.append(".");
+    sb.append(System.getProperty("line.separator"));
+    sb.append(System.getProperty("line.separator"));
+    return sb.toString();
+  }
 
 }

@@ -4,63 +4,49 @@ package org.sablecc.sablecc.codegeneration.java.macro;
 
 public class MNormalElementAccessor {
 
-    private final String pElementType;
+  private final String pElementType;
+  private final String pElementName;
+  private final MNormalElementAccessor mNormalElementAccessor = this;
 
-    private final String pElementName;
+  MNormalElementAccessor(String pElementType, String pElementName) {
+    if(pElementType == null) throw new NullPointerException();
+    this.pElementType = pElementType;
+    if(pElementName == null) throw new NullPointerException();
+    this.pElementName = pElementName;
+  }
 
-    private final MNormalElementAccessor mNormalElementAccessor = this;
+  String pElementType() {
+    return this.pElementType;
+  }
 
-    MNormalElementAccessor(
-            String pElementType,
-            String pElementName) {
+  String pElementName() {
+    return this.pElementName;
+  }
 
-        if (pElementType == null) {
-            throw new NullPointerException();
-        }
-        this.pElementType = pElementType;
-        if (pElementName == null) {
-            throw new NullPointerException();
-        }
-        this.pElementName = pElementName;
-    }
+  private String rElementType() {
+    return this.mNormalElementAccessor.pElementType();
+  }
 
-    String pElementType() {
+  private String rElementName() {
+    return this.mNormalElementAccessor.pElementName();
+  }
 
-        return this.pElementType;
-    }
-
-    String pElementName() {
-
-        return this.pElementName;
-    }
-
-    private String rElementType() {
-
-        return this.mNormalElementAccessor.pElementType();
-    }
-
-    private String rElementName() {
-
-        return this.mNormalElementAccessor.pElementName();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("  N");
-        sb.append(rElementType());
-        sb.append(" internalGet");
-        sb.append(rElementName());
-        sb.append("() {");
-        sb.append(System.getProperty("line.separator"));
-        sb.append("    return this.e");
-        sb.append(rElementName());
-        sb.append(";");
-        sb.append(System.getProperty("line.separator"));
-        sb.append("  }");
-        sb.append(System.getProperty("line.separator"));
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("  N");
+    sb.append(rElementType());
+    sb.append(" internalGet");
+    sb.append(rElementName());
+    sb.append("() {");
+    sb.append(System.getProperty("line.separator"));
+    sb.append("    return this.e");
+    sb.append(rElementName());
+    sb.append(";");
+    sb.append(System.getProperty("line.separator"));
+    sb.append("  }");
+    sb.append(System.getProperty("line.separator"));
+    return sb.toString();
+  }
 
 }

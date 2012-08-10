@@ -4,165 +4,121 @@ package org.sablecc.sablecc.core.errormessage;
 
 public class MBadNewSignature {
 
-    private final String pAltName;
+  private final String pAltName;
+  private final String pNewNbElem;
+  private final String pAltNbElem;
+  private final String pNewLine;
+  private final String pNewChar;
+  private final String pAltLine;
+  private final String pAltChar;
+  private final MBadNewSignature mBadNewSignature = this;
 
-    private final String pNewNbElem;
+  public MBadNewSignature(String pAltName, String pNewNbElem, String pAltNbElem, String pNewLine, String pNewChar, String pAltLine, String pAltChar) {
+    if(pAltName == null) throw new NullPointerException();
+    this.pAltName = pAltName;
+    if(pNewNbElem == null) throw new NullPointerException();
+    this.pNewNbElem = pNewNbElem;
+    if(pAltNbElem == null) throw new NullPointerException();
+    this.pAltNbElem = pAltNbElem;
+    if(pNewLine == null) throw new NullPointerException();
+    this.pNewLine = pNewLine;
+    if(pNewChar == null) throw new NullPointerException();
+    this.pNewChar = pNewChar;
+    if(pAltLine == null) throw new NullPointerException();
+    this.pAltLine = pAltLine;
+    if(pAltChar == null) throw new NullPointerException();
+    this.pAltChar = pAltChar;
+  }
 
-    private final String pAltNbElem;
+  String pAltName() {
+    return this.pAltName;
+  }
 
-    private final String pNewLine;
+  String pNewNbElem() {
+    return this.pNewNbElem;
+  }
 
-    private final String pNewChar;
+  String pAltNbElem() {
+    return this.pAltNbElem;
+  }
 
-    private final String pAltLine;
+  String pNewLine() {
+    return this.pNewLine;
+  }
 
-    private final String pAltChar;
+  String pNewChar() {
+    return this.pNewChar;
+  }
 
-    private final MBadNewSignature mBadNewSignature = this;
+  String pAltLine() {
+    return this.pAltLine;
+  }
 
-    public MBadNewSignature(
-            String pAltName,
-            String pNewNbElem,
-            String pAltNbElem,
-            String pNewLine,
-            String pNewChar,
-            String pAltLine,
-            String pAltChar) {
+  String pAltChar() {
+    return this.pAltChar;
+  }
 
-        if (pAltName == null) {
-            throw new NullPointerException();
-        }
-        this.pAltName = pAltName;
-        if (pNewNbElem == null) {
-            throw new NullPointerException();
-        }
-        this.pNewNbElem = pNewNbElem;
-        if (pAltNbElem == null) {
-            throw new NullPointerException();
-        }
-        this.pAltNbElem = pAltNbElem;
-        if (pNewLine == null) {
-            throw new NullPointerException();
-        }
-        this.pNewLine = pNewLine;
-        if (pNewChar == null) {
-            throw new NullPointerException();
-        }
-        this.pNewChar = pNewChar;
-        if (pAltLine == null) {
-            throw new NullPointerException();
-        }
-        this.pAltLine = pAltLine;
-        if (pAltChar == null) {
-            throw new NullPointerException();
-        }
-        this.pAltChar = pAltChar;
-    }
+  private String rNewLine() {
+    return this.mBadNewSignature.pNewLine();
+  }
 
-    String pAltName() {
+  private String rNewChar() {
+    return this.mBadNewSignature.pNewChar();
+  }
 
-        return this.pAltName;
-    }
+  private String rAltName() {
+    return this.mBadNewSignature.pAltName();
+  }
 
-    String pNewNbElem() {
+  private String rNewNbElem() {
+    return this.mBadNewSignature.pNewNbElem();
+  }
 
-        return this.pNewNbElem;
-    }
+  private String rAltLine() {
+    return this.mBadNewSignature.pAltLine();
+  }
 
-    String pAltNbElem() {
+  private String rAltChar() {
+    return this.mBadNewSignature.pAltChar();
+  }
 
-        return this.pAltNbElem;
-    }
+  private String rAltNbElem() {
+    return this.mBadNewSignature.pAltNbElem();
+  }
 
-    String pNewLine() {
-
-        return this.pNewLine;
-    }
-
-    String pNewChar() {
-
-        return this.pNewChar;
-    }
-
-    String pAltLine() {
-
-        return this.pAltLine;
-    }
-
-    String pAltChar() {
-
-        return this.pAltChar;
-    }
-
-    private String rNewLine() {
-
-        return this.mBadNewSignature.pNewLine();
-    }
-
-    private String rNewChar() {
-
-        return this.mBadNewSignature.pNewChar();
-    }
-
-    private String rAltName() {
-
-        return this.mBadNewSignature.pAltName();
-    }
-
-    private String rNewNbElem() {
-
-        return this.mBadNewSignature.pNewNbElem();
-    }
-
-    private String rAltLine() {
-
-        return this.mBadNewSignature.pAltLine();
-    }
-
-    private String rAltChar() {
-
-        return this.mBadNewSignature.pAltChar();
-    }
-
-    private String rAltNbElem() {
-
-        return this.mBadNewSignature.pAltNbElem();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append(new MSemanticErrorHead().toString());
-        sb.append(System.getProperty("line.separator"));
-        sb.append("Line: ");
-        sb.append(rNewLine());
-        sb.append(System.getProperty("line.separator"));
-        sb.append("Char: ");
-        sb.append(rNewChar());
-        sb.append(System.getProperty("line.separator"));
-        sb.append("\"New ");
-        sb.append(rAltName());
-        sb.append("\" defined at line ");
-        sb.append(rNewLine());
-        sb.append(", char ");
-        sb.append(rNewChar());
-        sb.append(" has ");
-        sb.append(rNewNbElem());
-        sb.append(" element(s) whereas the definition of ");
-        sb.append(rAltName());
-        sb.append(System.getProperty("line.separator"));
-        sb.append("at line ");
-        sb.append(rAltLine());
-        sb.append(", char ");
-        sb.append(rAltChar());
-        sb.append(" has ");
-        sb.append(rAltNbElem());
-        sb.append(" element(s).");
-        sb.append(System.getProperty("line.separator"));
-        sb.append("The New element must have as much parameter as its tree definition.");
-        sb.append(System.getProperty("line.separator"));
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append(new MSemanticErrorHead().toString());
+    sb.append(System.getProperty("line.separator"));
+    sb.append("Line: ");
+    sb.append(rNewLine());
+    sb.append(System.getProperty("line.separator"));
+    sb.append("Char: ");
+    sb.append(rNewChar());
+    sb.append(System.getProperty("line.separator"));
+    sb.append("\"New ");
+    sb.append(rAltName());
+    sb.append("\" defined at line ");
+    sb.append(rNewLine());
+    sb.append(", char ");
+    sb.append(rNewChar());
+    sb.append(" has ");
+    sb.append(rNewNbElem());
+    sb.append(" element(s) whereas the definition of ");
+    sb.append(rAltName());
+    sb.append(System.getProperty("line.separator"));
+    sb.append("at line ");
+    sb.append(rAltLine());
+    sb.append(", char ");
+    sb.append(rAltChar());
+    sb.append(" has ");
+    sb.append(rAltNbElem());
+    sb.append(" element(s).");
+    sb.append(System.getProperty("line.separator"));
+    sb.append("The New element must have as much parameter as its tree definition.");
+    sb.append(System.getProperty("line.separator"));
+    return sb.toString();
+  }
 
 }

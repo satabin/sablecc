@@ -4,124 +4,92 @@ package org.sablecc.sablecc.core.errormessage;
 
 public class MMultipleListExpansion {
 
-    private final String pListName;
+  private final String pListName;
+  private final String pFirstLine;
+  private final String pFirstChar;
+  private final String pSecondLine;
+  private final String pSecondChar;
+  private final MMultipleListExpansion mMultipleListExpansion = this;
 
-    private final String pFirstLine;
+  public MMultipleListExpansion(String pListName, String pFirstLine, String pFirstChar, String pSecondLine, String pSecondChar) {
+    if(pListName == null) throw new NullPointerException();
+    this.pListName = pListName;
+    if(pFirstLine == null) throw new NullPointerException();
+    this.pFirstLine = pFirstLine;
+    if(pFirstChar == null) throw new NullPointerException();
+    this.pFirstChar = pFirstChar;
+    if(pSecondLine == null) throw new NullPointerException();
+    this.pSecondLine = pSecondLine;
+    if(pSecondChar == null) throw new NullPointerException();
+    this.pSecondChar = pSecondChar;
+  }
 
-    private final String pFirstChar;
+  String pListName() {
+    return this.pListName;
+  }
 
-    private final String pSecondLine;
+  String pFirstLine() {
+    return this.pFirstLine;
+  }
 
-    private final String pSecondChar;
+  String pFirstChar() {
+    return this.pFirstChar;
+  }
 
-    private final MMultipleListExpansion mMultipleListExpansion = this;
+  String pSecondLine() {
+    return this.pSecondLine;
+  }
 
-    public MMultipleListExpansion(
-            String pListName,
-            String pFirstLine,
-            String pFirstChar,
-            String pSecondLine,
-            String pSecondChar) {
+  String pSecondChar() {
+    return this.pSecondChar;
+  }
 
-        if (pListName == null) {
-            throw new NullPointerException();
-        }
-        this.pListName = pListName;
-        if (pFirstLine == null) {
-            throw new NullPointerException();
-        }
-        this.pFirstLine = pFirstLine;
-        if (pFirstChar == null) {
-            throw new NullPointerException();
-        }
-        this.pFirstChar = pFirstChar;
-        if (pSecondLine == null) {
-            throw new NullPointerException();
-        }
-        this.pSecondLine = pSecondLine;
-        if (pSecondChar == null) {
-            throw new NullPointerException();
-        }
-        this.pSecondChar = pSecondChar;
-    }
+  private String rSecondLine() {
+    return this.mMultipleListExpansion.pSecondLine();
+  }
 
-    String pListName() {
+  private String rSecondChar() {
+    return this.mMultipleListExpansion.pSecondChar();
+  }
 
-        return this.pListName;
-    }
+  private String rListName() {
+    return this.mMultipleListExpansion.pListName();
+  }
 
-    String pFirstLine() {
+  private String rFirstLine() {
+    return this.mMultipleListExpansion.pFirstLine();
+  }
 
-        return this.pFirstLine;
-    }
+  private String rFirstChar() {
+    return this.mMultipleListExpansion.pFirstChar();
+  }
 
-    String pFirstChar() {
-
-        return this.pFirstChar;
-    }
-
-    String pSecondLine() {
-
-        return this.pSecondLine;
-    }
-
-    String pSecondChar() {
-
-        return this.pSecondChar;
-    }
-
-    private String rSecondLine() {
-
-        return this.mMultipleListExpansion.pSecondLine();
-    }
-
-    private String rSecondChar() {
-
-        return this.mMultipleListExpansion.pSecondChar();
-    }
-
-    private String rListName() {
-
-        return this.mMultipleListExpansion.pListName();
-    }
-
-    private String rFirstLine() {
-
-        return this.mMultipleListExpansion.pFirstLine();
-    }
-
-    private String rFirstChar() {
-
-        return this.mMultipleListExpansion.pFirstChar();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append(new MSemanticErrorHead().toString());
-        sb.append(System.getProperty("line.separator"));
-        sb.append("Line: ");
-        sb.append(rSecondLine());
-        sb.append(System.getProperty("line.separator"));
-        sb.append("Char: ");
-        sb.append(rSecondChar());
-        sb.append(System.getProperty("line.separator"));
-        sb.append("The list element \"");
-        sb.append(rListName());
-        sb.append("\" is expanded twice at line ");
-        sb.append(rFirstLine());
-        sb.append(", char ");
-        sb.append(rFirstChar());
-        sb.append(" and at line ");
-        sb.append(rSecondLine());
-        sb.append(",");
-        sb.append(rSecondChar());
-        sb.append(".");
-        sb.append(System.getProperty("line.separator"));
-        sb.append("A list can only be expanded once.");
-        sb.append(System.getProperty("line.separator"));
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append(new MSemanticErrorHead().toString());
+    sb.append(System.getProperty("line.separator"));
+    sb.append("Line: ");
+    sb.append(rSecondLine());
+    sb.append(System.getProperty("line.separator"));
+    sb.append("Char: ");
+    sb.append(rSecondChar());
+    sb.append(System.getProperty("line.separator"));
+    sb.append("The list element \"");
+    sb.append(rListName());
+    sb.append("\" is expanded twice at line ");
+    sb.append(rFirstLine());
+    sb.append(", char ");
+    sb.append(rFirstChar());
+    sb.append(" and at line ");
+    sb.append(rSecondLine());
+    sb.append(",");
+    sb.append(rSecondChar());
+    sb.append(".");
+    sb.append(System.getProperty("line.separator"));
+    sb.append("A list can only be expanded once.");
+    sb.append(System.getProperty("line.separator"));
+    return sb.toString();
+  }
 
 }

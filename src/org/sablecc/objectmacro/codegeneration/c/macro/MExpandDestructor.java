@@ -4,52 +4,39 @@ package org.sablecc.objectmacro.codegeneration.c.macro;
 
 public class MExpandDestructor {
 
-    private final String pName;
+  private final String pName;
+  private final MExpandDestructor mExpandDestructor = this;
+  private final MFile mFile;
 
-    private final MExpandDestructor mExpandDestructor = this;
+  MExpandDestructor(String pName, MFile mFile) {
+    if(pName == null) throw new NullPointerException();
+    this.pName = pName;
+    if(mFile == null) throw new NullPointerException();
+    this.mFile = mFile;
+  }
 
-    private final MFile mFile;
+  String pName() {
+    return this.pName;
+  }
 
-    MExpandDestructor(
-            String pName,
-            MFile mFile) {
+  private String rFileName() {
+    return this.mFile.pFileName();
+  }
 
-        if (pName == null) {
-            throw new NullPointerException();
-        }
-        this.pName = pName;
-        if (mFile == null) {
-            throw new NullPointerException();
-        }
-        this.mFile = mFile;
-    }
+  private String rName() {
+    return this.mExpandDestructor.pName();
+  }
 
-    String pName() {
-
-        return this.pName;
-    }
-
-    private String rFileName() {
-
-        return this.mFile.pFileName();
-    }
-
-    private String rName() {
-
-        return this.mExpandDestructor.pName();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("  List_free(m");
-        sb.append(rFileName());
-        sb.append("->_e");
-        sb.append(rName());
-        sb.append("_);");
-        sb.append(System.getProperty("line.separator"));
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("  List_free(m");
+    sb.append(rFileName());
+    sb.append("->_e");
+    sb.append(rName());
+    sb.append("_);");
+    sb.append(System.getProperty("line.separator"));
+    return sb.toString();
+  }
 
 }

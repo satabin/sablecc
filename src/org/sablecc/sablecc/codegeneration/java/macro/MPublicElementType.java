@@ -4,36 +4,28 @@ package org.sablecc.sablecc.codegeneration.java.macro;
 
 public class MPublicElementType {
 
-    private final String pElementType;
+  private final String pElementType;
+  private final MPublicElementType mPublicElementType = this;
 
-    private final MPublicElementType mPublicElementType = this;
+  MPublicElementType(String pElementType) {
+    if(pElementType == null) throw new NullPointerException();
+    this.pElementType = pElementType;
+  }
 
-    MPublicElementType(
-            String pElementType) {
+  String pElementType() {
+    return this.pElementType;
+  }
 
-        if (pElementType == null) {
-            throw new NullPointerException();
-        }
-        this.pElementType = pElementType;
-    }
+  private String rElementType() {
+    return this.mPublicElementType.pElementType();
+  }
 
-    String pElementType() {
-
-        return this.pElementType;
-    }
-
-    private String rElementType() {
-
-        return this.mPublicElementType.pElementType();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("N");
-        sb.append(rElementType());
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("N");
+    sb.append(rElementType());
+    return sb.toString();
+  }
 
 }

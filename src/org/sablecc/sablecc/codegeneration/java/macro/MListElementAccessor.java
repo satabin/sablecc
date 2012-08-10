@@ -4,63 +4,49 @@ package org.sablecc.sablecc.codegeneration.java.macro;
 
 public class MListElementAccessor {
 
-    private final String pListType;
+  private final String pListType;
+  private final String pElementName;
+  private final MListElementAccessor mListElementAccessor = this;
 
-    private final String pElementName;
+  MListElementAccessor(String pListType, String pElementName) {
+    if(pListType == null) throw new NullPointerException();
+    this.pListType = pListType;
+    if(pElementName == null) throw new NullPointerException();
+    this.pElementName = pElementName;
+  }
 
-    private final MListElementAccessor mListElementAccessor = this;
+  String pListType() {
+    return this.pListType;
+  }
 
-    MListElementAccessor(
-            String pListType,
-            String pElementName) {
+  String pElementName() {
+    return this.pElementName;
+  }
 
-        if (pListType == null) {
-            throw new NullPointerException();
-        }
-        this.pListType = pListType;
-        if (pElementName == null) {
-            throw new NullPointerException();
-        }
-        this.pElementName = pElementName;
-    }
+  private String rListType() {
+    return this.mListElementAccessor.pListType();
+  }
 
-    String pListType() {
+  private String rElementName() {
+    return this.mListElementAccessor.pElementName();
+  }
 
-        return this.pListType;
-    }
-
-    String pElementName() {
-
-        return this.pElementName;
-    }
-
-    private String rListType() {
-
-        return this.mListElementAccessor.pListType();
-    }
-
-    private String rElementName() {
-
-        return this.mListElementAccessor.pElementName();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("  NodeList<N");
-        sb.append(rListType());
-        sb.append("> internalGet");
-        sb.append(rElementName());
-        sb.append("() {");
-        sb.append(System.getProperty("line.separator"));
-        sb.append("    return this.e");
-        sb.append(rElementName());
-        sb.append(";");
-        sb.append(System.getProperty("line.separator"));
-        sb.append("  }");
-        sb.append(System.getProperty("line.separator"));
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("  NodeList<N");
+    sb.append(rListType());
+    sb.append("> internalGet");
+    sb.append(rElementName());
+    sb.append("() {");
+    sb.append(System.getProperty("line.separator"));
+    sb.append("    return this.e");
+    sb.append(rElementName());
+    sb.append(";");
+    sb.append(System.getProperty("line.separator"));
+    sb.append("  }");
+    sb.append(System.getProperty("line.separator"));
+    return sb.toString();
+  }
 
 }

@@ -4,57 +4,43 @@ package org.sablecc.sablecc.codegeneration.java.macro;
 
 public class MAddNewList {
 
-    private final String pListName;
+  private final String pListName;
+  private final String pElementName;
+  private final MAddNewList mAddNewList = this;
 
-    private final String pElementName;
+  MAddNewList(String pListName, String pElementName) {
+    if(pListName == null) throw new NullPointerException();
+    this.pListName = pListName;
+    if(pElementName == null) throw new NullPointerException();
+    this.pElementName = pElementName;
+  }
 
-    private final MAddNewList mAddNewList = this;
+  String pListName() {
+    return this.pListName;
+  }
 
-    MAddNewList(
-            String pListName,
-            String pElementName) {
+  String pElementName() {
+    return this.pElementName;
+  }
 
-        if (pListName == null) {
-            throw new NullPointerException();
-        }
-        this.pListName = pListName;
-        if (pElementName == null) {
-            throw new NullPointerException();
-        }
-        this.pElementName = pElementName;
-    }
+  private String rListName() {
+    return this.mAddNewList.pListName();
+  }
 
-    String pListName() {
+  private String rElementName() {
+    return this.mAddNewList.pElementName();
+  }
 
-        return this.pListName;
-    }
-
-    String pElementName() {
-
-        return this.pElementName;
-    }
-
-    private String rListName() {
-
-        return this.mAddNewList.pListName();
-    }
-
-    private String rElementName() {
-
-        return this.mAddNewList.pElementName();
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("      n");
-        sb.append(rListName());
-        sb.append(".addAll(");
-        sb.append(rElementName());
-        sb.append(");");
-        sb.append(System.getProperty("line.separator"));
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("      n");
+    sb.append(rListName());
+    sb.append(".addAll(");
+    sb.append(rElementName());
+    sb.append(");");
+    sb.append(System.getProperty("line.separator"));
+    return sb.toString();
+  }
 
 }
